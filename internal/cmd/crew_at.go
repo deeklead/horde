@@ -18,8 +18,8 @@ import (
 func runCrewAt(cmd *cobra.Command, args []string) error {
 	var name string
 
-	// Debug mode: --debug flag or GT_DEBUG env var
-	debug := crewDebug || os.Getenv("GT_DEBUG") != ""
+	// Debug mode: --debug flag or HD_DEBUG env var
+	debug := crewDebug || os.Getenv("HD_DEBUG") != ""
 	if debug {
 		cwd, _ := os.Getwd()
 		fmt.Printf("[DEBUG] runCrewAt: args=%v, crewRig=%q, cwd=%q\n", args, crewRig, cwd)
@@ -200,7 +200,7 @@ func runCrewAt(cmd *cobra.Command, args []string) error {
 
 		// Use respawn-pane to replace shell with runtime directly
 		// This gives cleaner lifecycle: runtime exits → session ends (no intermediate shell)
-		// Export GT_ROLE and BD_ACTOR since tmux SetEnvironment only affects new panes
+		// Export HD_ROLE and BD_ACTOR since tmux SetEnvironment only affects new panes
 		startupCmd, err := config.BuildCrewStartupCommandWithAgentOverride(r.Name, name, r.Path, beacon, crewAgentOverride)
 		if err != nil {
 			return fmt.Errorf("building startup command: %w", err)
@@ -243,7 +243,7 @@ func runCrewAt(cmd *cobra.Command, args []string) error {
 			})
 
 			// Use respawn-pane to replace shell with runtime directly
-			// Export GT_ROLE and BD_ACTOR since tmux SetEnvironment only affects new panes
+			// Export HD_ROLE and BD_ACTOR since tmux SetEnvironment only affects new panes
 			startupCmd, err := config.BuildCrewStartupCommandWithAgentOverride(r.Name, name, r.Path, beacon, crewAgentOverride)
 			if err != nil {
 				return fmt.Errorf("building startup command: %w", err)

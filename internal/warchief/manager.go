@@ -87,7 +87,7 @@ func (m *Manager) Start(agentOverride string) error {
 	})
 
 	// Build startup command WITH the beacon prompt - the startup hook handles 'hd rally' automatically
-	// Export GT_ROLE and BD_ACTOR in the command since tmux SetEnvironment only affects new panes
+	// Export HD_ROLE and BD_ACTOR in the command since tmux SetEnvironment only affects new panes
 	startupCmd, err := config.BuildAgentStartupCommandWithAgentOverride("warchief", "", m.townRoot, "", beacon, agentOverride)
 	if err != nil {
 		return fmt.Errorf("building startup command: %w", err)

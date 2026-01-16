@@ -11,11 +11,11 @@ func TestAgentEnv_Warchief(t *testing.T) {
 		TownRoot: "/encampment",
 	})
 
-	assertEnv(t, env, "GT_ROLE", "warchief")
+	assertEnv(t, env, "HD_ROLE", "warchief")
 	assertEnv(t, env, "BD_ACTOR", "warchief")
 	assertEnv(t, env, "GIT_AUTHOR_NAME", "warchief")
-	assertEnv(t, env, "GT_ROOT", "/encampment")
-	assertNotSet(t, env, "GT_RIG")
+	assertEnv(t, env, "HD_ROOT", "/encampment")
+	assertNotSet(t, env, "HD_WARBAND")
 	assertNotSet(t, env, "RELICS_NO_DAEMON")
 }
 
@@ -27,11 +27,11 @@ func TestAgentEnv_Witness(t *testing.T) {
 		TownRoot: "/encampment",
 	})
 
-	assertEnv(t, env, "GT_ROLE", "witness")
-	assertEnv(t, env, "GT_RIG", "myrig")
+	assertEnv(t, env, "HD_ROLE", "witness")
+	assertEnv(t, env, "HD_WARBAND", "myrig")
 	assertEnv(t, env, "BD_ACTOR", "myrig/witness")
 	assertEnv(t, env, "GIT_AUTHOR_NAME", "myrig/witness")
-	assertEnv(t, env, "GT_ROOT", "/encampment")
+	assertEnv(t, env, "HD_ROOT", "/encampment")
 }
 
 func TestAgentEnv_Raider(t *testing.T) {
@@ -44,9 +44,9 @@ func TestAgentEnv_Raider(t *testing.T) {
 		RelicsNoDaemon: true,
 	})
 
-	assertEnv(t, env, "GT_ROLE", "raider")
-	assertEnv(t, env, "GT_RIG", "myrig")
-	assertEnv(t, env, "GT_RAIDER", "Toast")
+	assertEnv(t, env, "HD_ROLE", "raider")
+	assertEnv(t, env, "HD_WARBAND", "myrig")
+	assertEnv(t, env, "HD_RAIDER", "Toast")
 	assertEnv(t, env, "BD_ACTOR", "myrig/raiders/Toast")
 	assertEnv(t, env, "GIT_AUTHOR_NAME", "Toast")
 	assertEnv(t, env, "RELICS_AGENT_NAME", "myrig/Toast")
@@ -63,9 +63,9 @@ func TestAgentEnv_Crew(t *testing.T) {
 		RelicsNoDaemon: true,
 	})
 
-	assertEnv(t, env, "GT_ROLE", "clan")
-	assertEnv(t, env, "GT_RIG", "myrig")
-	assertEnv(t, env, "GT_CREW", "emma")
+	assertEnv(t, env, "HD_ROLE", "clan")
+	assertEnv(t, env, "HD_WARBAND", "myrig")
+	assertEnv(t, env, "HD_CLAN", "emma")
 	assertEnv(t, env, "BD_ACTOR", "myrig/clan/emma")
 	assertEnv(t, env, "GIT_AUTHOR_NAME", "emma")
 	assertEnv(t, env, "RELICS_AGENT_NAME", "myrig/emma")
@@ -81,8 +81,8 @@ func TestAgentEnv_Forge(t *testing.T) {
 		RelicsNoDaemon: true,
 	})
 
-	assertEnv(t, env, "GT_ROLE", "forge")
-	assertEnv(t, env, "GT_RIG", "myrig")
+	assertEnv(t, env, "HD_ROLE", "forge")
+	assertEnv(t, env, "HD_WARBAND", "myrig")
 	assertEnv(t, env, "BD_ACTOR", "myrig/forge")
 	assertEnv(t, env, "GIT_AUTHOR_NAME", "myrig/forge")
 	assertEnv(t, env, "RELICS_NO_DAEMON", "1")
@@ -95,11 +95,11 @@ func TestAgentEnv_Shaman(t *testing.T) {
 		TownRoot: "/encampment",
 	})
 
-	assertEnv(t, env, "GT_ROLE", "shaman")
+	assertEnv(t, env, "HD_ROLE", "shaman")
 	assertEnv(t, env, "BD_ACTOR", "shaman")
 	assertEnv(t, env, "GIT_AUTHOR_NAME", "shaman")
-	assertEnv(t, env, "GT_ROOT", "/encampment")
-	assertNotSet(t, env, "GT_RIG")
+	assertEnv(t, env, "HD_ROOT", "/encampment")
+	assertNotSet(t, env, "HD_WARBAND")
 	assertNotSet(t, env, "RELICS_NO_DAEMON")
 }
 
@@ -110,11 +110,11 @@ func TestAgentEnv_Boot(t *testing.T) {
 		TownRoot: "/encampment",
 	})
 
-	assertEnv(t, env, "GT_ROLE", "boot")
+	assertEnv(t, env, "HD_ROLE", "boot")
 	assertEnv(t, env, "BD_ACTOR", "shaman-boot")
 	assertEnv(t, env, "GIT_AUTHOR_NAME", "boot")
-	assertEnv(t, env, "GT_ROOT", "/encampment")
-	assertNotSet(t, env, "GT_RIG")
+	assertEnv(t, env, "HD_ROOT", "/encampment")
+	assertNotSet(t, env, "HD_WARBAND")
 	assertNotSet(t, env, "RELICS_NO_DAEMON")
 }
 
@@ -147,18 +147,18 @@ func TestAgentEnvSimple(t *testing.T) {
 	t.Parallel()
 	env := AgentEnvSimple("raider", "myrig", "Toast")
 
-	assertEnv(t, env, "GT_ROLE", "raider")
-	assertEnv(t, env, "GT_RIG", "myrig")
-	assertEnv(t, env, "GT_RAIDER", "Toast")
+	assertEnv(t, env, "HD_ROLE", "raider")
+	assertEnv(t, env, "HD_WARBAND", "myrig")
+	assertEnv(t, env, "HD_RAIDER", "Toast")
 	// Simple doesn't set TownRoot, so key should be absent
 	// (not empty string which would override tmux session environment)
-	assertNotSet(t, env, "GT_ROOT")
+	assertNotSet(t, env, "HD_ROOT")
 }
 
 func TestAgentEnv_EmptyTownRootOmitted(t *testing.T) {
 	t.Parallel()
 	// Regression test: empty TownRoot should NOT create keys in the map.
-	// If it was set to empty string, ExportPrefix would generate "export GT_ROOT= ..."
+	// If it was set to empty string, ExportPrefix would generate "export HD_ROOT= ..."
 	// which overrides tmux session environment where it's correctly set.
 	env := AgentEnv(AgentEnvConfig{
 		Role:      "raider",
@@ -168,11 +168,11 @@ func TestAgentEnv_EmptyTownRootOmitted(t *testing.T) {
 	})
 
 	// Key should be absent, not empty string
-	assertNotSet(t, env, "GT_ROOT")
+	assertNotSet(t, env, "HD_ROOT")
 
 	// Other keys should still be set
-	assertEnv(t, env, "GT_ROLE", "raider")
-	assertEnv(t, env, "GT_RIG", "myrig")
+	assertEnv(t, env, "HD_ROLE", "raider")
+	assertEnv(t, env, "HD_WARBAND", "myrig")
 }
 
 func TestExportPrefix(t *testing.T) {
@@ -231,17 +231,17 @@ func TestBuildStartupCommandWithEnv(t *testing.T) {
 		},
 		{
 			name:     "env no prompt",
-			env:      map[string]string{"GT_ROLE": "raider"},
+			env:      map[string]string{"HD_ROLE": "raider"},
 			agentCmd: "claude",
 			prompt:   "",
-			expected: "export GT_ROLE=raider && claude",
+			expected: "export HD_ROLE=raider && claude",
 		},
 		{
 			name:     "env with prompt",
-			env:      map[string]string{"GT_ROLE": "raider"},
+			env:      map[string]string{"HD_ROLE": "raider"},
 			agentCmd: "claude",
 			prompt:   "hd rally",
-			expected: `export GT_ROLE=raider && claude "hd rally"`,
+			expected: `export HD_ROLE=raider && claude "hd rally"`,
 		},
 	}
 

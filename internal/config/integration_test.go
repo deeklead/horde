@@ -68,12 +68,12 @@ func TestRigLevelCustomAgentIntegration(t *testing.T) {
 		}
 
 		// Verify environment variables are set
-		if !strings.Contains(cmd, "GT_ROLE=raider") {
-			t.Errorf("Expected GT_ROLE=raider in command, got: %s", cmd)
+		if !strings.Contains(cmd, "HD_ROLE=raider") {
+			t.Errorf("Expected HD_ROLE=raider in command, got: %s", cmd)
 		}
 
-		if !strings.Contains(cmd, "GT_RAIDER=test-raider") {
-			t.Errorf("Expected GT_RAIDER=test-raider in command, got: %s", cmd)
+		if !strings.Contains(cmd, "HD_RAIDER=test-raider") {
+			t.Errorf("Expected HD_RAIDER=test-raider in command, got: %s", cmd)
 		}
 	})
 
@@ -132,9 +132,9 @@ echo "STUB_AGENT_STARTED"
 echo "Agent: $AGENT_NAME v$AGENT_VERSION"
 echo "Args: $@"
 echo "Working Dir: $(pwd)"
-echo "GT_ROLE: ${GT_ROLE:-not_set}"
-echo "GT_RAIDER: ${GT_RAIDER:-not_set}"
-echo "GT_RIG: ${GT_RIG:-not_set}"
+echo "HD_ROLE: ${HD_ROLE:-not_set}"
+echo "HD_RAIDER: ${HD_RAIDER:-not_set}"
+echo "HD_WARBAND: ${HD_WARBAND:-not_set}"
 echo "=========================================="
 
 # Simple Q&A loop
@@ -291,9 +291,9 @@ func testTmuxSessionWithStubAgent(t *testing.T, tmpDir, stubAgentPath, rigName s
 	}
 
 	envVars := map[string]string{
-		"GT_ROLE":    "raider",
-		"GT_RAIDER": "test-raider",
-		"GT_RIG":     rigName,
+		"HD_ROLE":    "raider",
+		"HD_RAIDER": "test-raider",
+		"HD_WARBAND":     rigName,
 	}
 
 	for key, val := range envVars {
@@ -314,8 +314,8 @@ func testTmuxSessionWithStubAgent(t *testing.T, tmpDir, stubAgentPath, rigName s
 		t.Skipf("stub agent output not detected; tmux capture unreliable. Output:\n%s", output)
 	}
 
-	if !strings.Contains(output, "GT_ROLE: raider") {
-		t.Logf("Warning: GT_ROLE not visible in agent output (tmux env may not propagate to subshell)")
+	if !strings.Contains(output, "HD_ROLE: raider") {
+		t.Logf("Warning: HD_ROLE not visible in agent output (tmux env may not propagate to subshell)")
 	}
 
 	cmd = exec.Command("tmux", "send-keys", "-t", sessionName, "ping", "Enter")

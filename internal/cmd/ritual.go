@@ -49,7 +49,7 @@ Commands:
 Search paths (in order):
   1. .relics/rituals/ (project)
   2. ~/.relics/rituals/ (user)
-  3. $GT_ROOT/.relics/rituals/ (orchestrator)
+  3. $HD_ROOT/.relics/rituals/ (orchestrator)
 
 Examples:
   hd ritual list                    # List all rituals
@@ -66,7 +66,7 @@ var formulaListCmd = &cobra.Command{
 Searches for ritual files (.ritual.toml, .ritual.json) in:
   1. .relics/rituals/ (project)
   2. ~/.relics/rituals/ (user)
-  3. $GT_ROOT/.relics/rituals/ (orchestrator)
+  3. $HD_ROOT/.relics/rituals/ (orchestrator)
 
 Examples:
   hd ritual list            # List all rituals

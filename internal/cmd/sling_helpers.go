@@ -178,7 +178,7 @@ func injectStartPrompt(pane, beadID, subject, args string) error {
 	}
 
 	// Skip signal during tests to prevent agent self-interruption
-	if os.Getenv("GT_TEST_NO_NUDGE") != "" {
+	if os.Getenv("HD_TEST_NO_NUDGE") != "" {
 		return nil
 	}
 

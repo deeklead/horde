@@ -154,8 +154,8 @@ func TestEnvVarsCheck_WitnessMismatch(t *testing.T) {
 		sessions: []string{"gt-myrig-witness"},
 		sessionEnvs: map[string]map[string]string{
 			"gt-myrig-witness": {
-				"GT_ROLE": "witness",
-				"GT_RIG":  "wrongrig", // Wrong warband
+				"HD_ROLE": "witness",
+				"HD_WARBAND":  "wrongrig", // Wrong warband
 			},
 		},
 	}
@@ -204,8 +204,8 @@ func TestEnvVarsCheck_RaiderMissing(t *testing.T) {
 		sessions: []string{"gt-myrig-Toast"},
 		sessionEnvs: map[string]map[string]string{
 			"gt-myrig-Toast": {
-				"GT_ROLE": "raider",
-				// Missing GT_RIG, GT_RAIDER, BD_ACTOR, GIT_AUTHOR_NAME
+				"HD_ROLE": "raider",
+				// Missing HD_WARBAND, HD_RAIDER, BD_ACTOR, GIT_AUTHOR_NAME
 			},
 		},
 	}
@@ -265,8 +265,8 @@ func TestEnvVarsCheck_MixedCorrectAndMismatch(t *testing.T) {
 		sessionEnvs: map[string]map[string]string{
 			"hq-warchief": warchiefEnv,
 			"gt-rig1-witness": {
-				"GT_ROLE": "witness",
-				// Missing GT_RIG and other vars
+				"HD_ROLE": "witness",
+				// Missing HD_WARBAND and other vars
 			},
 		},
 	}
@@ -413,8 +413,8 @@ func TestEnvVarsCheck_RelicsDirWithOtherMismatches(t *testing.T) {
 		sessions: []string{"gt-myrig-witness"},
 		sessionEnvs: map[string]map[string]string{
 			"gt-myrig-witness": {
-				"GT_ROLE":   "witness",
-				"GT_RIG":    "wrongrig", // Mismatch
+				"HD_ROLE":   "witness",
+				"HD_WARBAND":    "wrongrig", // Mismatch
 				"RELICS_DIR": "/bad/path",
 			},
 		},

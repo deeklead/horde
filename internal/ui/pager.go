@@ -21,7 +21,7 @@ func shouldUsePager(opts PagerOptions) bool {
 	if opts.NoPager {
 		return false
 	}
-	if os.Getenv("GT_NO_PAGER") != "" {
+	if os.Getenv("HD_NO_PAGER") != "" {
 		return false
 	}
 	if !term.IsTerminal(int(os.Stdout.Fd())) {
@@ -31,9 +31,9 @@ func shouldUsePager(opts PagerOptions) bool {
 }
 
 // getPagerCommand returns the pager command to use.
-// Checks GT_PAGER, then PAGER, defaults to "less".
+// Checks HD_PAGER, then PAGER, defaults to "less".
 func getPagerCommand() string {
-	if pager := os.Getenv("GT_PAGER"); pager != "" {
+	if pager := os.Getenv("HD_PAGER"); pager != "" {
 		return pager
 	}
 	if pager := os.Getenv("PAGER"); pager != "" {

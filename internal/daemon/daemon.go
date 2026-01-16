@@ -265,7 +265,7 @@ func (d *Daemon) ensureBootRunning() {
 	}
 
 	// Check for degraded mode
-	degraded := os.Getenv("GT_DEGRADED") == "true"
+	degraded := os.Getenv("HD_DEGRADED") == "true"
 	if degraded || !d.tmux.IsAvailable() {
 		// In degraded mode, run mechanical triage directly
 		d.logger.Println("Degraded mode: running mechanical Boot triage")

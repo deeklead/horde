@@ -11,12 +11,12 @@ import (
 	"github.com/deeklead/horde/internal/workspace"
 )
 
-// filterGTEnv removes GT_* and BD_* environment variables to isolate test subprocess.
+// filterHDEnv removes HD_* and BD_* environment variables to isolate test subprocess.
 // This prevents tests from inheriting the parent workspace's Horde configuration.
-func filterGTEnv(env []string) []string {
+func filterHDEnv(env []string) []string {
 	filtered := make([]string, 0, len(env))
 	for _, e := range env {
-		if strings.HasPrefix(e, "GT_") || strings.HasPrefix(e, "BD_") {
+		if strings.HasPrefix(e, "HD_") || strings.HasPrefix(e, "BD_") {
 			continue
 		}
 		filtered = append(filtered, e)
@@ -48,7 +48,7 @@ func TestQuerySessionEvents_FindsEventsFromAllLocations(t *testing.T) {
 	// Skip when running inside a Horde workspace - this integration test
 	// creates a separate workspace and the subprocesses can interact with
 	// the parent workspace's daemon, causing hangs.
-	if os.Getenv("GT_TOWN_ROOT") != "" || os.Getenv("BD_ACTOR") != "" {
+	if os.Getenv("HD_ENCAMPMENT_ROOT") != "" || os.Getenv("BD_ACTOR") != "" {
 		t.Skip("skipping integration test inside Horde workspace (use 'go test' outside workspace)")
 	}
 
@@ -72,7 +72,7 @@ func TestQuerySessionEvents_FindsEventsFromAllLocations(t *testing.T) {
 	// Clear GT environment variables to isolate test from parent workspace
 	gtInstallCmd := exec.Command("hd", "install")
 	gtInstallCmd.Dir = townRoot
-	gtInstallCmd.Env = filterGTEnv(os.Environ())
+	gtInstallCmd.Env = filterHDEnv(os.Environ())
 	if out, err := gtInstallCmd.CombinedOutput(); err != nil {
 		t.Fatalf("hd install: %v\n%s", err, out)
 	}
@@ -111,7 +111,7 @@ func TestQuerySessionEvents_FindsEventsFromAllLocations(t *testing.T) {
 	// Add warband using hd warband add
 	rigAddCmd := exec.Command("hd", "warband", "add", "testrig", bareRepo, "--prefix=tr")
 	rigAddCmd.Dir = townRoot
-	rigAddCmd.Env = filterGTEnv(os.Environ())
+	rigAddCmd.Env = filterHDEnv(os.Environ())
 	if out, err := rigAddCmd.CombinedOutput(); err != nil {
 		t.Fatalf("hd warband add: %v\n%s", err, out)
 	}
@@ -135,7 +135,7 @@ func TestQuerySessionEvents_FindsEventsFromAllLocations(t *testing.T) {
 		"--json",
 	)
 	townEventCmd.Dir = townRoot
-	townEventCmd.Env = filterGTEnv(os.Environ())
+	townEventCmd.Env = filterHDEnv(os.Environ())
 	townOut, err := townEventCmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("creating encampment event: %v\n%s", err, townOut)
@@ -152,7 +152,7 @@ func TestQuerySessionEvents_FindsEventsFromAllLocations(t *testing.T) {
 		"--json",
 	)
 	rigEventCmd.Dir = rigPath
-	rigEventCmd.Env = filterGTEnv(os.Environ())
+	rigEventCmd.Env = filterHDEnv(os.Environ())
 	rigOut, err := rigEventCmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("creating warband event: %v\n%s", err, rigOut)
@@ -162,7 +162,7 @@ func TestQuerySessionEvents_FindsEventsFromAllLocations(t *testing.T) {
 	// Verify events are in separate databases by querying each directly
 	townListCmd := exec.Command("rl", "list", "--type=event", "--all", "--json")
 	townListCmd.Dir = townRoot
-	townListCmd.Env = filterGTEnv(os.Environ())
+	townListCmd.Env = filterHDEnv(os.Environ())
 	townListOut, err := townListCmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("listing encampment events: %v\n%s", err, townListOut)
@@ -170,7 +170,7 @@ func TestQuerySessionEvents_FindsEventsFromAllLocations(t *testing.T) {
 
 	rigListCmd := exec.Command("rl", "list", "--type=event", "--all", "--json")
 	rigListCmd.Dir = rigPath
-	rigListCmd.Env = filterGTEnv(os.Environ())
+	rigListCmd.Env = filterHDEnv(os.Environ())
 	rigListOut, err := rigListCmd.CombinedOutput()
 	if err != nil {
 		t.Fatalf("listing warband events: %v\n%s", err, rigListOut)

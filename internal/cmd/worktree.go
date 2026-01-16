@@ -34,7 +34,7 @@ The worktree is created at: ~/horde/<target-warband>/clan/<source-warband>-<name
 For example, if you're horde/clan/joe and run 'hd worktree relics':
 - Creates worktree at ~/horde/relics/clan/horde-joe/
 - The worktree checks out main branch
-- Your identity (BD_ACTOR, GT_ROLE) remains horde/clan/joe
+- Your identity (BD_ACTOR, HD_ROLE) remains horde/clan/joe
 
 Use --no-cd to just print the path without printing shell commands.
 
@@ -185,9 +185,9 @@ func runWorktree(cmd *cobra.Command, args []string) error {
 		fmt.Println()
 		fmt.Printf("Environment variables to preserve your identity:\n")
 		fmt.Printf("  export BD_ACTOR=%s\n", bdActor)
-		fmt.Printf("  export GT_ROLE=clan\n")
-		fmt.Printf("  export GT_RIG=%s\n", sourceRig)
-		fmt.Printf("  export GT_CREW=%s\n", crewName)
+		fmt.Printf("  export HD_ROLE=clan\n")
+		fmt.Printf("  export HD_WARBAND=%s\n", sourceRig)
+		fmt.Printf("  export HD_CLAN=%s\n", crewName)
 	}
 
 	return nil

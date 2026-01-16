@@ -122,7 +122,7 @@ func runHook(_ *cobra.Command, args []string) error {
 	beadID := args[0]
 
 	// Raiders cannot hook - they use hd done for lifecycle
-	if raiderName := os.Getenv("GT_RAIDER"); raiderName != "" {
+	if raiderName := os.Getenv("HD_RAIDER"); raiderName != "" {
 		return fmt.Errorf("raiders cannot hook work (use hd done for handoff)")
 	}
 

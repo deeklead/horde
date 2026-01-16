@@ -1,5 +1,5 @@
 // ABOUTME: Hidden command for shell hook to detect warbands and update cache.
-// ABOUTME: Called by shell integration to set GT_TOWN_ROOT and GT_RIG env vars.
+// ABOUTME: Called by shell integration to set HD_ENCAMPMENT_ROOT and HD_WARBAND env vars.
 
 package cmd
 
@@ -29,11 +29,11 @@ When --cache is specified, the result is written to ~/.cache/horde/warbands.cach
 for fast lookups by the shell hook.
 
 Output format (to stdout):
-  export GT_TOWN_ROOT=/path/to/encampment
-  export GT_RIG=rigname
+  export HD_ENCAMPMENT_ROOT=/path/to/encampment
+  export HD_WARBAND=rigname
 
 Or if not in a warband:
-  unset GT_TOWN_ROOT GT_RIG`,
+  unset HD_ENCAMPMENT_ROOT HD_WARBAND`,
 	Args: cobra.MaximumNArgs(1),
 	RunE: runRigDetect,
 }
@@ -62,11 +62,11 @@ func runRigDetect(cmd *cobra.Command, args []string) error {
 	rigName := detectRigFromPath(townRoot, absPath)
 
 	if rigName != "" {
-		fmt.Printf("export GT_TOWN_ROOT=%q\n", townRoot)
-		fmt.Printf("export GT_RIG=%q\n", rigName)
+		fmt.Printf("export HD_ENCAMPMENT_ROOT=%q\n", townRoot)
+		fmt.Printf("export HD_WARBAND=%q\n", rigName)
 	} else {
-		fmt.Printf("export GT_TOWN_ROOT=%q\n", townRoot)
-		fmt.Println("unset GT_RIG")
+		fmt.Printf("export HD_ENCAMPMENT_ROOT=%q\n", townRoot)
+		fmt.Println("unset HD_WARBAND")
 	}
 
 	if rigDetectCache != "" {
@@ -105,7 +105,7 @@ func detectRigFromPath(townRoot, absPath string) string {
 }
 
 func outputNotInRig() error {
-	fmt.Println("unset GT_TOWN_ROOT GT_RIG")
+	fmt.Println("unset HD_ENCAMPMENT_ROOT HD_WARBAND")
 	return nil
 }
 
@@ -129,11 +129,11 @@ func updateRigCache(repoRoot, townRoot, rigName string) error {
 
 	var value string
 	if rigName != "" {
-		value = fmt.Sprintf("export GT_TOWN_ROOT=%q; export GT_RIG=%q", townRoot, rigName)
+		value = fmt.Sprintf("export HD_ENCAMPMENT_ROOT=%q; export HD_WARBAND=%q", townRoot, rigName)
 	} else if townRoot != "" {
-		value = fmt.Sprintf("export GT_TOWN_ROOT=%q; unset GT_RIG", townRoot)
+		value = fmt.Sprintf("export HD_ENCAMPMENT_ROOT=%q; unset HD_WARBAND", townRoot)
 	} else {
-		value = "unset GT_TOWN_ROOT GT_RIG"
+		value = "unset HD_ENCAMPMENT_ROOT HD_WARBAND"
 	}
 
 	existing[repoRoot] = value

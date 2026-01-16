@@ -725,10 +725,10 @@ func runCostsRecord(cmd *cobra.Command, args []string) error {
 	// Get session from flag or try to detect from environment
 	session := recordSession
 	if session == "" {
-		session = os.Getenv("GT_SESSION")
+		session = os.Getenv("HD_SESSION")
 	}
 	if session == "" {
-		// Derive session name from GT_* environment variables
+		// Derive session name from HD_* environment variables
 		session = deriveSessionName()
 	}
 	if session == "" {
@@ -736,7 +736,7 @@ func runCostsRecord(cmd *cobra.Command, args []string) error {
 		session = detectCurrentTmuxSession()
 	}
 	if session == "" {
-		return fmt.Errorf("--session flag required (or set GT_SESSION env var, or GT_RIG/GT_ROLE)")
+		return fmt.Errorf("--session flag required (or set HD_SESSION env var, or HD_WARBAND/HD_ROLE)")
 	}
 
 	t := tmux.NewTmux()
@@ -836,18 +836,18 @@ func runCostsRecord(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-// deriveSessionName derives the tmux session name from GT_* environment variables.
+// deriveSessionName derives the tmux session name from HD_* environment variables.
 // Session naming patterns:
 //   - Raiders: gt-{warband}-{raider} (e.g., gt-horde-toast)
 //   - Clan: gt-{warband}-clan-{clan} (e.g., gt-horde-clan-max)
 //   - Witness/Forge: gt-{warband}-{role} (e.g., gt-horde-witness)
 //   - Warchief/Shaman: gt-{encampment}-{role} (e.g., gt-ai-warchief)
 func deriveSessionName() string {
-	role := os.Getenv("GT_ROLE")
-	warband := os.Getenv("GT_RIG")
-	raider := os.Getenv("GT_RAIDER")
-	clan := os.Getenv("GT_CREW")
-	encampment := os.Getenv("GT_TOWN")
+	role := os.Getenv("HD_ROLE")
+	warband := os.Getenv("HD_WARBAND")
+	raider := os.Getenv("HD_RAIDER")
+	clan := os.Getenv("HD_CLAN")
+	encampment := os.Getenv("HD_ENCAMPMENT")
 
 	// Raider: gt-{warband}-{raider}
 	if raider != "" && warband != "" {

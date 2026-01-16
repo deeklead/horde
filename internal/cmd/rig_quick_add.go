@@ -132,7 +132,7 @@ func runRigQuickAdd(cmd *cobra.Command, args []string) error {
 		fmt.Printf("\nYour workspace: %s\n", style.Bold.Render(crewPath))
 	}
 
-	fmt.Printf("GT_CREW_PATH=%s\n", crewPath)
+	fmt.Printf("HD_CLAN_PATH=%s\n", crewPath)
 
 	return nil
 }

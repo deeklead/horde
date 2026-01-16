@@ -14,64 +14,64 @@ func TestDeriveSessionName(t *testing.T) {
 		{
 			name: "raider session",
 			envVars: map[string]string{
-				"GT_ROLE":    "raider",
-				"GT_RIG":     "horde",
-				"GT_RAIDER": "toast",
+				"HD_ROLE":    "raider",
+				"HD_WARBAND":     "horde",
+				"HD_RAIDER": "toast",
 			},
 			expected: "gt-horde-toast",
 		},
 		{
 			name: "clan session",
 			envVars: map[string]string{
-				"GT_ROLE": "clan",
-				"GT_RIG":  "horde",
-				"GT_CREW": "max",
+				"HD_ROLE": "clan",
+				"HD_WARBAND":  "horde",
+				"HD_CLAN": "max",
 			},
 			expected: "gt-horde-clan-max",
 		},
 		{
 			name: "witness session",
 			envVars: map[string]string{
-				"GT_ROLE": "witness",
-				"GT_RIG":  "horde",
+				"HD_ROLE": "witness",
+				"HD_WARBAND":  "horde",
 			},
 			expected: "gt-horde-witness",
 		},
 		{
 			name: "forge session",
 			envVars: map[string]string{
-				"GT_ROLE": "forge",
-				"GT_RIG":  "horde",
+				"HD_ROLE": "forge",
+				"HD_WARBAND":  "horde",
 			},
 			expected: "gt-horde-forge",
 		},
 		{
 			name: "warchief session",
 			envVars: map[string]string{
-				"GT_ROLE": "warchief",
-				"GT_TOWN": "ai",
+				"HD_ROLE": "warchief",
+				"HD_ENCAMPMENT": "ai",
 			},
 			expected: "gt-ai-warchief",
 		},
 		{
 			name: "shaman session",
 			envVars: map[string]string{
-				"GT_ROLE": "shaman",
-				"GT_TOWN": "ai",
+				"HD_ROLE": "shaman",
+				"HD_ENCAMPMENT": "ai",
 			},
 			expected: "gt-ai-shaman",
 		},
 		{
-			name: "warchief session without GT_TOWN",
+			name: "warchief session without HD_ENCAMPMENT",
 			envVars: map[string]string{
-				"GT_ROLE": "warchief",
+				"HD_ROLE": "warchief",
 			},
 			expected: "gt-warchief",
 		},
 		{
-			name: "shaman session without GT_TOWN",
+			name: "shaman session without HD_ENCAMPMENT",
 			envVars: map[string]string{
-				"GT_ROLE": "shaman",
+				"HD_ROLE": "shaman",
 			},
 			expected: "gt-shaman",
 		},
@@ -86,7 +86,7 @@ func TestDeriveSessionName(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			// Save and clear relevant env vars
 			saved := make(map[string]string)
-			envKeys := []string{"GT_ROLE", "GT_RIG", "GT_RAIDER", "GT_CREW", "GT_TOWN"}
+			envKeys := []string{"HD_ROLE", "HD_WARBAND", "HD_RAIDER", "HD_CLAN", "HD_ENCAMPMENT"}
 			for _, key := range envKeys {
 				saved[key] = os.Getenv(key)
 				os.Unsetenv(key)

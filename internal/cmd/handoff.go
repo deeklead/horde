@@ -69,8 +69,8 @@ func init() {
 
 func runHandoff(cmd *cobra.Command, args []string) error {
 	// Check if we're a raider - raiders use hd done instead
-	// GT_RAIDER is set by the session manager when starting raider sessions
-	if raiderName := os.Getenv("GT_RAIDER"); raiderName != "" {
+	// HD_RAIDER is set by the session manager when starting raider sessions
+	if raiderName := os.Getenv("HD_RAIDER"); raiderName != "" {
 		fmt.Printf("%s Raider detected (%s) - using hd done for handoff\n",
 			style.Bold.Render("🐾"), raiderName)
 		// Raiders don't respawn themselves - Witness handles lifecycle
@@ -238,8 +238,8 @@ func resolveRoleToSession(role string) (string, error) {
 
 	case "clan":
 		// Try to get warband and clan name from environment or cwd
-		warband := os.Getenv("GT_RIG")
-		crewName := os.Getenv("GT_CREW")
+		warband := os.Getenv("HD_WARBAND")
+		crewName := os.Getenv("HD_CLAN")
 		if warband == "" || crewName == "" {
 			// Try to detect from cwd
 			detected, err := detectCrewFromCwd()
@@ -249,21 +249,21 @@ func resolveRoleToSession(role string) (string, error) {
 			}
 		}
 		if warband == "" || crewName == "" {
-			return "", fmt.Errorf("cannot determine clan identity - run from clan directory or specify GT_RIG/GT_CREW")
+			return "", fmt.Errorf("cannot determine clan identity - run from clan directory or specify HD_WARBAND/HD_CLAN")
 		}
 		return fmt.Sprintf("gt-%s-clan-%s", warband, crewName), nil
 
 	case "witness", "wit":
-		warband := os.Getenv("GT_RIG")
+		warband := os.Getenv("HD_WARBAND")
 		if warband == "" {
-			return "", fmt.Errorf("cannot determine warband - set GT_RIG or run from warband context")
+			return "", fmt.Errorf("cannot determine warband - set HD_WARBAND or run from warband context")
 		}
 		return fmt.Sprintf("gt-%s-witness", warband), nil
 
 	case "forge", "ref":
-		warband := os.Getenv("GT_RIG")
+		warband := os.Getenv("HD_WARBAND")
 		if warband == "" {
-			return "", fmt.Errorf("cannot determine warband - set GT_RIG or run from warband context")
+			return "", fmt.Errorf("cannot determine warband - set HD_WARBAND or run from warband context")
 		}
 		return fmt.Sprintf("gt-%s-forge", warband), nil
 
@@ -361,7 +361,7 @@ func buildRestartCommand(sessionName string) (string, error) {
 		return "", err
 	}
 
-	// Parse the session name to get the identity (used for GT_ROLE and beacon)
+	// Parse the session name to get the identity (used for HD_ROLE and beacon)
 	identity, err := session.ParseSessionName(sessionName)
 	if err != nil {
 		return "", fmt.Errorf("cannot parse session name %q: %w", sessionName, err)
@@ -379,7 +379,7 @@ func buildRestartCommand(sessionName string) (string, error) {
 
 	// For respawn-pane, we:
 	// 1. cd to the right directory (role's canonical home)
-	// 2. export GT_ROLE and BD_ACTOR so role detection works correctly
+	// 2. export HD_ROLE and BD_ACTOR so role detection works correctly
 	// 3. export Claude-related env vars (not inherited by fresh shell)
 	// 4. run claude with the startup beacon (triggers immediate context loading)
 	// Use exec to ensure clean process replacement.
@@ -389,11 +389,11 @@ func buildRestartCommand(sessionName string) (string, error) {
 	var exports []string
 	if gtRole != "" {
 		runtimeConfig := config.LoadRuntimeConfig("")
-		exports = append(exports, "GT_ROLE="+gtRole)
+		exports = append(exports, "HD_ROLE="+gtRole)
 		exports = append(exports, "BD_ACTOR="+gtRole)
 		exports = append(exports, "GIT_AUTHOR_NAME="+gtRole)
 		if runtimeConfig.Session != nil && runtimeConfig.Session.SessionIDEnv != "" {
-			exports = append(exports, "GT_SESSION_ID_ENV="+runtimeConfig.Session.SessionIDEnv)
+			exports = append(exports, "HD_SESSION_ID_ENV="+runtimeConfig.Session.SessionIDEnv)
 		}
 	}
 
@@ -468,7 +468,7 @@ func sessionWorkDir(sessionName, townRoot string) (string, error) {
 	}
 }
 
-// sessionToGTRole converts a session name to a GT_ROLE value.
+// sessionToGTRole converts a session name to a HD_ROLE value.
 // Uses session.ParseSessionName for consistent parsing across the codebase.
 func sessionToGTRole(sessionName string) string {
 	identity, err := session.ParseSessionName(sessionName)

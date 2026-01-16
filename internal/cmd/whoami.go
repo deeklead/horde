@@ -17,8 +17,8 @@ var whoamiCmd = &cobra.Command{
 	Long: `Show the identity that will be used for drums commands.
 
 Identity is determined by:
-1. GT_ROLE env var (if set) - indicates an agent session
-2. No GT_ROLE - you are the overseer (human)
+1. HD_ROLE env var (if set) - indicates an agent session
+2. No HD_ROLE - you are the overseer (human)
 
 Use --identity flag with drums commands to override.
 
@@ -40,22 +40,22 @@ func runWhoami(cmd *cobra.Command, args []string) error {
 	fmt.Printf("%s %s\n", style.Bold.Render("Identity:"), identity)
 
 	// Show how it was determined
-	gtRole := os.Getenv("GT_ROLE")
+	gtRole := os.Getenv("HD_ROLE")
 	if gtRole != "" {
-		fmt.Printf("%s GT_ROLE=%s\n", style.Dim.Render("Source:"), gtRole)
+		fmt.Printf("%s HD_ROLE=%s\n", style.Dim.Render("Source:"), gtRole)
 
 		// Show additional env vars if present
-		if warband := os.Getenv("GT_RIG"); warband != "" {
-			fmt.Printf("%s GT_RIG=%s\n", style.Dim.Render("       "), warband)
+		if warband := os.Getenv("HD_WARBAND"); warband != "" {
+			fmt.Printf("%s HD_WARBAND=%s\n", style.Dim.Render("       "), warband)
 		}
-		if raider := os.Getenv("GT_RAIDER"); raider != "" {
-			fmt.Printf("%s GT_RAIDER=%s\n", style.Dim.Render("       "), raider)
+		if raider := os.Getenv("HD_RAIDER"); raider != "" {
+			fmt.Printf("%s HD_RAIDER=%s\n", style.Dim.Render("       "), raider)
 		}
-		if clan := os.Getenv("GT_CREW"); clan != "" {
-			fmt.Printf("%s GT_CREW=%s\n", style.Dim.Render("       "), clan)
+		if clan := os.Getenv("HD_CLAN"); clan != "" {
+			fmt.Printf("%s HD_CLAN=%s\n", style.Dim.Render("       "), clan)
 		}
 	} else {
-		fmt.Printf("%s no GT_ROLE set (human at terminal)\n", style.Dim.Render("Source:"))
+		fmt.Printf("%s no HD_ROLE set (human at terminal)\n", style.Dim.Render("Source:"))
 
 		// If overseer, show their configured identity
 		if identity == "overseer" {

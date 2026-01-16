@@ -7,16 +7,16 @@ import (
 )
 
 func TestRenderMarkdown_AgentMode(t *testing.T) {
-	oldAgentMode := os.Getenv("GT_AGENT_MODE")
+	oldAgentMode := os.Getenv("HD_AGENT_MODE")
 	defer func() {
 		if oldAgentMode != "" {
-			os.Setenv("GT_AGENT_MODE", oldAgentMode)
+			os.Setenv("HD_AGENT_MODE", oldAgentMode)
 		} else {
-			os.Unsetenv("GT_AGENT_MODE")
+			os.Unsetenv("HD_AGENT_MODE")
 		}
 	}()
 
-	os.Setenv("GT_AGENT_MODE", "1")
+	os.Setenv("HD_AGENT_MODE", "1")
 
 	markdown := "# Test Header\n\nSome content"
 	result := RenderMarkdown(markdown)
@@ -27,13 +27,13 @@ func TestRenderMarkdown_AgentMode(t *testing.T) {
 }
 
 func TestRenderMarkdown_SimpleText(t *testing.T) {
-	oldAgentMode := os.Getenv("GT_AGENT_MODE")
+	oldAgentMode := os.Getenv("HD_AGENT_MODE")
 	oldNoColor := os.Getenv("NO_COLOR")
 	defer func() {
 		if oldAgentMode != "" {
-			os.Setenv("GT_AGENT_MODE", oldAgentMode)
+			os.Setenv("HD_AGENT_MODE", oldAgentMode)
 		} else {
-			os.Unsetenv("GT_AGENT_MODE")
+			os.Unsetenv("HD_AGENT_MODE")
 		}
 		if oldNoColor != "" {
 			os.Setenv("NO_COLOR", oldNoColor)
@@ -42,7 +42,7 @@ func TestRenderMarkdown_SimpleText(t *testing.T) {
 		}
 	}()
 
-	os.Unsetenv("GT_AGENT_MODE")
+	os.Unsetenv("HD_AGENT_MODE")
 	os.Setenv("NO_COLOR", "1") // Disable glamour rendering
 
 	markdown := "Simple text without formatting"
@@ -55,13 +55,13 @@ func TestRenderMarkdown_SimpleText(t *testing.T) {
 }
 
 func TestRenderMarkdown_EmptyString(t *testing.T) {
-	oldAgentMode := os.Getenv("GT_AGENT_MODE")
+	oldAgentMode := os.Getenv("HD_AGENT_MODE")
 	oldNoColor := os.Getenv("NO_COLOR")
 	defer func() {
 		if oldAgentMode != "" {
-			os.Setenv("GT_AGENT_MODE", oldAgentMode)
+			os.Setenv("HD_AGENT_MODE", oldAgentMode)
 		} else {
-			os.Unsetenv("GT_AGENT_MODE")
+			os.Unsetenv("HD_AGENT_MODE")
 		}
 		if oldNoColor != "" {
 			os.Setenv("NO_COLOR", oldNoColor)
@@ -70,7 +70,7 @@ func TestRenderMarkdown_EmptyString(t *testing.T) {
 		}
 	}()
 
-	os.Unsetenv("GT_AGENT_MODE")
+	os.Unsetenv("HD_AGENT_MODE")
 	os.Setenv("NO_COLOR", "1")
 
 	result := RenderMarkdown("")
@@ -80,13 +80,13 @@ func TestRenderMarkdown_EmptyString(t *testing.T) {
 }
 
 func TestRenderMarkdown_GracefulDegradation(t *testing.T) {
-	oldAgentMode := os.Getenv("GT_AGENT_MODE")
+	oldAgentMode := os.Getenv("HD_AGENT_MODE")
 	oldNoColor := os.Getenv("NO_COLOR")
 	defer func() {
 		if oldAgentMode != "" {
-			os.Setenv("GT_AGENT_MODE", oldAgentMode)
+			os.Setenv("HD_AGENT_MODE", oldAgentMode)
 		} else {
-			os.Unsetenv("GT_AGENT_MODE")
+			os.Unsetenv("HD_AGENT_MODE")
 		}
 		if oldNoColor != "" {
 			os.Setenv("NO_COLOR", oldNoColor)
@@ -95,7 +95,7 @@ func TestRenderMarkdown_GracefulDegradation(t *testing.T) {
 		}
 	}()
 
-	os.Unsetenv("GT_AGENT_MODE")
+	os.Unsetenv("HD_AGENT_MODE")
 	os.Setenv("NO_COLOR", "1")
 
 	// Test that function doesn't panic and always returns something
@@ -116,13 +116,13 @@ func TestGetTerminalWidth(t *testing.T) {
 	// The function should return a reasonable width
 	// Since we can't call it directly, we verify RenderMarkdown doesn't panic
 
-	oldAgentMode := os.Getenv("GT_AGENT_MODE")
+	oldAgentMode := os.Getenv("HD_AGENT_MODE")
 	oldNoColor := os.Getenv("NO_COLOR")
 	defer func() {
 		if oldAgentMode != "" {
-			os.Setenv("GT_AGENT_MODE", oldAgentMode)
+			os.Setenv("HD_AGENT_MODE", oldAgentMode)
 		} else {
-			os.Unsetenv("GT_AGENT_MODE")
+			os.Unsetenv("HD_AGENT_MODE")
 		}
 		if oldNoColor != "" {
 			os.Setenv("NO_COLOR", oldNoColor)
@@ -131,7 +131,7 @@ func TestGetTerminalWidth(t *testing.T) {
 		}
 	}()
 
-	os.Unsetenv("GT_AGENT_MODE")
+	os.Unsetenv("HD_AGENT_MODE")
 	os.Setenv("NO_COLOR", "1")
 
 	// This should not panic even if terminal width detection fails
@@ -144,13 +144,13 @@ func TestGetTerminalWidth(t *testing.T) {
 }
 
 func TestRenderMarkdown_Newlines(t *testing.T) {
-	oldAgentMode := os.Getenv("GT_AGENT_MODE")
+	oldAgentMode := os.Getenv("HD_AGENT_MODE")
 	oldNoColor := os.Getenv("NO_COLOR")
 	defer func() {
 		if oldAgentMode != "" {
-			os.Setenv("GT_AGENT_MODE", oldAgentMode)
+			os.Setenv("HD_AGENT_MODE", oldAgentMode)
 		} else {
-			os.Unsetenv("GT_AGENT_MODE")
+			os.Unsetenv("HD_AGENT_MODE")
 		}
 		if oldNoColor != "" {
 			os.Setenv("NO_COLOR", oldNoColor)
@@ -159,7 +159,7 @@ func TestRenderMarkdown_Newlines(t *testing.T) {
 		}
 	}()
 
-	os.Unsetenv("GT_AGENT_MODE")
+	os.Unsetenv("HD_AGENT_MODE")
 	os.Setenv("NO_COLOR", "1")
 
 	markdown := "Line 1\n\nLine 2\n\nLine 3"
@@ -178,13 +178,13 @@ func TestRenderMarkdown_Newlines(t *testing.T) {
 }
 
 func TestRenderMarkdown_CodeBlocks(t *testing.T) {
-	oldAgentMode := os.Getenv("GT_AGENT_MODE")
+	oldAgentMode := os.Getenv("HD_AGENT_MODE")
 	oldNoColor := os.Getenv("NO_COLOR")
 	defer func() {
 		if oldAgentMode != "" {
-			os.Setenv("GT_AGENT_MODE", oldAgentMode)
+			os.Setenv("HD_AGENT_MODE", oldAgentMode)
 		} else {
-			os.Unsetenv("GT_AGENT_MODE")
+			os.Unsetenv("HD_AGENT_MODE")
 		}
 		if oldNoColor != "" {
 			os.Setenv("NO_COLOR", oldNoColor)
@@ -193,7 +193,7 @@ func TestRenderMarkdown_CodeBlocks(t *testing.T) {
 		}
 	}()
 
-	os.Unsetenv("GT_AGENT_MODE")
+	os.Unsetenv("HD_AGENT_MODE")
 	os.Setenv("NO_COLOR", "1")
 
 	markdown := "```go\nfunc main() {}\n```"
@@ -206,13 +206,13 @@ func TestRenderMarkdown_CodeBlocks(t *testing.T) {
 }
 
 func TestRenderMarkdown_Links(t *testing.T) {
-	oldAgentMode := os.Getenv("GT_AGENT_MODE")
+	oldAgentMode := os.Getenv("HD_AGENT_MODE")
 	oldNoColor := os.Getenv("NO_COLOR")
 	defer func() {
 		if oldAgentMode != "" {
-			os.Setenv("GT_AGENT_MODE", oldAgentMode)
+			os.Setenv("HD_AGENT_MODE", oldAgentMode)
 		} else {
-			os.Unsetenv("GT_AGENT_MODE")
+			os.Unsetenv("HD_AGENT_MODE")
 		}
 		if oldNoColor != "" {
 			os.Setenv("NO_COLOR", oldNoColor)
@@ -221,7 +221,7 @@ func TestRenderMarkdown_Links(t *testing.T) {
 		}
 	}()
 
-	os.Unsetenv("GT_AGENT_MODE")
+	os.Unsetenv("HD_AGENT_MODE")
 	os.Setenv("NO_COLOR", "1")
 
 	markdown := "[link text](https://example.com)"

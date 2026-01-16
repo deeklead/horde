@@ -263,8 +263,8 @@ exit 0
 	t.Setenv("BD_LOG", logPath)
 	t.Setenv("PATH", binDir+string(os.PathListSeparator)+os.Getenv("PATH"))
 	t.Setenv(EnvGTRole, "warchief")
-	t.Setenv("GT_RAIDER", "")
-	t.Setenv("GT_CREW", "")
+	t.Setenv("HD_RAIDER", "")
+	t.Setenv("HD_CLAN", "")
 	t.Setenv("TMUX_PANE", "") // Prevent inheriting real tmux pane from test runner
 
 	cwd, err := os.Getwd()
@@ -294,7 +294,7 @@ exit 0
 	slingOnTarget = "gt-abc123"
 
 	// Prevent real tmux signal from firing during tests (causes agent self-interruption)
-	t.Setenv("GT_TEST_NO_NUDGE", "1")
+	t.Setenv("HD_TEST_NO_NUDGE", "1")
 
 	if err := runSling(nil, []string{"totem-review"}); err != nil {
 		t.Fatalf("runSling: %v", err)
@@ -425,8 +425,8 @@ exit 0
 	t.Setenv("BD_LOG", logPath)
 	t.Setenv("PATH", binDir+string(os.PathListSeparator)+os.Getenv("PATH"))
 	t.Setenv(EnvGTRole, "warchief")
-	t.Setenv("GT_RAIDER", "")
-	t.Setenv("GT_CREW", "")
+	t.Setenv("HD_RAIDER", "")
+	t.Setenv("HD_CLAN", "")
 	t.Setenv("TMUX_PANE", "") // Prevent inheriting real tmux pane from test runner
 
 	cwd, err := os.Getwd()
@@ -456,7 +456,7 @@ exit 0
 	slingOnTarget = "gt-abc123"
 
 	// Prevent real tmux signal from firing during tests (causes agent self-interruption)
-	t.Setenv("GT_TEST_NO_NUDGE", "1")
+	t.Setenv("HD_TEST_NO_NUDGE", "1")
 
 	if err := runSling(nil, []string{"totem-review"}); err != nil {
 		t.Fatalf("runSling: %v", err)
@@ -614,8 +614,8 @@ exit 0
 
 	t.Setenv("PATH", binDir+string(os.PathListSeparator)+os.Getenv("PATH"))
 	t.Setenv(EnvGTRole, "clan")
-	t.Setenv("GT_CREW", "jv")
-	t.Setenv("GT_RAIDER", "")
+	t.Setenv("HD_CLAN", "jv")
+	t.Setenv("HD_RAIDER", "")
 
 	cwd, err := os.Getwd()
 	if err != nil {

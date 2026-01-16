@@ -189,7 +189,7 @@ func runMoleculeAttachment(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-// detectCurrentAgent returns the current agent identity based on GT_ROLE or working directory.
+// detectCurrentAgent returns the current agent identity based on HD_ROLE or working directory.
 // Returns empty string if identity cannot be determined.
 func detectCurrentAgent() string {
 	cwd, err := os.Getwd()

@@ -478,7 +478,7 @@ func (d *Daemon) getStartCommand(roleConfig *relics.RoleConfig, parsed *ParsedId
 	// Build default command using the role-resolved runtime config
 	defaultCmd := "exec " + runtimeConfig.BuildCommand()
 	if runtimeConfig.Session != nil && runtimeConfig.Session.SessionIDEnv != "" {
-		defaultCmd = config.PrependEnv(defaultCmd, map[string]string{"GT_SESSION_ID_ENV": runtimeConfig.Session.SessionIDEnv})
+		defaultCmd = config.PrependEnv(defaultCmd, map[string]string{"HD_SESSION_ID_ENV": runtimeConfig.Session.SessionIDEnv})
 	}
 
 	// Raiders and clan need environment variables set in the command

@@ -946,8 +946,8 @@ func TestBuildAgentStartupCommand(t *testing.T) {
 	if !strings.Contains(cmd, "export") {
 		t.Error("expected export in command")
 	}
-	if !strings.Contains(cmd, "GT_ROLE=witness") {
-		t.Error("expected GT_ROLE=witness in command")
+	if !strings.Contains(cmd, "HD_ROLE=witness") {
+		t.Error("expected HD_ROLE=witness in command")
 	}
 	if !strings.Contains(cmd, "BD_ACTOR=horde/witness") {
 		t.Error("expected BD_ACTOR in command")
@@ -961,14 +961,14 @@ func TestBuildRaiderStartupCommand(t *testing.T) {
 	t.Parallel()
 	cmd := BuildRaiderStartupCommand("horde", "toast", "", "")
 
-	if !strings.Contains(cmd, "GT_ROLE=raider") {
-		t.Error("expected GT_ROLE=raider in command")
+	if !strings.Contains(cmd, "HD_ROLE=raider") {
+		t.Error("expected HD_ROLE=raider in command")
 	}
-	if !strings.Contains(cmd, "GT_RIG=horde") {
-		t.Error("expected GT_RIG=horde in command")
+	if !strings.Contains(cmd, "HD_WARBAND=horde") {
+		t.Error("expected HD_WARBAND=horde in command")
 	}
-	if !strings.Contains(cmd, "GT_RAIDER=toast") {
-		t.Error("expected GT_RAIDER=toast in command")
+	if !strings.Contains(cmd, "HD_RAIDER=toast") {
+		t.Error("expected HD_RAIDER=toast in command")
 	}
 	if !strings.Contains(cmd, "BD_ACTOR=horde/raiders/toast") {
 		t.Error("expected BD_ACTOR in command")
@@ -979,14 +979,14 @@ func TestBuildCrewStartupCommand(t *testing.T) {
 	t.Parallel()
 	cmd := BuildCrewStartupCommand("horde", "max", "", "")
 
-	if !strings.Contains(cmd, "GT_ROLE=clan") {
-		t.Error("expected GT_ROLE=clan in command")
+	if !strings.Contains(cmd, "HD_ROLE=clan") {
+		t.Error("expected HD_ROLE=clan in command")
 	}
-	if !strings.Contains(cmd, "GT_RIG=horde") {
-		t.Error("expected GT_RIG=horde in command")
+	if !strings.Contains(cmd, "HD_WARBAND=horde") {
+		t.Error("expected HD_WARBAND=horde in command")
 	}
-	if !strings.Contains(cmd, "GT_CREW=max") {
-		t.Error("expected GT_CREW=max in command")
+	if !strings.Contains(cmd, "HD_CLAN=max") {
+		t.Error("expected HD_CLAN=max in command")
 	}
 	if !strings.Contains(cmd, "BD_ACTOR=horde/clan/max") {
 		t.Error("expected BD_ACTOR in command")
@@ -1085,14 +1085,14 @@ func TestBuildRaiderStartupCommandWithAgentOverride(t *testing.T) {
 	if err != nil {
 		t.Fatalf("BuildRaiderStartupCommandWithAgentOverride: %v", err)
 	}
-	if !strings.Contains(cmd, "GT_ROLE=raider") {
-		t.Fatalf("expected GT_ROLE export in command: %q", cmd)
+	if !strings.Contains(cmd, "HD_ROLE=raider") {
+		t.Fatalf("expected HD_ROLE export in command: %q", cmd)
 	}
-	if !strings.Contains(cmd, "GT_RIG=testrig") {
-		t.Fatalf("expected GT_RIG export in command: %q", cmd)
+	if !strings.Contains(cmd, "HD_WARBAND=testrig") {
+		t.Fatalf("expected HD_WARBAND export in command: %q", cmd)
 	}
-	if !strings.Contains(cmd, "GT_RAIDER=toast") {
-		t.Fatalf("expected GT_RAIDER export in command: %q", cmd)
+	if !strings.Contains(cmd, "HD_RAIDER=toast") {
+		t.Fatalf("expected HD_RAIDER export in command: %q", cmd)
 	}
 	if !strings.Contains(cmd, "gemini --approval-mode yolo") {
 		t.Fatalf("expected gemini command in output: %q", cmd)
@@ -1127,8 +1127,8 @@ func TestBuildAgentStartupCommandWithAgentOverride(t *testing.T) {
 		if err != nil {
 			t.Fatalf("BuildAgentStartupCommandWithAgentOverride: %v", err)
 		}
-		if !strings.Contains(cmd, "GT_ROLE=warchief") {
-			t.Fatalf("expected GT_ROLE export in command: %q", cmd)
+		if !strings.Contains(cmd, "HD_ROLE=warchief") {
+			t.Fatalf("expected HD_ROLE export in command: %q", cmd)
 		}
 		if !strings.Contains(cmd, "BD_ACTOR=warchief") {
 			t.Fatalf("expected BD_ACTOR export in command: %q", cmd)
@@ -1168,14 +1168,14 @@ func TestBuildCrewStartupCommandWithAgentOverride(t *testing.T) {
 	if err != nil {
 		t.Fatalf("BuildCrewStartupCommandWithAgentOverride: %v", err)
 	}
-	if !strings.Contains(cmd, "GT_ROLE=clan") {
-		t.Fatalf("expected GT_ROLE export in command: %q", cmd)
+	if !strings.Contains(cmd, "HD_ROLE=clan") {
+		t.Fatalf("expected HD_ROLE export in command: %q", cmd)
 	}
-	if !strings.Contains(cmd, "GT_RIG=testrig") {
-		t.Fatalf("expected GT_RIG export in command: %q", cmd)
+	if !strings.Contains(cmd, "HD_WARBAND=testrig") {
+		t.Fatalf("expected HD_WARBAND export in command: %q", cmd)
 	}
-	if !strings.Contains(cmd, "GT_CREW=max") {
-		t.Fatalf("expected GT_CREW export in command: %q", cmd)
+	if !strings.Contains(cmd, "HD_CLAN=max") {
+		t.Fatalf("expected HD_CLAN export in command: %q", cmd)
 	}
 	if !strings.Contains(cmd, "BD_ACTOR=testrig/clan/max") {
 		t.Fatalf("expected BD_ACTOR export in command: %q", cmd)
@@ -1202,7 +1202,7 @@ func TestBuildStartupCommand_UsesRigAgentWhenRigPathProvided(t *testing.T) {
 		t.Fatalf("SaveRigSettings: %v", err)
 	}
 
-	cmd := BuildStartupCommand(map[string]string{"GT_ROLE": "witness"}, rigPath, "")
+	cmd := BuildStartupCommand(map[string]string{"HD_ROLE": "witness"}, rigPath, "")
 	if !strings.Contains(cmd, "codex") {
 		t.Fatalf("expected warband agent (codex) in command: %q", cmd)
 	}
@@ -1235,21 +1235,21 @@ func TestBuildStartupCommand_UsesRoleAgentsFromTownSettings(t *testing.T) {
 	}
 
 	t.Run("forge role gets gemini from role_agents", func(t *testing.T) {
-		cmd := BuildStartupCommand(map[string]string{"GT_ROLE": constants.RoleForge}, rigPath, "")
+		cmd := BuildStartupCommand(map[string]string{"HD_ROLE": constants.RoleForge}, rigPath, "")
 		if !strings.Contains(cmd, "gemini") {
 			t.Fatalf("expected gemini for forge role, got: %q", cmd)
 		}
 	})
 
 	t.Run("witness role gets codex from role_agents", func(t *testing.T) {
-		cmd := BuildStartupCommand(map[string]string{"GT_ROLE": constants.RoleWitness}, rigPath, "")
+		cmd := BuildStartupCommand(map[string]string{"HD_ROLE": constants.RoleWitness}, rigPath, "")
 		if !strings.Contains(cmd, "codex") {
 			t.Fatalf("expected codex for witness role, got: %q", cmd)
 		}
 	})
 
 	t.Run("clan role falls back to default_agent (not in role_agents)", func(t *testing.T) {
-		cmd := BuildStartupCommand(map[string]string{"GT_ROLE": constants.RoleCrew}, rigPath, "")
+		cmd := BuildStartupCommand(map[string]string{"HD_ROLE": constants.RoleCrew}, rigPath, "")
 		if !strings.Contains(cmd, "claude") {
 			t.Fatalf("expected claude fallback for clan role, got: %q", cmd)
 		}
@@ -1288,7 +1288,7 @@ func TestBuildStartupCommand_RigRoleAgentsOverridesTownRoleAgents(t *testing.T) 
 		t.Fatalf("SaveRigSettings: %v", err)
 	}
 
-	cmd := BuildStartupCommand(map[string]string{"GT_ROLE": constants.RoleWitness}, rigPath, "")
+	cmd := BuildStartupCommand(map[string]string{"HD_ROLE": constants.RoleWitness}, rigPath, "")
 	if !strings.Contains(cmd, "codex") {
 		t.Fatalf("expected codex from warband role_agents override, got: %q", cmd)
 	}
@@ -1319,13 +1319,13 @@ func TestBuildAgentStartupCommand_UsesRoleAgents(t *testing.T) {
 		t.Fatalf("SaveRigSettings: %v", err)
 	}
 
-	// BuildAgentStartupCommand passes role via GT_ROLE env var
+	// BuildAgentStartupCommand passes role via HD_ROLE env var
 	cmd := BuildAgentStartupCommand(constants.RoleForge, "testrig", townRoot, rigPath, "")
 	if !strings.Contains(cmd, "codex") {
 		t.Fatalf("expected codex for forge role, got: %q", cmd)
 	}
-	if !strings.Contains(cmd, "GT_ROLE="+constants.RoleForge) {
-		t.Fatalf("expected GT_ROLE=%s in command: %q", constants.RoleForge, cmd)
+	if !strings.Contains(cmd, "HD_ROLE="+constants.RoleForge) {
+		t.Fatalf("expected HD_ROLE=%s in command: %q", constants.RoleForge, cmd)
 	}
 }
 
@@ -2550,7 +2550,7 @@ func TestBuildStartupCommandWithAgentOverride_PriorityOverRoleAgents(t *testing.
 
 	// agentOverride = "gemini" should take priority over role_agents[forge] = "codex"
 	cmd, err := BuildStartupCommandWithAgentOverride(
-		map[string]string{"GT_ROLE": constants.RoleForge},
+		map[string]string{"HD_ROLE": constants.RoleForge},
 		rigPath,
 		"",
 		"gemini", // explicit override
@@ -2582,7 +2582,7 @@ func TestBuildStartupCommandWithAgentOverride_IncludesGTRoot(t *testing.T) {
 	}
 
 	cmd, err := BuildStartupCommandWithAgentOverride(
-		map[string]string{"GT_ROLE": constants.RoleWitness},
+		map[string]string{"HD_ROLE": constants.RoleWitness},
 		rigPath,
 		"",
 		"gemini",
@@ -2591,8 +2591,8 @@ func TestBuildStartupCommandWithAgentOverride_IncludesGTRoot(t *testing.T) {
 		t.Fatalf("BuildStartupCommandWithAgentOverride: %v", err)
 	}
 
-	// Should include GT_ROOT in export
-	if !strings.Contains(cmd, "GT_ROOT="+townRoot) {
-		t.Errorf("expected GT_ROOT=%s in command, got: %q", townRoot, cmd)
+	// Should include HD_ROOT in export
+	if !strings.Contains(cmd, "HD_ROOT="+townRoot) {
+		t.Errorf("expected HD_ROOT=%s in command, got: %q", townRoot, cmd)
 	}
 }

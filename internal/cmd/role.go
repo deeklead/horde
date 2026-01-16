@@ -15,8 +15,8 @@ import (
 
 // Environment variables for role detection
 const (
-	EnvGTRole     = "GT_ROLE"
-	EnvGTRoleHome = "GT_ROLE_HOME"
+	EnvGTRole     = "HD_ROLE"
+	EnvGTRoleHome = "HD_ROLE_HOME"
 )
 
 // RoleInfo contains information about a role and its detection source.
@@ -28,7 +28,7 @@ type RoleInfo struct {
 	Home          string `json:"home"`
 	Warband           string `json:"warband,omitempty"`
 	Raider       string `json:"raider,omitempty"`
-	EnvRole       string `json:"env_role,omitempty"`    // Value of GT_ROLE if set
+	EnvRole       string `json:"env_role,omitempty"`    // Value of HD_ROLE if set
 	CwdRole       Role   `json:"cwd_role,omitempty"`    // Role detected from cwd
 	Mismatch      bool   `json:"mismatch,omitempty"`    // True if env != cwd detection
 	EnvIncomplete bool   `json:"env_incomplete,omitempty"` // True if env was set but missing warband/raider, filled from cwd
@@ -43,7 +43,7 @@ var roleCmd = &cobra.Command{
 	Long: `Display the current agent role and its detection source.
 
 Role is determined by:
-1. GT_ROLE environment variable (authoritative if set)
+1. HD_ROLE environment variable (authoritative if set)
 2. Current working directory (fallback)
 
 If both are available and disagree, a warning is shown.`,
@@ -74,7 +74,7 @@ Examples:
 var roleDetectCmd = &cobra.Command{
 	Use:   "detect",
 	Short: "Force cwd-based role detection (debugging)",
-	Long: `Detect role from current working directory, ignoring GT_ROLE env var.
+	Long: `Detect role from current working directory, ignoring HD_ROLE env var.
 
 This is useful for debugging role detection issues.`,
 	RunE: runRoleDetect,
@@ -91,7 +91,7 @@ var roleEnvCmd = &cobra.Command{
 	Short: "Print export statements for current role",
 	Long: `Print shell export statements for the current role.
 
-Role is determined from GT_ROLE environment variable or current working directory.
+Role is determined from HD_ROLE environment variable or current working directory.
 This is a read-only command that displays the current role's env vars.
 
 Examples:
@@ -119,7 +119,7 @@ func init() {
 	roleHomeCmd.Flags().StringVar(&roleRaider, "raider", "", "Raider/clan member name")
 }
 
-// GetRole returns the current role, checking GT_ROLE first then falling back to cwd.
+// GetRole returns the current role, checking HD_ROLE first then falling back to cwd.
 // This is the canonical function for role detection.
 func GetRole() (RoleInfo, error) {
 	cwd, err := os.Getwd()
@@ -163,16 +163,16 @@ func GetRoleWithContext(cwd, townRoot string) (RoleInfo, error) {
 		info.Source = "env"
 
 		// For simple role strings like "clan" or "raider", also check
-		// GT_RIG and GT_CREW/GT_RAIDER env vars for the full identity
+		// HD_WARBAND and HD_CLAN/HD_RAIDER env vars for the full identity
 		if info.Warband == "" {
-			if envRig := os.Getenv("GT_RIG"); envRig != "" {
+			if envRig := os.Getenv("HD_WARBAND"); envRig != "" {
 				info.Warband = envRig
 			}
 		}
 		if info.Raider == "" {
-			if envCrew := os.Getenv("GT_CREW"); envCrew != "" {
+			if envCrew := os.Getenv("HD_CLAN"); envCrew != "" {
 				info.Raider = envCrew
-			} else if envRaider := os.Getenv("GT_RAIDER"); envRaider != "" {
+			} else if envRaider := os.Getenv("HD_RAIDER"); envRaider != "" {
 				info.Raider = envRaider
 			}
 		}
@@ -345,10 +345,10 @@ func runRoleShow(cmd *cobra.Command, args []string) error {
 	if info.Mismatch {
 		fmt.Println()
 		fmt.Printf("%s\n", style.Bold.Render("⚠️  ROLE MISMATCH"))
-		fmt.Printf("  GT_ROLE=%s (authoritative)\n", info.EnvRole)
+		fmt.Printf("  HD_ROLE=%s (authoritative)\n", info.EnvRole)
 		fmt.Printf("  cwd suggests: %s\n", info.CwdRole)
 		fmt.Println()
-		fmt.Println("The GT_ROLE env var takes precedence, but you may be in the wrong directory.")
+		fmt.Println("The HD_ROLE env var takes precedence, but you may be in the wrong directory.")
 		fmt.Printf("Expected home: %s\n", info.Home)
 	}
 
@@ -440,8 +440,8 @@ func runRoleDetect(cmd *cobra.Command, args []string) error {
 		parsedRole, _, _ := parseRoleString(envRole)
 		if parsedRole != ctx.Role {
 			fmt.Println()
-			fmt.Printf("%s\n", style.Bold.Render("⚠️  Mismatch with $GT_ROLE"))
-			fmt.Printf("  $GT_ROLE=%s\n", envRole)
+			fmt.Printf("%s\n", style.Bold.Render("⚠️  Mismatch with $HD_ROLE"))
+			fmt.Printf("  $HD_ROLE=%s\n", envRole)
 			fmt.Println("  The env var takes precedence in normal operation.")
 		}
 	}

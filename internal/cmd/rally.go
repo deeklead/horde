@@ -62,7 +62,7 @@ HOOK MODE (--hook):
   Claude Code sends JSON on stdin:
     {"session_id": "uuid", "transcript_path": "/path", "source": "startup|resume"}
 
-  Other agents can set GT_SESSION_ID environment variable instead.`,
+  Other agents can set HD_SESSION_ID environment variable instead.`,
 	RunE: runPrime,
 }
 
@@ -127,7 +127,7 @@ func runPrime(cmd *cobra.Command, args []string) error {
 			}
 		}
 		// Set environment for this process (affects event emission below)
-		_ = os.Setenv("GT_SESSION_ID", sessionID)
+		_ = os.Setenv("HD_SESSION_ID", sessionID)
 		_ = os.Setenv("CLAUDE_SESSION_ID", sessionID) // Legacy compatibility
 		// Output session beacon
 		explain(true, "Session beacon: hook mode enabled, session ID from stdin")
@@ -154,7 +154,7 @@ func runPrime(cmd *cobra.Command, args []string) error {
 	// Warn prominently if there's a role/cwd mismatch
 	if roleInfo.Mismatch {
 		fmt.Printf("\n%s\n", style.Bold.Render("⚠️  ROLE/LOCATION MISMATCH"))
-		fmt.Printf("You are %s (from $GT_ROLE) but your cwd suggests %s.\n",
+		fmt.Printf("You are %s (from $HD_ROLE) but your cwd suggests %s.\n",
 			style.Bold.Render(string(roleInfo.Role)),
 			style.Bold.Render(string(roleInfo.CwdRole)))
 		fmt.Printf("Expected home: %s\n", roleInfo.Home)

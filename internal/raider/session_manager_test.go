@@ -150,7 +150,7 @@ func TestInjectNotFound(t *testing.T) {
 }
 
 // TestRaiderCommandFormat verifies the raider session command exports
-// GT_ROLE, GT_RIG, GT_RAIDER, and BD_ACTOR inline before starting Claude.
+// HD_ROLE, HD_WARBAND, HD_RAIDER, and BD_ACTOR inline before starting Claude.
 // This is a regression test for gt-y41ep - env vars must be exported inline
 // because tmux SetEnvironment only affects new panes, not the current shell.
 func TestRaiderCommandFormat(t *testing.T) {
@@ -163,15 +163,15 @@ func TestRaiderCommandFormat(t *testing.T) {
 	expectedBdActor := "horde/raiders/Toast"
 
 	// Build the expected command format (mirrors Start() logic)
-	expectedPrefix := "export GT_ROLE=raider GT_RIG=" + rigName + " GT_RAIDER=" + raiderName + " BD_ACTOR=" + expectedBdActor + " GIT_AUTHOR_NAME=" + expectedBdActor
+	expectedPrefix := "export HD_ROLE=raider HD_WARBAND=" + rigName + " HD_RAIDER=" + raiderName + " BD_ACTOR=" + expectedBdActor + " GIT_AUTHOR_NAME=" + expectedBdActor
 	expectedSuffix := "&& claude --dangerously-skip-permissions"
 
 	// The command must contain all required env exports
 	requiredParts := []string{
 		"export",
-		"GT_ROLE=raider",
-		"GT_RIG=" + rigName,
-		"GT_RAIDER=" + raiderName,
+		"HD_ROLE=raider",
+		"HD_WARBAND=" + rigName,
+		"HD_RAIDER=" + raiderName,
 		"BD_ACTOR=" + expectedBdActor,
 		"GIT_AUTHOR_NAME=" + expectedBdActor,
 		"claude --dangerously-skip-permissions",
@@ -185,8 +185,8 @@ func TestRaiderCommandFormat(t *testing.T) {
 		}
 	}
 
-	// Verify GT_ROLE is specifically "raider" (not "warchief" or "clan")
-	if !strings.Contains(fullCommand, "GT_ROLE=raider") {
-		t.Error("GT_ROLE must be 'raider', not 'warchief' or 'clan'")
+	// Verify HD_ROLE is specifically "raider" (not "warchief" or "clan")
+	if !strings.Contains(fullCommand, "HD_ROLE=raider") {
+		t.Error("HD_ROLE must be 'raider', not 'warchief' or 'clan'")
 	}
 }

@@ -211,12 +211,12 @@ _horde_offer_add() {
             
             if [[ $exit_code -eq 0 ]]; then
                 local crew_path
-                crew_path=$(echo "$output" | grep "^GT_CREW_PATH=" | cut -d= -f2)
+                crew_path=$(echo "$output" | grep "^HD_CLAN_PATH=" | cut -d= -f2)
                 if [[ -n "$crew_path" && -d "$crew_path" ]]; then
                     echo ""
                     echo "Switching to clan workspace..."
                     cd "$crew_path" || true
-                    # Re-run hook to set GT_TOWN_ROOT and GT_RIG
+                    # Re-run hook to set HD_ENCAMPMENT_ROOT and HD_WARBAND
                     _horde_hook
                 fi
             fi
@@ -235,23 +235,23 @@ _horde_hook() {
     local previous_exit_status=$?
 
     _horde_enabled || {
-        unset GT_TOWN_ROOT GT_RIG
+        unset HD_ENCAMPMENT_ROOT HD_WARBAND
         return $previous_exit_status
     }
 
     _horde_ignored && {
-        unset GT_TOWN_ROOT GT_RIG
+        unset HD_ENCAMPMENT_ROOT HD_WARBAND
         return $previous_exit_status
     }
 
     if ! git rev-parse --git-dir &>/dev/null; then
-        unset GT_TOWN_ROOT GT_RIG
+        unset HD_ENCAMPMENT_ROOT HD_WARBAND
         return $previous_exit_status
     fi
 
     local repo_root
     repo_root=$(git rev-parse --show-toplevel 2>/dev/null) || {
-        unset GT_TOWN_ROOT GT_RIG
+        unset HD_ENCAMPMENT_ROOT HD_WARBAND
         return $previous_exit_status
     }
 
@@ -270,7 +270,7 @@ _horde_hook() {
         detect_output=$(hd warband detect "$repo_root" 2>/dev/null)
         eval "$detect_output"
         
-        if [[ -n "$GT_TOWN_ROOT" ]]; then
+        if [[ -n "$HD_ENCAMPMENT_ROOT" ]]; then
             (hd warband detect --cache "$repo_root" &>/dev/null &)
         elif [[ -n "$_HORDE_OFFER_ADD" ]]; then
             _horde_offer_add "$repo_root"

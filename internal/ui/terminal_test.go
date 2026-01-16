@@ -126,44 +126,44 @@ func TestShouldUseColor_CLICOLOR_FORCE(t *testing.T) {
 }
 
 func TestShouldUseEmoji_Default(t *testing.T) {
-	oldNoEmoji := os.Getenv("GT_NO_EMOJI")
+	oldNoEmoji := os.Getenv("HD_NO_EMOJI")
 	defer func() {
 		if oldNoEmoji != "" {
-			os.Setenv("GT_NO_EMOJI", oldNoEmoji)
+			os.Setenv("HD_NO_EMOJI", oldNoEmoji)
 		} else {
-			os.Unsetenv("GT_NO_EMOJI")
+			os.Unsetenv("HD_NO_EMOJI")
 		}
 	}()
 
-	os.Unsetenv("GT_NO_EMOJI")
+	os.Unsetenv("HD_NO_EMOJI")
 	result := ShouldUseEmoji()
 	_ = result // Result depends on test environment
 }
 
-func TestShouldUseEmoji_GT_NO_EMOJI(t *testing.T) {
-	oldNoEmoji := os.Getenv("GT_NO_EMOJI")
+func TestShouldUseEmoji_HD_NO_EMOJI(t *testing.T) {
+	oldNoEmoji := os.Getenv("HD_NO_EMOJI")
 	defer func() {
 		if oldNoEmoji != "" {
-			os.Setenv("GT_NO_EMOJI", oldNoEmoji)
+			os.Setenv("HD_NO_EMOJI", oldNoEmoji)
 		} else {
-			os.Unsetenv("GT_NO_EMOJI")
+			os.Unsetenv("HD_NO_EMOJI")
 		}
 	}()
 
-	os.Setenv("GT_NO_EMOJI", "1")
+	os.Setenv("HD_NO_EMOJI", "1")
 	if ShouldUseEmoji() {
-		t.Error("ShouldUseEmoji() should return false when GT_NO_EMOJI is set")
+		t.Error("ShouldUseEmoji() should return false when HD_NO_EMOJI is set")
 	}
 }
 
 func TestIsAgentMode_Default(t *testing.T) {
-	oldAgentMode := os.Getenv("GT_AGENT_MODE")
+	oldAgentMode := os.Getenv("HD_AGENT_MODE")
 	oldClaudeCode := os.Getenv("CLAUDE_CODE")
 	defer func() {
 		if oldAgentMode != "" {
-			os.Setenv("GT_AGENT_MODE", oldAgentMode)
+			os.Setenv("HD_AGENT_MODE", oldAgentMode)
 		} else {
-			os.Unsetenv("GT_AGENT_MODE")
+			os.Unsetenv("HD_AGENT_MODE")
 		}
 		if oldClaudeCode != "" {
 			os.Setenv("CLAUDE_CODE", oldClaudeCode)
@@ -172,42 +172,42 @@ func TestIsAgentMode_Default(t *testing.T) {
 		}
 	}()
 
-	os.Unsetenv("GT_AGENT_MODE")
+	os.Unsetenv("HD_AGENT_MODE")
 	os.Unsetenv("CLAUDE_CODE")
 	if IsAgentMode() {
 		t.Error("IsAgentMode() should return false by default")
 	}
 }
 
-func TestIsAgentMode_GT_AGENT_MODE(t *testing.T) {
-	oldAgentMode := os.Getenv("GT_AGENT_MODE")
+func TestIsAgentMode_HD_AGENT_MODE(t *testing.T) {
+	oldAgentMode := os.Getenv("HD_AGENT_MODE")
 	defer func() {
 		if oldAgentMode != "" {
-			os.Setenv("GT_AGENT_MODE", oldAgentMode)
+			os.Setenv("HD_AGENT_MODE", oldAgentMode)
 		} else {
-			os.Unsetenv("GT_AGENT_MODE")
+			os.Unsetenv("HD_AGENT_MODE")
 		}
 	}()
 
-	os.Setenv("GT_AGENT_MODE", "1")
+	os.Setenv("HD_AGENT_MODE", "1")
 	if !IsAgentMode() {
-		t.Error("IsAgentMode() should return true when GT_AGENT_MODE=1")
+		t.Error("IsAgentMode() should return true when HD_AGENT_MODE=1")
 	}
 
-	os.Setenv("GT_AGENT_MODE", "0")
+	os.Setenv("HD_AGENT_MODE", "0")
 	if IsAgentMode() {
-		t.Error("IsAgentMode() should return false when GT_AGENT_MODE=0")
+		t.Error("IsAgentMode() should return false when HD_AGENT_MODE=0")
 	}
 }
 
 func TestIsAgentMode_CLAUDE_CODE(t *testing.T) {
- oldAgentMode := os.Getenv("GT_AGENT_MODE")
+ oldAgentMode := os.Getenv("HD_AGENT_MODE")
 	oldClaudeCode := os.Getenv("CLAUDE_CODE")
 	defer func() {
 		if oldAgentMode != "" {
-			os.Setenv("GT_AGENT_MODE", oldAgentMode)
+			os.Setenv("HD_AGENT_MODE", oldAgentMode)
 		} else {
-			os.Unsetenv("GT_AGENT_MODE")
+			os.Unsetenv("HD_AGENT_MODE")
 		}
 		if oldClaudeCode != "" {
 			os.Setenv("CLAUDE_CODE", oldClaudeCode)
@@ -216,7 +216,7 @@ func TestIsAgentMode_CLAUDE_CODE(t *testing.T) {
 		}
 	}()
 
-	os.Unsetenv("GT_AGENT_MODE")
+	os.Unsetenv("HD_AGENT_MODE")
 	os.Setenv("CLAUDE_CODE", "1")
 	if !IsAgentMode() {
 		t.Error("IsAgentMode() should return true when CLAUDE_CODE is set")
@@ -224,13 +224,13 @@ func TestIsAgentMode_CLAUDE_CODE(t *testing.T) {
 }
 
 func TestIsAgentMode_CLAUDE_CODE_AnyValue(t *testing.T) {
-	oldAgentMode := os.Getenv("GT_AGENT_MODE")
+	oldAgentMode := os.Getenv("HD_AGENT_MODE")
 	oldClaudeCode := os.Getenv("CLAUDE_CODE")
 	defer func() {
 		if oldAgentMode != "" {
-			os.Setenv("GT_AGENT_MODE", oldAgentMode)
+			os.Setenv("HD_AGENT_MODE", oldAgentMode)
 		} else {
-			os.Unsetenv("GT_AGENT_MODE")
+			os.Unsetenv("HD_AGENT_MODE")
 		}
 		if oldClaudeCode != "" {
 			os.Setenv("CLAUDE_CODE", oldClaudeCode)
@@ -239,7 +239,7 @@ func TestIsAgentMode_CLAUDE_CODE_AnyValue(t *testing.T) {
 		}
 	}()
 
-	os.Unsetenv("GT_AGENT_MODE")
+	os.Unsetenv("HD_AGENT_MODE")
 	os.Setenv("CLAUDE_CODE", "any-value")
 	if !IsAgentMode() {
 		t.Error("IsAgentMode() should return true when CLAUDE_CODE is set to any value")

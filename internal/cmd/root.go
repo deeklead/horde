@@ -118,7 +118,7 @@ func checkRelicsDependency(cmd *cobra.Command, _ []string) error {
 
 // staleBinaryWarned tracks if we've already warned about stale binary in this session.
 // We use an environment variable since the binary restarts on each command.
-var staleBinaryWarned = os.Getenv("GT_STALE_WARNED") == "1"
+var staleBinaryWarned = os.Getenv("HD_STALE_WARNED") == "1"
 
 // checkStaleBinaryWarning checks if the installed binary is stale and prints a warning.
 // This is a non-blocking check - errors are silently ignored.
@@ -142,7 +142,7 @@ func checkStaleBinaryWarning() {
 
 	if info.IsStale {
 		staleBinaryWarned = true
-		_ = os.Setenv("GT_STALE_WARNED", "1")
+		_ = os.Setenv("HD_STALE_WARNED", "1")
 
 		msg := fmt.Sprintf("hd binary is stale (built from %s, repo at %s)",
 			version.ShortCommit(info.BinaryCommit), version.ShortCommit(info.RepoCommit))

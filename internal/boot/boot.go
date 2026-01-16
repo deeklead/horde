@@ -54,7 +54,7 @@ func New(townRoot string) *Boot {
 		bootDir:   filepath.Join(townRoot, "shaman", "dogs", "boot"),
 		shamanDir: filepath.Join(townRoot, "shaman"),
 		tmux:      tmux.NewTmux(),
-		degraded:  os.Getenv("GT_DEGRADED") == "true",
+		degraded:  os.Getenv("HD_DEGRADED") == "true",
 	}
 }
 
@@ -215,7 +215,7 @@ func (b *Boot) spawnDegraded() error {
 		TownRoot: b.townRoot,
 	})
 	cmd.Env = config.EnvForExecCommand(envVars)
-	cmd.Env = append(cmd.Env, "GT_DEGRADED=true")
+	cmd.Env = append(cmd.Env, "HD_DEGRADED=true")
 
 	// Run async - don't wait for completion
 	return cmd.Start()

@@ -72,7 +72,7 @@ var accountDefaultCmd = &cobra.Command{
 	Short: "Set the default account",
 	Long: `Set the default Claude Code account.
 
-The default account is used when no --account flag or GT_ACCOUNT env var
+The default account is used when no --account flag or HD_ACCOUNT env var
 is specified during muster or summon.
 
 Examples:
@@ -255,12 +255,12 @@ var accountStatusCmd = &cobra.Command{
 	Long: `Show which Claude Code account would be used for new sessions.
 
 Displays the currently resolved account based on:
-1. GT_ACCOUNT environment variable (highest priority)
+1. HD_ACCOUNT environment variable (highest priority)
 2. Default account from config
 
 Examples:
   hd account status           # Show current account
-  GT_ACCOUNT=work hd account status  # Show with env override`,
+  HD_ACCOUNT=work hd account status  # Show with env override`,
 	RunE: runAccountStatus,
 }
 
@@ -304,8 +304,8 @@ func runAccountStatus(cmd *cobra.Command, args []string) error {
 		return nil
 	}
 
-	// Check if GT_ACCOUNT is overriding
-	envAccount := os.Getenv("GT_ACCOUNT")
+	// Check if HD_ACCOUNT is overriding
+	envAccount := os.Getenv("HD_ACCOUNT")
 
 	// Load config to get full account info
 	cfg, err := config.LoadAccountsConfig(accountsPath)
@@ -329,7 +329,7 @@ func runAccountStatus(cmd *cobra.Command, args []string) error {
 	fmt.Printf("Config Dir: %s\n", configDir)
 
 	if envAccount != "" {
-		fmt.Printf("\n%s\n", style.Dim.Render("(set via GT_ACCOUNT environment variable)"))
+		fmt.Printf("\n%s\n", style.Dim.Render("(set via HD_ACCOUNT environment variable)"))
 	} else if handle == cfg.Default {
 		fmt.Printf("\n%s\n", style.Dim.Render("(default account)"))
 	}

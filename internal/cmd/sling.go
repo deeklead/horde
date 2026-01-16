@@ -117,7 +117,7 @@ func init() {
 
 func runSling(cmd *cobra.Command, args []string) error {
 	// Raiders cannot charge - check early before writing anything
-	if raiderName := os.Getenv("GT_RAIDER"); raiderName != "" {
+	if raiderName := os.Getenv("HD_RAIDER"); raiderName != "" {
 		return fmt.Errorf("raiders cannot charge (use hd done for handoff)")
 	}
 
@@ -395,7 +395,7 @@ func runSling(cmd *cobra.Command, args []string) error {
 		wispArgs := []string{"--no-daemon", "mol", "wisp", formulaName, "--var", featureVar, "--var", issueVar, "--json"}
 		wispCmd := exec.Command("rl", wispArgs...)
 		wispCmd.Dir = formulaWorkDir
-		wispCmd.Env = append(os.Environ(), "GT_ROOT="+townRoot)
+		wispCmd.Env = append(os.Environ(), "HD_ROOT="+townRoot)
 		wispCmd.Stderr = os.Stderr
 		wispOut, err := wispCmd.Output()
 		if err != nil {

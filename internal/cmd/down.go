@@ -264,14 +264,14 @@ func runDown(cmd *cobra.Command, args []string) error {
 	if downNuke {
 		if downDryRun {
 			printDownStatus("Tmux server", true, "would kill (DESTRUCTIVE)")
-		} else if os.Getenv("GT_NUKE_ACKNOWLEDGED") == "" {
+		} else if os.Getenv("HD_NUKE_ACKNOWLEDGED") == "" {
 			// Require explicit acknowledgement for destructive operation
 			fmt.Println()
 			fmt.Printf("%s The --nuke flag kills ALL tmux sessions, not just Horde.\n",
 				style.Bold.Render("⚠ BLOCKED:"))
 			fmt.Printf("This includes vim sessions, running builds, SSH connections, etc.\n")
 			fmt.Println()
-			fmt.Printf("To proceed, run with: %s\n", style.Bold.Render("GT_NUKE_ACKNOWLEDGED=1 hd down --nuke"))
+			fmt.Printf("To proceed, run with: %s\n", style.Bold.Render("HD_NUKE_ACKNOWLEDGED=1 hd down --nuke"))
 			allOK = false
 		} else {
 			if err := t.KillServer(); err != nil {

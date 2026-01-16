@@ -24,7 +24,7 @@ type hookInput struct {
 }
 
 // readHookSessionID reads session ID from available sources in hook mode.
-// Priority: stdin JSON, GT_SESSION_ID env, CLAUDE_SESSION_ID env, auto-generate.
+// Priority: stdin JSON, HD_SESSION_ID env, CLAUDE_SESSION_ID env, auto-generate.
 func readHookSessionID() (sessionID, source string) {
 	// 1. Try reading stdin JSON (Claude Code format)
 	if input := readStdinJSON(); input != nil {
@@ -34,7 +34,7 @@ func readHookSessionID() (sessionID, source string) {
 	}
 
 	// 2. Environment variables
-	if id := os.Getenv("GT_SESSION_ID"); id != "" {
+	if id := os.Getenv("HD_SESSION_ID"); id != "" {
 		return id, ""
 	}
 	if id := os.Getenv("CLAUDE_SESSION_ID"); id != "" {
@@ -131,9 +131,9 @@ func readSessionFile(dir string) string {
 }
 
 // resolveSessionIDForPrime finds the session ID from available sources.
-// Priority: GT_SESSION_ID env, CLAUDE_SESSION_ID env, persisted file, fallback.
+// Priority: HD_SESSION_ID env, CLAUDE_SESSION_ID env, persisted file, fallback.
 func resolveSessionIDForPrime(actor string) string {
-	// 1. Try runtime's session ID lookup (checks GT_SESSION_ID_ENV, then CLAUDE_SESSION_ID)
+	// 1. Try runtime's session ID lookup (checks HD_SESSION_ID_ENV, then CLAUDE_SESSION_ID)
 	if id := runtime.SessionIDFromEnv(); id != "" {
 		return id
 	}
@@ -149,7 +149,7 @@ func resolveSessionIDForPrime(actor string) string {
 
 // emitSessionEvent emits a session_start event for seance discovery.
 // The event is written to ~/horde/.events.jsonl and can be queried via hd seance.
-// Session ID resolution order: GT_SESSION_ID, CLAUDE_SESSION_ID, persisted file, fallback.
+// Session ID resolution order: HD_SESSION_ID, CLAUDE_SESSION_ID, persisted file, fallback.
 func emitSessionEvent(ctx RoleContext) {
 	if ctx.Role == RoleUnknown {
 		return

@@ -18,7 +18,7 @@ var enableCmd = &cobra.Command{
 	Long: `Enable Horde for all agentic coding tools.
 
 When enabled:
-  - Shell hooks set GT_TOWN_ROOT and GT_RIG environment variables
+  - Shell hooks set HD_ENCAMPMENT_ROOT and HD_WARBAND environment variables
   - Claude Code SessionStart hooks run 'hd rally' for context
   - Git repos are auto-registered as warbands (configurable)
 
@@ -43,7 +43,7 @@ func runEnable(cmd *cobra.Command, args []string) error {
 	fmt.Println()
 	fmt.Println("Horde will now:")
 	fmt.Println("  • Inject context into Claude Code sessions")
-	fmt.Println("  • Set GT_TOWN_ROOT and GT_RIG environment variables")
+	fmt.Println("  • Set HD_ENCAMPMENT_ROOT and HD_WARBAND environment variables")
 	fmt.Println("  • Auto-register git repos as warbands (if configured)")
 	fmt.Println()
 	fmt.Printf("Use %s to disable, %s to check status\n",

@@ -202,7 +202,7 @@ func (m *Manager) Start(foreground bool, agentOverride string) error {
 	})
 
 	// Add forge-specific flag
-	envVars["GT_FORGE"] = "1"
+	envVars["HD_FORGE"] = "1"
 
 	// Set all env vars in tmux session (for debugging) and they'll also be exported to Claude
 	for k, v := range envVars {

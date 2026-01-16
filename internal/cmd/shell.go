@@ -25,7 +25,7 @@ var shellInstallCmd = &cobra.Command{
 	Long: `Install or update the Horde shell integration.
 
 This adds a hook to your shell RC file that:
-  - Sets GT_TOWN_ROOT and GT_RIG when you cd into a Horde warband
+  - Sets HD_ENCAMPMENT_ROOT and HD_WARBAND when you cd into a Horde warband
   - Offers to add new git repos to Horde on first visit
 
 Run this after upgrading hd to get the latest shell hook features.`,

@@ -18,7 +18,7 @@ var commitCmd = &cobra.Command{
 	Short: "Git commit with automatic agent identity",
 	Long: `Git commit wrapper that automatically sets git author identity for agents.
 
-When run by an agent (GT_ROLE set), this command:
+When run by an agent (HD_ROLE set), this command:
 1. Detects the agent identity from environment variables
 2. Converts it to a git-friendly name and email
 3. Runs 'git commit' with the correct identity
@@ -35,7 +35,7 @@ Identity mapping:
   Agent: horde/clan/jack  →  Name: horde/clan/jack
                                 Email: horde.clan.jack@horde.local
 
-When run without GT_ROLE (human), passes through to git commit with no changes.`,
+When run without HD_ROLE (human), passes through to git commit with no changes.`,
 	RunE:               runCommit,
 	DisableFlagParsing: true, // We'll parse flags ourselves to pass them to git
 }

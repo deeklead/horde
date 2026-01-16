@@ -593,8 +593,8 @@ func findFormula(name string) (string, error) {
 		searchPaths = append(searchPaths, filepath.Join(home, ".relics", "rituals"))
 	}
 
-	// Add GT_ROOT rituals if set
-	if gtRoot := os.Getenv("GT_ROOT"); gtRoot != "" {
+	// Add HD_ROOT rituals if set
+	if gtRoot := os.Getenv("HD_ROOT"); gtRoot != "" {
 		searchPaths = append(searchPaths, filepath.Join(gtRoot, ".relics", "rituals"))
 	}
 

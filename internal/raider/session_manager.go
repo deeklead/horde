@@ -18,9 +18,9 @@ import (
 	"github.com/deeklead/horde/internal/tmux"
 )
 
-// debugSession logs non-fatal errors during session startup when GT_DEBUG_SESSION=1.
+// debugSession logs non-fatal errors during session startup when HD_DEBUG_SESSION=1.
 func debugSession(context string, err error) {
-	if os.Getenv("GT_DEBUG_SESSION") != "" && err != nil {
+	if os.Getenv("HD_DEBUG_SESSION") != "" && err != nil {
 		fmt.Fprintf(os.Stderr, "[session-debug] %s: %v\n", context, err)
 	}
 }

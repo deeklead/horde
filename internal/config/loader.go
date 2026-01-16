@@ -535,7 +535,7 @@ func (c *AccountsConfig) GetDefaultAccount() *Account {
 
 // ResolveAccountConfigDir resolves the CLAUDE_CONFIG_DIR for account selection.
 // Priority order:
-//  1. GT_ACCOUNT environment variable
+//  1. HD_ACCOUNT environment variable
 //  2. accountFlag (from --account command flag)
 //  3. Default account from config
 //
@@ -549,11 +549,11 @@ func ResolveAccountConfigDir(accountsPath, accountFlag string) (configDir, handl
 		return "", "", nil
 	}
 
-	// Priority 1: GT_ACCOUNT env var
-	if envAccount := os.Getenv("GT_ACCOUNT"); envAccount != "" {
+	// Priority 1: HD_ACCOUNT env var
+	if envAccount := os.Getenv("HD_ACCOUNT"); envAccount != "" {
 		acct := cfg.GetAccount(envAccount)
 		if acct == nil {
-			return "", "", fmt.Errorf("GT_ACCOUNT '%s' not found in accounts config", envAccount)
+			return "", "", fmt.Errorf("HD_ACCOUNT '%s' not found in accounts config", envAccount)
 		}
 		return expandPath(acct.ConfigDir), envAccount, nil
 	}
@@ -1205,7 +1205,7 @@ func findTownRootFromCwd() (string, error) {
 // rigPath is optional - if empty, tries to detect encampment root from cwd.
 // prompt is optional - if provided, appended as the initial prompt.
 //
-// If envVars contains GT_ROLE, the function uses role-based agent resolution
+// If envVars contains HD_ROLE, the function uses role-based agent resolution
 // (ResolveRoleAgentConfig) to select the appropriate agent for the role.
 // This enables per-role model selection via role_agents in settings.
 func BuildStartupCommand(envVars map[string]string, rigPath, prompt string) string {
@@ -1213,7 +1213,7 @@ func BuildStartupCommand(envVars map[string]string, rigPath, prompt string) stri
 	var townRoot string
 
 	// Extract role from envVars for role-based agent resolution
-	role := envVars["GT_ROLE"]
+	role := envVars["HD_ROLE"]
 
 	if rigPath != "" {
 		// Derive encampment root from warband path
@@ -1245,12 +1245,12 @@ func BuildStartupCommand(envVars map[string]string, rigPath, prompt string) stri
 	for k, v := range envVars {
 		resolvedEnv[k] = v
 	}
-	// Add GT_ROOT so agents can find encampment-level resources (rituals, etc.)
+	// Add HD_ROOT so agents can find encampment-level resources (rituals, etc.)
 	if townRoot != "" {
-		resolvedEnv["GT_ROOT"] = townRoot
+		resolvedEnv["HD_ROOT"] = townRoot
 	}
 	if rc.Session != nil && rc.Session.SessionIDEnv != "" {
-		resolvedEnv["GT_SESSION_ID_ENV"] = rc.Session.SessionIDEnv
+		resolvedEnv["HD_SESSION_ID_ENV"] = rc.Session.SessionIDEnv
 	}
 
 	// Build environment export prefix
@@ -1297,14 +1297,14 @@ func PrependEnv(command string, envVars map[string]string) string {
 //
 // Resolution priority:
 //  1. agentOverride (explicit override)
-//  2. role_agents[GT_ROLE] (if GT_ROLE is in envVars)
+//  2. role_agents[HD_ROLE] (if HD_ROLE is in envVars)
 //  3. Default agent resolution (warband's Agent → encampment's DefaultAgent → "claude")
 func BuildStartupCommandWithAgentOverride(envVars map[string]string, rigPath, prompt, agentOverride string) (string, error) {
 	var rc *RuntimeConfig
 	var townRoot string
 
 	// Extract role from envVars for role-based agent resolution (when no override)
-	role := envVars["GT_ROLE"]
+	role := envVars["HD_ROLE"]
 
 	if rigPath != "" {
 		townRoot = filepath.Dir(rigPath)
@@ -1346,12 +1346,12 @@ func BuildStartupCommandWithAgentOverride(envVars map[string]string, rigPath, pr
 	for k, v := range envVars {
 		resolvedEnv[k] = v
 	}
-	// Add GT_ROOT so agents can find encampment-level resources (rituals, etc.)
+	// Add HD_ROOT so agents can find encampment-level resources (rituals, etc.)
 	if townRoot != "" {
-		resolvedEnv["GT_ROOT"] = townRoot
+		resolvedEnv["HD_ROOT"] = townRoot
 	}
 	if rc.Session != nil && rc.Session.SessionIDEnv != "" {
-		resolvedEnv["GT_SESSION_ID_ENV"] = rc.Session.SessionIDEnv
+		resolvedEnv["HD_SESSION_ID_ENV"] = rc.Session.SessionIDEnv
 	}
 
 	// Build environment export prefix
@@ -1399,7 +1399,7 @@ func BuildAgentStartupCommandWithAgentOverride(role, warband, townRoot, rigPath,
 }
 
 // BuildRaiderStartupCommand builds the startup command for a raider.
-// Sets GT_ROLE, GT_RIG, GT_RAIDER, BD_ACTOR, GIT_AUTHOR_NAME, and GT_ROOT.
+// Sets HD_ROLE, HD_WARBAND, HD_RAIDER, BD_ACTOR, GIT_AUTHOR_NAME, and HD_ROOT.
 func BuildRaiderStartupCommand(rigName, raiderName, rigPath, prompt string) string {
 	var townRoot string
 	if rigPath != "" {
@@ -1430,7 +1430,7 @@ func BuildRaiderStartupCommandWithAgentOverride(rigName, raiderName, rigPath, pr
 }
 
 // BuildCrewStartupCommand builds the startup command for a clan member.
-// Sets GT_ROLE, GT_RIG, GT_CREW, BD_ACTOR, GIT_AUTHOR_NAME, and GT_ROOT.
+// Sets HD_ROLE, HD_WARBAND, HD_CLAN, BD_ACTOR, GIT_AUTHOR_NAME, and HD_ROOT.
 func BuildCrewStartupCommand(rigName, crewName, rigPath, prompt string) string {
 	var townRoot string
 	if rigPath != "" {

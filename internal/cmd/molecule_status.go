@@ -300,7 +300,7 @@ func runMoleculeStatus(cmd *cobra.Command, args []string) error {
 	} else {
 		// Use cwd-based detection for status display
 		// This ensures we show the hook for the agent whose directory we're in,
-		// not the agent from the GT_ROLE env var (which might be different if
+		// not the agent from the HD_ROLE env var (which might be different if
 		// we cd'd into another warband's clan/raider directory)
 		roleCtx = detectRole(cwd, townRoot)
 		target = buildAgentIdentity(roleCtx)
@@ -701,7 +701,7 @@ func runMoleculeCurrent(cmd *cobra.Command, args []string) error {
 	} else {
 		// Use cwd-based detection for status display
 		// This ensures we show the hook for the agent whose directory we're in,
-		// not the agent from the GT_ROLE env var (which might be different if
+		// not the agent from the HD_ROLE env var (which might be different if
 		// we cd'd into another warband's clan/raider directory)
 		roleCtx = detectRole(cwd, townRoot)
 		target = buildAgentIdentity(roleCtx)

@@ -109,8 +109,8 @@ func CheckStaleBinary(repoDir string) *StaleBinaryInfo {
 // GetRepoRoot returns the git repository root for the hd source code.
 // It looks for the horde repo by checking known paths.
 func GetRepoRoot() (string, error) {
-	// First, check if GT_ROOT environment variable is set
-	if gtRoot := os.Getenv("GT_ROOT"); gtRoot != "" {
+	// First, check if HD_ROOT environment variable is set
+	if gtRoot := os.Getenv("HD_ROOT"); gtRoot != "" {
 		if isGitRepo(gtRoot) && hasHordeMarker(gtRoot) {
 			return gtRoot, nil
 		}

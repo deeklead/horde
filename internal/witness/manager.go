@@ -162,7 +162,7 @@ func (m *Manager) Start(foreground bool, agentOverride string, envOverrides []st
 
 	// Build startup command first
 	// NOTE: No hd rally injection needed - SessionStart hook handles it automatically
-	// Export GT_ROLE and BD_ACTOR in the command since tmux SetEnvironment only affects new panes
+	// Export HD_ROLE and BD_ACTOR in the command since tmux SetEnvironment only affects new panes
 	// Pass m.warband.Path so warband agent settings are honored (not encampment-level defaults)
 	command, err := buildWitnessStartCommand(m.warband.Path, m.warband.Name, townRoot, agentOverride, roleConfig)
 	if err != nil {

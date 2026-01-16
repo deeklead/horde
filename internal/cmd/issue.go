@@ -54,7 +54,7 @@ func runIssueSet(cmd *cobra.Command, args []string) error {
 	}
 
 	t := tmux.NewTmux()
-	if err := t.SetEnvironment(session, "GT_ISSUE", issueID); err != nil {
+	if err := t.SetEnvironment(session, "HD_ISSUE", issueID); err != nil {
 		return fmt.Errorf("setting issue: %w", err)
 	}
 
@@ -73,7 +73,7 @@ func runIssueClear(cmd *cobra.Command, args []string) error {
 
 	t := tmux.NewTmux()
 	// Set to empty string to clear
-	if err := t.SetEnvironment(session, "GT_ISSUE", ""); err != nil {
+	if err := t.SetEnvironment(session, "HD_ISSUE", ""); err != nil {
 		return fmt.Errorf("clearing issue: %w", err)
 	}
 
@@ -91,7 +91,7 @@ func runIssueShow(cmd *cobra.Command, args []string) error {
 	}
 
 	t := tmux.NewTmux()
-	issue, err := t.GetEnvironment(session, "GT_ISSUE")
+	issue, err := t.GetEnvironment(session, "HD_ISSUE")
 	if err != nil {
 		return fmt.Errorf("getting issue: %w", err)
 	}
@@ -107,9 +107,9 @@ func runIssueShow(cmd *cobra.Command, args []string) error {
 // detectCurrentSession tries to find the tmux session name from env.
 func detectCurrentSession() string {
 	// Try to build session name from GT env vars
-	warband := os.Getenv("GT_RIG")
-	raider := os.Getenv("GT_RAIDER")
-	clan := os.Getenv("GT_CREW")
+	warband := os.Getenv("HD_WARBAND")
+	raider := os.Getenv("HD_RAIDER")
+	clan := os.Getenv("HD_CLAN")
 
 	if warband != "" {
 		if raider != "" {
@@ -121,7 +121,7 @@ func detectCurrentSession() string {
 	}
 
 	// Check if we're warchief
-	if os.Getenv("GT_ROLE") == "warchief" {
+	if os.Getenv("HD_ROLE") == "warchief" {
 		return getWarchiefSessionName()
 	}
 

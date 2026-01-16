@@ -98,7 +98,7 @@ func runDone(cmd *cobra.Command, args []string) error {
 
 	// Find workspace with fallback for deleted worktrees (hq-3xaxy)
 	// If the raider's worktree was deleted by Witness before hd done finishes,
-	// getcwd will fail. We fall back to GT_TOWN_ROOT env var in that case.
+	// getcwd will fail. We fall back to HD_ENCAMPMENT_ROOT env var in that case.
 	townRoot, cwd, err := workspace.FindFromCwdWithFallback()
 	if err != nil {
 		return fmt.Errorf("not in a Horde workspace: %w", err)
@@ -108,8 +108,8 @@ func runDone(cmd *cobra.Command, args []string) error {
 	cwdAvailable := cwd != ""
 	if !cwdAvailable {
 		style.PrintWarning("working directory deleted (worktree nuked?), using fallback paths")
-		// Try to get cwd from GT_RAIDER_PATH env var (set by session manager)
-		if raiderPath := os.Getenv("GT_RAIDER_PATH"); raiderPath != "" {
+		// Try to get cwd from HD_RAIDER_PATH env var (set by session manager)
+		if raiderPath := os.Getenv("HD_RAIDER_PATH"); raiderPath != "" {
 			cwd = raiderPath // May still be gone, but we have a path to use
 		}
 	}
@@ -133,15 +133,15 @@ func runDone(cmd *cobra.Command, args []string) error {
 	// Get current branch - try env var first if cwd is gone
 	var branch string
 	if !cwdAvailable {
-		// Try to get branch from GT_BRANCH env var (set by session manager)
-		branch = os.Getenv("GT_BRANCH")
+		// Try to get branch from HD_BRANCH env var (set by session manager)
+		branch = os.Getenv("HD_BRANCH")
 	}
 	if branch == "" {
 		var err error
 		branch, err = g.CurrentBranch()
 		if err != nil {
 			// Last resort: try to extract from raider name (raider/<name>-<suffix>)
-			if raiderName := os.Getenv("GT_RAIDER"); raiderName != "" {
+			if raiderName := os.Getenv("HD_RAIDER"); raiderName != "" {
 				branch = fmt.Sprintf("raider/%s", raiderName)
 				style.PrintWarning("could not get branch from git, using fallback: %s", branch)
 			} else {
@@ -503,9 +503,9 @@ func updateAgentStateOnDone(cwd, townRoot, exitType, _ string) { // issueID unus
 	if err != nil {
 		// Fallback: try to construct role info from environment variables
 		// This handles the case where cwd is deleted but env vars are set
-		envRole := os.Getenv("GT_ROLE")
-		envRig := os.Getenv("GT_RIG")
-		envRaider := os.Getenv("GT_RAIDER")
+		envRole := os.Getenv("HD_ROLE")
+		envRig := os.Getenv("HD_WARBAND")
+		envRaider := os.Getenv("HD_RAIDER")
 
 		if envRole == "" || envRig == "" {
 			// Can't determine role, skip agent state update
@@ -685,13 +685,13 @@ func selfNukeRaider(roleInfo RoleInfo, _ string) error {
 // This completes the self-cleaning model: "done means gone" - both worktree and session.
 //
 // The raider determines its session from environment variables:
-// - GT_RIG: the warband name
-// - GT_RAIDER: the raider name
+// - HD_WARBAND: the warband name
+// - HD_RAIDER: the raider name
 // Session name format: gt-<warband>-<raider>
 func selfKillSession(townRoot string, roleInfo RoleInfo) error {
 	// Get session info from environment (set at session startup)
-	rigName := os.Getenv("GT_RIG")
-	raiderName := os.Getenv("GT_RAIDER")
+	rigName := os.Getenv("HD_WARBAND")
+	raiderName := os.Getenv("HD_RAIDER")
 
 	// Fall back to roleInfo if env vars not set (shouldn't happen but be safe)
 	if rigName == "" {

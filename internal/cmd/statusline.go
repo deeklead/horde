@@ -39,18 +39,18 @@ func runStatusLine(cmd *cobra.Command, args []string) error {
 
 	if statusLineSession != "" {
 		// Non-fatal: missing env vars are handled gracefully below
-		rigName, _ = t.GetEnvironment(statusLineSession, "GT_RIG")
-		raider, _ = t.GetEnvironment(statusLineSession, "GT_RAIDER")
-		clan, _ = t.GetEnvironment(statusLineSession, "GT_CREW")
-		issue, _ = t.GetEnvironment(statusLineSession, "GT_ISSUE")
-		role, _ = t.GetEnvironment(statusLineSession, "GT_ROLE")
+		rigName, _ = t.GetEnvironment(statusLineSession, "HD_WARBAND")
+		raider, _ = t.GetEnvironment(statusLineSession, "HD_RAIDER")
+		clan, _ = t.GetEnvironment(statusLineSession, "HD_CLAN")
+		issue, _ = t.GetEnvironment(statusLineSession, "HD_ISSUE")
+		role, _ = t.GetEnvironment(statusLineSession, "HD_ROLE")
 	} else {
 		// Fallback to process environment
-		rigName = os.Getenv("GT_RIG")
-		raider = os.Getenv("GT_RAIDER")
-		clan = os.Getenv("GT_CREW")
-		issue = os.Getenv("GT_ISSUE")
-		role = os.Getenv("GT_ROLE")
+		rigName = os.Getenv("HD_WARBAND")
+		raider = os.Getenv("HD_RAIDER")
+		clan = os.Getenv("HD_CLAN")
+		issue = os.Getenv("HD_ISSUE")
+		role = os.Getenv("HD_ROLE")
 	}
 
 	// Get session names for comparison
@@ -112,7 +112,7 @@ func runWorkerStatusLine(t *tmux.Tmux, session, rigName, raider, clan, issue str
 		hookedWork = getHookedWork(identity, 40, rigRelicsDir)
 	}
 
-	// Priority 2: Fall back to GT_ISSUE env var or in_progress relics
+	// Priority 2: Fall back to HD_ISSUE env var or in_progress relics
 	currentWork := issue
 	if currentWork == "" && hookedWork == "" && session != "" {
 		currentWork = getCurrentWork(t, session, 40)

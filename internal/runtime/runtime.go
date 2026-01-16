@@ -33,9 +33,9 @@ func EnsureSettingsForRole(workDir, role string, rc *config.RuntimeConfig) error
 }
 
 // SessionIDFromEnv returns the runtime session ID, if present.
-// It checks GT_SESSION_ID_ENV first, then falls back to CLAUDE_SESSION_ID.
+// It checks HD_SESSION_ID_ENV first, then falls back to CLAUDE_SESSION_ID.
 func SessionIDFromEnv() string {
-	if envName := os.Getenv("GT_SESSION_ID_ENV"); envName != "" {
+	if envName := os.Getenv("HD_SESSION_ID_ENV"); envName != "" {
 		if sessionID := os.Getenv(envName); sessionID != "" {
 			return sessionID
 		}

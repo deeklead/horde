@@ -22,14 +22,14 @@ type AgentEnvConfig struct {
 	AgentName string
 
 	// TownRoot is the root of the Horde workspace.
-	// Sets GT_ROOT environment variable.
+	// Sets HD_ROOT environment variable.
 	TownRoot string
 
 	// RuntimeConfigDir is the optional CLAUDE_CONFIG_DIR path
 	RuntimeConfigDir string
 
 	// SessionIDEnv is the environment variable name that holds the session ID.
-	// Sets GT_SESSION_ID_ENV so the runtime knows where to find the session ID.
+	// Sets HD_SESSION_ID_ENV so the runtime knows where to find the session ID.
 	SessionIDEnv string
 
 	// RelicsNoDaemon sets RELICS_NO_DAEMON=1 if true
@@ -42,7 +42,7 @@ type AgentEnvConfig struct {
 func AgentEnv(cfg AgentEnvConfig) map[string]string {
 	env := make(map[string]string)
 
-	env["GT_ROLE"] = cfg.Role
+	env["HD_ROLE"] = cfg.Role
 
 	// Set role-specific variables
 	switch cfg.Role {
@@ -59,32 +59,32 @@ func AgentEnv(cfg AgentEnvConfig) map[string]string {
 		env["GIT_AUTHOR_NAME"] = "boot"
 
 	case "witness":
-		env["GT_RIG"] = cfg.Warband
+		env["HD_WARBAND"] = cfg.Warband
 		env["BD_ACTOR"] = fmt.Sprintf("%s/witness", cfg.Warband)
 		env["GIT_AUTHOR_NAME"] = fmt.Sprintf("%s/witness", cfg.Warband)
 
 	case "forge":
-		env["GT_RIG"] = cfg.Warband
+		env["HD_WARBAND"] = cfg.Warband
 		env["BD_ACTOR"] = fmt.Sprintf("%s/forge", cfg.Warband)
 		env["GIT_AUTHOR_NAME"] = fmt.Sprintf("%s/forge", cfg.Warband)
 
 	case "raider":
-		env["GT_RIG"] = cfg.Warband
-		env["GT_RAIDER"] = cfg.AgentName
+		env["HD_WARBAND"] = cfg.Warband
+		env["HD_RAIDER"] = cfg.AgentName
 		env["BD_ACTOR"] = fmt.Sprintf("%s/raiders/%s", cfg.Warband, cfg.AgentName)
 		env["GIT_AUTHOR_NAME"] = cfg.AgentName
 
 	case "clan":
-		env["GT_RIG"] = cfg.Warband
-		env["GT_CREW"] = cfg.AgentName
+		env["HD_WARBAND"] = cfg.Warband
+		env["HD_CLAN"] = cfg.AgentName
 		env["BD_ACTOR"] = fmt.Sprintf("%s/clan/%s", cfg.Warband, cfg.AgentName)
 		env["GIT_AUTHOR_NAME"] = cfg.AgentName
 	}
 
-	// Only set GT_ROOT if provided
+	// Only set HD_ROOT if provided
 	// Empty values would override tmux session environment
 	if cfg.TownRoot != "" {
-		env["GT_ROOT"] = cfg.TownRoot
+		env["HD_ROOT"] = cfg.TownRoot
 	}
 
 	// Set RELICS_AGENT_NAME for raider/clan (uses same format as BD_ACTOR)
@@ -103,7 +103,7 @@ func AgentEnv(cfg AgentEnvConfig) map[string]string {
 
 	// Add session ID env var name if provided
 	if cfg.SessionIDEnv != "" {
-		env["GT_SESSION_ID_ENV"] = cfg.SessionIDEnv
+		env["HD_SESSION_ID_ENV"] = cfg.SessionIDEnv
 	}
 
 	return env
@@ -120,7 +120,7 @@ func AgentEnvSimple(role, warband, agentName string) map[string]string {
 }
 
 // ExportPrefix builds an export statement prefix for shell commands.
-// Returns a string like "export GT_ROLE=warchief BD_ACTOR=warchief && "
+// Returns a string like "export HD_ROLE=warchief BD_ACTOR=warchief && "
 // The keys are sorted for deterministic output.
 func ExportPrefix(env map[string]string) string {
 	if len(env) == 0 {

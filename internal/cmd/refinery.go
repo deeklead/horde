@@ -127,12 +127,12 @@ When running multiple forge workers in parallel, each worker must claim
 an MR before processing to prevent double-processing. Claims expire after
 10 minutes if not processed (for crash recovery).
 
-The worker ID is automatically determined from the GT_FORGE_WORKER
+The worker ID is automatically determined from the HD_FORGE_WORKER
 environment variable, or defaults to "forge-1".
 
 Examples:
   hd forge claim gt-abc123
-  GT_FORGE_WORKER=forge-2 hd forge claim gt-abc123`,
+  HD_FORGE_WORKER=forge-2 hd forge claim gt-abc123`,
 	Args: cobra.ExactArgs(1),
 	RunE: runForgeClaim,
 }
@@ -538,7 +538,7 @@ func runForgeRestart(cmd *cobra.Command, args []string) error {
 
 // getWorkerID returns the forge worker ID from environment or default.
 func getWorkerID() string {
-	if id := os.Getenv("GT_FORGE_WORKER"); id != "" {
+	if id := os.Getenv("HD_FORGE_WORKER"); id != "" {
 		return id
 	}
 	return "forge-1"

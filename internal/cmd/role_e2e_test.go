@@ -10,12 +10,12 @@ import (
 	"testing"
 )
 
-// cleanGTEnv returns os.Environ() with all GT_* variables removed.
+// cleanHDEnv returns os.Environ() with all HD_* variables removed.
 // This ensures tests don't inherit stale role environment from CI or previous tests.
-func cleanGTEnv() []string {
+func cleanHDEnv() []string {
 	var clean []string
 	for _, env := range os.Environ() {
-		if !strings.HasPrefix(env, "GT_") {
+		if !strings.HasPrefix(env, "HD_") {
 			clean = append(clean, env)
 		}
 	}
@@ -30,7 +30,7 @@ func TestRoleHomeE2E(t *testing.T) {
 	gtBinary := buildGT(t)
 
 	cmd := exec.Command(gtBinary, "install", hqPath, "--no-relics")
-	cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+	cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 	if output, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("hd install failed: %v\nOutput: %s", err, output)
 	}
@@ -78,7 +78,7 @@ func TestRoleHomeE2E(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			cmd := exec.Command(gtBinary, tt.args...)
 			cmd.Dir = hqPath
-			cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+			cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 
 			// Use Output() to only capture stdout (warnings go to stderr)
 			output, err := cmd.Output()
@@ -101,7 +101,7 @@ func TestRoleHomeMissingFlags(t *testing.T) {
 	gtBinary := buildGT(t)
 
 	cmd := exec.Command(gtBinary, "install", hqPath, "--no-relics")
-	cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+	cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 	if output, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("hd install failed: %v\nOutput: %s", err, output)
 	}
@@ -140,8 +140,8 @@ func TestRoleHomeMissingFlags(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			cmd := exec.Command(gtBinary, tt.args...)
 			cmd.Dir = hqPath
-			// Use cleanGTEnv to ensure no stale GT_* vars affect the test
-			cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+			// Use cleanHDEnv to ensure no stale HD_* vars affect the test
+			cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 
 			output, err := cmd.CombinedOutput()
 			if err == nil {
@@ -159,7 +159,7 @@ func TestRoleHomeCwdDetection(t *testing.T) {
 	gtBinary := buildGT(t)
 
 	cmd := exec.Command(gtBinary, "install", hqPath, "--no-relics")
-	cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+	cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 	if output, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("hd install failed: %v\nOutput: %s", err, output)
 	}
@@ -220,7 +220,7 @@ func TestRoleHomeCwdDetection(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			cmd := exec.Command(gtBinary, "role", "home")
 			cmd.Dir = tt.cwd
-			cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+			cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 
 			output, err := cmd.CombinedOutput()
 			if err != nil {
@@ -242,7 +242,7 @@ func TestRoleEnvCwdDetection(t *testing.T) {
 	gtBinary := buildGT(t)
 
 	cmd := exec.Command(gtBinary, "install", hqPath, "--no-relics")
-	cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+	cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 	if output, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("hd install failed: %v\nOutput: %s", err, output)
 	}
@@ -271,58 +271,58 @@ func TestRoleEnvCwdDetection(t *testing.T) {
 			name: "warchief from warchief dir",
 			cwd:  filepath.Join(hqPath, "warchief"),
 			want: []string{
-				"export GT_ROLE=warchief",
-				"export GT_ROLE_HOME=" + filepath.Join(hqPath, "warchief"),
+				"export HD_ROLE=warchief",
+				"export HD_ROLE_HOME=" + filepath.Join(hqPath, "warchief"),
 			},
 		},
 		{
 			name: "shaman from shaman dir",
 			cwd:  filepath.Join(hqPath, "shaman"),
 			want: []string{
-				"export GT_ROLE=shaman",
-				"export GT_ROLE_HOME=" + filepath.Join(hqPath, "shaman"),
+				"export HD_ROLE=shaman",
+				"export HD_ROLE_HOME=" + filepath.Join(hqPath, "shaman"),
 			},
 		},
 		{
 			name: "witness from witness dir",
 			cwd:  filepath.Join(hqPath, rigName, "witness"),
 			want: []string{
-				"export GT_ROLE=witness",
-				"export GT_RIG=" + rigName,
+				"export HD_ROLE=witness",
+				"export HD_WARBAND=" + rigName,
 				"export BD_ACTOR=" + rigName + "/witness",
-				"export GT_ROLE_HOME=" + filepath.Join(hqPath, rigName, "witness"),
+				"export HD_ROLE_HOME=" + filepath.Join(hqPath, rigName, "witness"),
 			},
 		},
 		{
 			name: "forge from forge/warband dir",
 			cwd:  filepath.Join(hqPath, rigName, "forge", "warband"),
 			want: []string{
-				"export GT_ROLE=forge",
-				"export GT_RIG=" + rigName,
+				"export HD_ROLE=forge",
+				"export HD_WARBAND=" + rigName,
 				"export BD_ACTOR=" + rigName + "/forge",
-				"export GT_ROLE_HOME=" + filepath.Join(hqPath, rigName, "forge", "warband"),
+				"export HD_ROLE_HOME=" + filepath.Join(hqPath, rigName, "forge", "warband"),
 			},
 		},
 		{
 			name: "raider from raiders/Toast/warband dir",
 			cwd:  filepath.Join(hqPath, rigName, "raiders", "Toast", "warband"),
 			want: []string{
-				"export GT_ROLE=raider",
-				"export GT_RIG=" + rigName,
-				"export GT_RAIDER=Toast",
+				"export HD_ROLE=raider",
+				"export HD_WARBAND=" + rigName,
+				"export HD_RAIDER=Toast",
 				"export BD_ACTOR=" + rigName + "/raiders/Toast",
-				"export GT_ROLE_HOME=" + filepath.Join(hqPath, rigName, "raiders", "Toast", "warband"),
+				"export HD_ROLE_HOME=" + filepath.Join(hqPath, rigName, "raiders", "Toast", "warband"),
 			},
 		},
 		{
 			name: "clan from clan/worker1/warband dir",
 			cwd:  filepath.Join(hqPath, rigName, "clan", "worker1", "warband"),
 			want: []string{
-				"export GT_ROLE=clan",
-				"export GT_RIG=" + rigName,
-				"export GT_CREW=worker1",
+				"export HD_ROLE=clan",
+				"export HD_WARBAND=" + rigName,
+				"export HD_CLAN=worker1",
 				"export BD_ACTOR=" + rigName + "/clan/worker1",
-				"export GT_ROLE_HOME=" + filepath.Join(hqPath, rigName, "clan", "worker1", "warband"),
+				"export HD_ROLE_HOME=" + filepath.Join(hqPath, rigName, "clan", "worker1", "warband"),
 			},
 		},
 	}
@@ -331,7 +331,7 @@ func TestRoleEnvCwdDetection(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			cmd := exec.Command(gtBinary, "role", "env")
 			cmd.Dir = tt.cwd
-			cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+			cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 
 			output, err := cmd.CombinedOutput()
 			if err != nil {
@@ -355,14 +355,14 @@ func TestRoleListE2E(t *testing.T) {
 	gtBinary := buildGT(t)
 
 	cmd := exec.Command(gtBinary, "install", hqPath, "--no-relics")
-	cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+	cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 	if output, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("hd install failed: %v\nOutput: %s", err, output)
 	}
 
 	cmd = exec.Command(gtBinary, "role", "list")
 	cmd.Dir = hqPath
-	cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+	cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
@@ -392,7 +392,7 @@ func TestRoleShowE2E(t *testing.T) {
 	gtBinary := buildGT(t)
 
 	cmd := exec.Command(gtBinary, "install", hqPath, "--no-relics")
-	cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+	cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 	if output, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("hd install failed: %v\nOutput: %s", err, output)
 	}
@@ -458,7 +458,7 @@ func TestRoleShowE2E(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			cmd := exec.Command(gtBinary, "role", "show")
 			cmd.Dir = tt.cwd
-			cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+			cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 
 			output, err := cmd.CombinedOutput()
 			if err != nil {
@@ -501,15 +501,15 @@ func TestRoleShowMismatch(t *testing.T) {
 	gtBinary := buildGT(t)
 
 	cmd := exec.Command(gtBinary, "install", hqPath, "--no-relics")
-	cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+	cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 	if output, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("hd install failed: %v\nOutput: %s", err, output)
 	}
 
-	// Run from warchief dir but set GT_ROLE to shaman
+	// Run from warchief dir but set HD_ROLE to shaman
 	cmd = exec.Command(gtBinary, "role", "show")
 	cmd.Dir = filepath.Join(hqPath, "warchief")
-	cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir, "GT_ROLE=shaman")
+	cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir, "HD_ROLE=shaman")
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
@@ -518,9 +518,9 @@ func TestRoleShowMismatch(t *testing.T) {
 
 	got := string(output)
 
-	// GT_ROLE takes precedence, so role should be shaman
+	// HD_ROLE takes precedence, so role should be shaman
 	if !strings.Contains(got, "shaman") {
-		t.Errorf("should show 'shaman' from GT_ROLE, got: %s", got)
+		t.Errorf("should show 'shaman' from HD_ROLE, got: %s", got)
 	}
 
 	// Source should be env
@@ -534,8 +534,8 @@ func TestRoleShowMismatch(t *testing.T) {
 	}
 
 	// Should show both the env value and cwd suggestion
-	if !strings.Contains(got, "GT_ROLE=shaman") {
-		t.Errorf("should show GT_ROLE value\ngot: %s", got)
+	if !strings.Contains(got, "HD_ROLE=shaman") {
+		t.Errorf("should show HD_ROLE value\ngot: %s", got)
 	}
 
 	if !strings.Contains(got, "cwd suggests: warchief") {
@@ -543,14 +543,14 @@ func TestRoleShowMismatch(t *testing.T) {
 	}
 }
 
-// TestRoleDetectE2E validates hd role detect uses cwd and ignores GT_ROLE.
+// TestRoleDetectE2E validates hd role detect uses cwd and ignores HD_ROLE.
 func TestRoleDetectE2E(t *testing.T) {
 	tmpDir := t.TempDir()
 	hqPath := filepath.Join(tmpDir, "test-hq")
 	gtBinary := buildGT(t)
 
 	cmd := exec.Command(gtBinary, "install", hqPath, "--no-relics")
-	cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+	cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 	if output, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("hd install failed: %v\nOutput: %s", err, output)
 	}
@@ -619,7 +619,7 @@ func TestRoleDetectE2E(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			cmd := exec.Command(gtBinary, "role", "detect")
 			cmd.Dir = tt.cwd
-			cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+			cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 
 			output, err := cmd.CombinedOutput()
 			if err != nil {
@@ -655,22 +655,22 @@ func TestRoleDetectE2E(t *testing.T) {
 	}
 }
 
-// TestRoleDetectIgnoresGTRole validates hd role detect ignores GT_ROLE env var.
+// TestRoleDetectIgnoresGTRole validates hd role detect ignores HD_ROLE env var.
 func TestRoleDetectIgnoresGTRole(t *testing.T) {
 	tmpDir := t.TempDir()
 	hqPath := filepath.Join(tmpDir, "test-hq")
 	gtBinary := buildGT(t)
 
 	cmd := exec.Command(gtBinary, "install", hqPath, "--no-relics")
-	cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+	cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 	if output, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("hd install failed: %v\nOutput: %s", err, output)
 	}
 
-	// Run from warchief dir but set GT_ROLE to shaman
+	// Run from warchief dir but set HD_ROLE to shaman
 	cmd = exec.Command(gtBinary, "role", "detect")
 	cmd.Dir = filepath.Join(hqPath, "warchief")
-	cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir, "GT_ROLE=shaman")
+	cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir, "HD_ROLE=shaman")
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
@@ -686,11 +686,11 @@ func TestRoleDetectIgnoresGTRole(t *testing.T) {
 
 	// Should show mismatch warning
 	if !strings.Contains(got, "Mismatch") {
-		t.Errorf("should show mismatch warning when GT_ROLE disagrees\ngot: %s", got)
+		t.Errorf("should show mismatch warning when HD_ROLE disagrees\ngot: %s", got)
 	}
 
-	if !strings.Contains(got, "GT_ROLE=shaman") {
-		t.Errorf("should show conflicting GT_ROLE value\ngot: %s", got)
+	if !strings.Contains(got, "HD_ROLE=shaman") {
+		t.Errorf("should show conflicting HD_ROLE value\ngot: %s", got)
 	}
 }
 
@@ -701,7 +701,7 @@ func TestRoleDetectInvalidPaths(t *testing.T) {
 	gtBinary := buildGT(t)
 
 	cmd := exec.Command(gtBinary, "install", hqPath, "--no-relics")
-	cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+	cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 	if output, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("hd install failed: %v\nOutput: %s", err, output)
 	}
@@ -758,7 +758,7 @@ func TestRoleDetectInvalidPaths(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			cmd := exec.Command(gtBinary, "role", "detect")
 			cmd.Dir = tt.cwd
-			cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+			cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 
 			output, err := cmd.CombinedOutput()
 			if err != nil {
@@ -780,7 +780,7 @@ func TestRoleEnvIncompleteEnvVars(t *testing.T) {
 	gtBinary := buildGT(t)
 
 	cmd := exec.Command(gtBinary, "install", hqPath, "--no-relics")
-	cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+	cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 	if output, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("hd install failed: %v\nOutput: %s", err, output)
 	}
@@ -808,59 +808,59 @@ func TestRoleEnvIncompleteEnvVars(t *testing.T) {
 		wantStderr string   // Expected warning in stderr
 	}{
 		{
-			name: "GT_ROLE=witness without GT_RIG, filled from cwd",
+			name: "HD_ROLE=witness without HD_WARBAND, filled from cwd",
 			cwd:  filepath.Join(hqPath, rigName, "witness"),
-			envVars: []string{"GT_ROLE=witness"},
+			envVars: []string{"HD_ROLE=witness"},
 			wantExport: []string{
-				"export GT_ROLE=witness",
-				"export GT_RIG=" + rigName,
+				"export HD_ROLE=witness",
+				"export HD_WARBAND=" + rigName,
 				"export BD_ACTOR=" + rigName + "/witness",
 			},
 			wantStderr: "env vars incomplete",
 		},
 		{
-			name: "GT_ROLE=forge without GT_RIG, filled from cwd",
+			name: "HD_ROLE=forge without HD_WARBAND, filled from cwd",
 			cwd:  filepath.Join(hqPath, rigName, "forge", "warband"),
-			envVars: []string{"GT_ROLE=forge"},
+			envVars: []string{"HD_ROLE=forge"},
 			wantExport: []string{
-				"export GT_ROLE=forge",
-				"export GT_RIG=" + rigName,
+				"export HD_ROLE=forge",
+				"export HD_WARBAND=" + rigName,
 				"export BD_ACTOR=" + rigName + "/forge",
 			},
 			wantStderr: "env vars incomplete",
 		},
 		{
-			name: "GT_ROLE=raider without GT_RIG or GT_RAIDER, filled from cwd",
+			name: "HD_ROLE=raider without HD_WARBAND or HD_RAIDER, filled from cwd",
 			cwd:  filepath.Join(hqPath, rigName, "raiders", "Toast", "warband"),
-			envVars: []string{"GT_ROLE=raider"},
+			envVars: []string{"HD_ROLE=raider"},
 			wantExport: []string{
-				"export GT_ROLE=raider",
-				"export GT_RIG=" + rigName,
-				"export GT_RAIDER=Toast",
+				"export HD_ROLE=raider",
+				"export HD_WARBAND=" + rigName,
+				"export HD_RAIDER=Toast",
 				"export BD_ACTOR=" + rigName + "/raiders/Toast",
 			},
 			wantStderr: "env vars incomplete",
 		},
 		{
-			name: "GT_ROLE=raider with GT_RIG but no GT_RAIDER, filled from cwd",
+			name: "HD_ROLE=raider with HD_WARBAND but no HD_RAIDER, filled from cwd",
 			cwd:  filepath.Join(hqPath, rigName, "raiders", "Toast", "warband"),
-			envVars: []string{"GT_ROLE=raider", "GT_RIG=" + rigName},
+			envVars: []string{"HD_ROLE=raider", "HD_WARBAND=" + rigName},
 			wantExport: []string{
-				"export GT_ROLE=raider",
-				"export GT_RIG=" + rigName,
-				"export GT_RAIDER=Toast",
+				"export HD_ROLE=raider",
+				"export HD_WARBAND=" + rigName,
+				"export HD_RAIDER=Toast",
 				"export BD_ACTOR=" + rigName + "/raiders/Toast",
 			},
 			wantStderr: "env vars incomplete",
 		},
 		{
-			name: "GT_ROLE=clan without GT_RIG or GT_CREW, filled from cwd",
+			name: "HD_ROLE=clan without HD_WARBAND or HD_CLAN, filled from cwd",
 			cwd:  filepath.Join(hqPath, rigName, "clan", "worker1", "warband"),
-			envVars: []string{"GT_ROLE=clan"},
+			envVars: []string{"HD_ROLE=clan"},
 			wantExport: []string{
-				"export GT_ROLE=clan",
-				"export GT_RIG=" + rigName,
-				"export GT_CREW=worker1",
+				"export HD_ROLE=clan",
+				"export HD_WARBAND=" + rigName,
+				"export HD_CLAN=worker1",
 				"export BD_ACTOR=" + rigName + "/clan/worker1",
 			},
 			wantStderr: "env vars incomplete",
@@ -868,10 +868,10 @@ func TestRoleEnvIncompleteEnvVars(t *testing.T) {
 		{
 			name: "Complete env vars - no warning",
 			cwd:  filepath.Join(hqPath, rigName, "witness"),
-			envVars: []string{"GT_ROLE=witness", "GT_RIG=" + rigName},
+			envVars: []string{"HD_ROLE=witness", "HD_WARBAND=" + rigName},
 			wantExport: []string{
-				"export GT_ROLE=witness",
-				"export GT_RIG=" + rigName,
+				"export HD_ROLE=witness",
+				"export HD_WARBAND=" + rigName,
 				"export BD_ACTOR=" + rigName + "/witness",
 			},
 			wantStderr: "", // No warning expected
@@ -882,7 +882,7 @@ func TestRoleEnvIncompleteEnvVars(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			cmd := exec.Command(gtBinary, "role", "env")
 			cmd.Dir = tt.cwd
-			cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+			cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 			cmd.Env = append(cmd.Env, tt.envVars...)
 
 			// Use CombinedOutput to see stderr for debugging, but separate stdout/stderr
@@ -890,7 +890,7 @@ func TestRoleEnvIncompleteEnvVars(t *testing.T) {
 			// Re-run to get stderr
 			cmd2 := exec.Command(gtBinary, "role", "env")
 			cmd2.Dir = tt.cwd
-			cmd2.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+			cmd2.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 			cmd2.Env = append(cmd2.Env, tt.envVars...)
 			combined, _ := cmd2.CombinedOutput()
 			stderr := strings.TrimPrefix(string(combined), string(stdout))
@@ -924,7 +924,7 @@ func TestRoleEnvCwdMismatchFromIncompleteDir(t *testing.T) {
 	gtBinary := buildGT(t)
 
 	cmd := exec.Command(gtBinary, "install", hqPath, "--no-relics")
-	cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+	cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 	if output, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("hd install failed: %v\nOutput: %s", err, output)
 	}
@@ -952,19 +952,19 @@ func TestRoleEnvCwdMismatchFromIncompleteDir(t *testing.T) {
 		{
 			name: "forge without /warband shows cwd mismatch",
 			cwd:  filepath.Join(hqPath, rigName, "forge"),
-			envVars: []string{"GT_ROLE=forge", "GT_RIG=" + rigName},
+			envVars: []string{"HD_ROLE=forge", "HD_WARBAND=" + rigName},
 			wantStderr: "cwd",
 		},
 		{
 			name: "raider without /warband shows cwd mismatch",
 			cwd:  filepath.Join(hqPath, rigName, "raiders", "Toast"),
-			envVars: []string{"GT_ROLE=raider", "GT_RIG=" + rigName, "GT_RAIDER=Toast"},
+			envVars: []string{"HD_ROLE=raider", "HD_WARBAND=" + rigName, "HD_RAIDER=Toast"},
 			wantStderr: "cwd",
 		},
 		{
 			name: "clan without /warband shows cwd mismatch",
 			cwd:  filepath.Join(hqPath, rigName, "clan", "worker1"),
-			envVars: []string{"GT_ROLE=clan", "GT_RIG=" + rigName, "GT_CREW=worker1"},
+			envVars: []string{"HD_ROLE=clan", "HD_WARBAND=" + rigName, "HD_CLAN=worker1"},
 			wantStderr: "cwd",
 		},
 	}
@@ -973,7 +973,7 @@ func TestRoleEnvCwdMismatchFromIncompleteDir(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			cmd := exec.Command(gtBinary, "role", "env")
 			cmd.Dir = tt.cwd
-			cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+			cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 			cmd.Env = append(cmd.Env, tt.envVars...)
 
 			combined, err := cmd.CombinedOutput()
@@ -996,7 +996,7 @@ func TestRoleHomeInvalidPaths(t *testing.T) {
 	gtBinary := buildGT(t)
 
 	cmd := exec.Command(gtBinary, "install", hqPath, "--no-relics")
-	cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+	cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 	if output, err := cmd.CombinedOutput(); err != nil {
 		t.Fatalf("hd install failed: %v\nOutput: %s", err, output)
 	}
@@ -1041,7 +1041,7 @@ func TestRoleHomeInvalidPaths(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			cmd := exec.Command(gtBinary, "role", "home")
 			cmd.Dir = tt.cwd
-			cmd.Env = append(cleanGTEnv(), "HOME="+tmpDir)
+			cmd.Env = append(cleanHDEnv(), "HOME="+tmpDir)
 
 			_, err := cmd.CombinedOutput()
 			if tt.shouldErr && err == nil {

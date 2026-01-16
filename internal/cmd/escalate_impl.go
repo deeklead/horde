@@ -649,8 +649,8 @@ func detectSenderFallback() string {
 	if actor := os.Getenv("BD_ACTOR"); actor != "" {
 		return actor
 	}
-	// Try GT_ROLE
-	if role := os.Getenv("GT_ROLE"); role != "" {
+	// Try HD_ROLE
+	if role := os.Getenv("HD_ROLE"); role != "" {
 		return role
 	}
 	return ""

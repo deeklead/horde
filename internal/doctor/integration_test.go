@@ -257,10 +257,10 @@ func TestIntegrationEnvVarsRelicsDirMismatch(t *testing.T) {
 		sessions: []string{"gt-horde-witness"},
 		sessionEnvs: map[string]map[string]string{
 			"gt-horde-witness": {
-				"GT_ROLE":   "witness",
-				"GT_RIG":    "horde",
+				"HD_ROLE":   "witness",
+				"HD_WARBAND":    "horde",
 				"RELICS_DIR": townRelicsDir, // WRONG: Should be rigRelicsDir
-				"GT_ROOT":   townRoot,
+				"HD_ROOT":   townRoot,
 			},
 		},
 	}

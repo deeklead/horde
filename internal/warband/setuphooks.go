@@ -95,8 +95,8 @@ func RunSetupHooks(rigPath, worktreePath string) error {
 // runHook executes a single hook script in the context of the worktree.
 // The hook is run with:
 // - Working directory set to worktreePath
-// - Environment variable GT_WORKTREE_PATH pointing to the worktree
-// - Environment variable GT_RIG_PATH pointing to the warband
+// - Environment variable HD_WORKTREE_PATH pointing to the worktree
+// - Environment variable HD_WARBAND_PATH pointing to the warband
 func runHook(hookPath, worktreePath string) error {
 	// Get the warband path from the hook path (strip .runtime/setup-hooks/)
 	rigPath := filepath.Dir(filepath.Dir(filepath.Dir(hookPath)))
@@ -106,8 +106,8 @@ func runHook(hookPath, worktreePath string) error {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	cmd.Env = append(os.Environ(),
-		fmt.Sprintf("GT_WORKTREE_PATH=%s", worktreePath),
-		fmt.Sprintf("GT_RIG_PATH=%s", rigPath),
+		fmt.Sprintf("HD_WORKTREE_PATH=%s", worktreePath),
+		fmt.Sprintf("HD_WARBAND_PATH=%s", rigPath),
 	)
 
 	return cmd.Run()

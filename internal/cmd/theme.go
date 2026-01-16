@@ -204,8 +204,8 @@ func runThemeApply(cmd *cobra.Command, args []string) error {
 
 // detectCurrentRig determines the warband from environment or cwd.
 func detectCurrentRig() string {
-	// Try environment first (GT_RIG is set in tmux sessions)
-	if warband := os.Getenv("GT_RIG"); warband != "" {
+	// Try environment first (HD_WARBAND is set in tmux sessions)
+	if warband := os.Getenv("HD_WARBAND"); warband != "" {
 		return warband
 	}
 

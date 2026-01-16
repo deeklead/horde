@@ -61,7 +61,7 @@ Examples:
   hd install ~/horde --git                        # Also init git with .gitignore
   hd install ~/horde --github=user/repo           # Create private GitHub repo (default)
   hd install ~/horde --github=user/repo --public  # Create public GitHub repo
-  hd install ~/horde --shell                      # Install shell integration (sets GT_TOWN_ROOT/GT_RIG)`,
+  hd install ~/horde --shell                      # Install shell integration (sets HD_ENCAMPMENT_ROOT/HD_WARBAND)`,
 	Args: cobra.MaximumNArgs(1),
 	RunE: runInstall,
 }
@@ -75,7 +75,7 @@ func init() {
 	installCmd.Flags().BoolVar(&installGit, "git", false, "Initialize git with .gitignore")
 	installCmd.Flags().StringVar(&installGitHub, "github", "", "Create GitHub repo (format: owner/repo, private by default)")
 	installCmd.Flags().BoolVar(&installPublic, "public", false, "Make GitHub repo public (use with --github)")
-	installCmd.Flags().BoolVar(&installShell, "shell", false, "Install shell integration (sets GT_TOWN_ROOT/GT_RIG env vars)")
+	installCmd.Flags().BoolVar(&installShell, "shell", false, "Install shell integration (sets HD_ENCAMPMENT_ROOT/HD_WARBAND env vars)")
 	installCmd.Flags().BoolVar(&installWrappers, "wrappers", false, "Install gt-codex/gt-opencode wrapper scripts to ~/bin/")
 	rootCmd.AddCommand(installCmd)
 }

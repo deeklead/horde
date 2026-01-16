@@ -10,13 +10,13 @@ import (
 
 func TestSessionIDFromEnv_Default(t *testing.T) {
 	// Clear all environment variables
-	oldGSEnv := os.Getenv("GT_SESSION_ID_ENV")
+	oldGSEnv := os.Getenv("HD_SESSION_ID_ENV")
 	oldClaudeID := os.Getenv("CLAUDE_SESSION_ID")
 	defer func() {
 		if oldGSEnv != "" {
-			os.Setenv("GT_SESSION_ID_ENV", oldGSEnv)
+			os.Setenv("HD_SESSION_ID_ENV", oldGSEnv)
 		} else {
-			os.Unsetenv("GT_SESSION_ID_ENV")
+			os.Unsetenv("HD_SESSION_ID_ENV")
 		}
 		if oldClaudeID != "" {
 			os.Setenv("CLAUDE_SESSION_ID", oldClaudeID)
@@ -24,7 +24,7 @@ func TestSessionIDFromEnv_Default(t *testing.T) {
 			os.Unsetenv("CLAUDE_SESSION_ID")
 		}
 	}()
-	os.Unsetenv("GT_SESSION_ID_ENV")
+	os.Unsetenv("HD_SESSION_ID_ENV")
 	os.Unsetenv("CLAUDE_SESSION_ID")
 
 	result := SessionIDFromEnv()
@@ -34,13 +34,13 @@ func TestSessionIDFromEnv_Default(t *testing.T) {
 }
 
 func TestSessionIDFromEnv_ClaudeSessionID(t *testing.T) {
-	oldGSEnv := os.Getenv("GT_SESSION_ID_ENV")
+	oldGSEnv := os.Getenv("HD_SESSION_ID_ENV")
 	oldClaudeID := os.Getenv("CLAUDE_SESSION_ID")
 	defer func() {
 		if oldGSEnv != "" {
-			os.Setenv("GT_SESSION_ID_ENV", oldGSEnv)
+			os.Setenv("HD_SESSION_ID_ENV", oldGSEnv)
 		} else {
-			os.Unsetenv("GT_SESSION_ID_ENV")
+			os.Unsetenv("HD_SESSION_ID_ENV")
 		}
 		if oldClaudeID != "" {
 			os.Setenv("CLAUDE_SESSION_ID", oldClaudeID)
@@ -49,7 +49,7 @@ func TestSessionIDFromEnv_ClaudeSessionID(t *testing.T) {
 		}
 	}()
 
-	os.Unsetenv("GT_SESSION_ID_ENV")
+	os.Unsetenv("HD_SESSION_ID_ENV")
 	os.Setenv("CLAUDE_SESSION_ID", "test-session-123")
 
 	result := SessionIDFromEnv()
@@ -59,14 +59,14 @@ func TestSessionIDFromEnv_ClaudeSessionID(t *testing.T) {
 }
 
 func TestSessionIDFromEnv_CustomEnvVar(t *testing.T) {
-	oldGSEnv := os.Getenv("GT_SESSION_ID_ENV")
+	oldGSEnv := os.Getenv("HD_SESSION_ID_ENV")
 	oldCustomID := os.Getenv("CUSTOM_SESSION_ID")
 	oldClaudeID := os.Getenv("CLAUDE_SESSION_ID")
 	defer func() {
 		if oldGSEnv != "" {
-			os.Setenv("GT_SESSION_ID_ENV", oldGSEnv)
+			os.Setenv("HD_SESSION_ID_ENV", oldGSEnv)
 		} else {
-			os.Unsetenv("GT_SESSION_ID_ENV")
+			os.Unsetenv("HD_SESSION_ID_ENV")
 		}
 		if oldCustomID != "" {
 			os.Setenv("CUSTOM_SESSION_ID", oldCustomID)
@@ -80,7 +80,7 @@ func TestSessionIDFromEnv_CustomEnvVar(t *testing.T) {
 		}
 	}()
 
-	os.Setenv("GT_SESSION_ID_ENV", "CUSTOM_SESSION_ID")
+	os.Setenv("HD_SESSION_ID_ENV", "CUSTOM_SESSION_ID")
 	os.Setenv("CUSTOM_SESSION_ID", "custom-session-456")
 	os.Setenv("CLAUDE_SESSION_ID", "claude-session-789")
 

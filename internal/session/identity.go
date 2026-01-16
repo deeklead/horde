@@ -142,7 +142,7 @@ func (a *AgentIdentity) Address() string {
 	}
 }
 
-// GTRole returns the GT_ROLE environment variable format.
+// GTRole returns the HD_ROLE environment variable format.
 // This is the same as Address() for most roles.
 func (a *AgentIdentity) GTRole() string {
 	return a.Address()

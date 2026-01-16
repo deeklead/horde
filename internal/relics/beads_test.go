@@ -1132,14 +1132,14 @@ func TestParseRoleConfig(t *testing.T) {
 work_dir_pattern: {encampment}/{warband}/raiders/{name}
 needs_pre_sync: true
 start_command: exec claude --dangerously-skip-permissions
-env_var: GT_ROLE=raider
-env_var: GT_RIG={warband}`,
+env_var: HD_ROLE=raider
+env_var: HD_WARBAND={warband}`,
 			wantConfig: &RoleConfig{
 				SessionPattern: "gt-{warband}-{name}",
 				WorkDirPattern: "{encampment}/{warband}/raiders/{name}",
 				NeedsPreSync:   true,
 				StartCommand:   "exec claude --dangerously-skip-permissions",
-				EnvVars:        map[string]string{"GT_ROLE": "raider", "GT_RIG": "{warband}"},
+				EnvVars:        map[string]string{"HD_ROLE": "raider", "HD_WARBAND": "{warband}"},
 			},
 		},
 		{
@@ -1284,12 +1284,12 @@ func TestExpandRolePattern(t *testing.T) {
 			want:     "/Users/stevey/horde/horde/forge/warband",
 		},
 		{
-			pattern:  "export GT_ROLE={role} GT_RIG={warband} BD_ACTOR={warband}/raiders/{name}",
+			pattern:  "export HD_ROLE={role} HD_WARBAND={warband} BD_ACTOR={warband}/raiders/{name}",
 			townRoot: "/Users/stevey/gt",
 			warband:      "horde",
 			name:     "toast",
 			role:     "raider",
-			want:     "export GT_ROLE=raider GT_RIG=horde BD_ACTOR=horde/raiders/toast",
+			want:     "export HD_ROLE=raider HD_WARBAND=horde BD_ACTOR=horde/raiders/toast",
 		},
 	}
 

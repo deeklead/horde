@@ -353,7 +353,7 @@ func startShamanSession(t *tmux.Tmux, sessionName, agentOverride string) error {
 	}
 
 	// Build startup command first
-	// Export GT_ROLE and BD_ACTOR in the command since tmux SetEnvironment only affects new panes
+	// Export HD_ROLE and BD_ACTOR in the command since tmux SetEnvironment only affects new panes
 	startupCmd, err := config.BuildAgentStartupCommandWithAgentOverride("shaman", "", townRoot, "", "", agentOverride)
 	if err != nil {
 		return fmt.Errorf("building startup command: %w", err)

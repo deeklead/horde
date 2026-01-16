@@ -64,56 +64,56 @@ func findLocalRelicsDir() (string, error) {
 
 // detectSender determines the current context's address.
 // Priority:
-//  1. GT_ROLE env var → use the role-based identity (agent session)
-//  2. No GT_ROLE → try cwd-based detection (witness/forge/raider/clan directories)
+//  1. HD_ROLE env var → use the role-based identity (agent session)
+//  2. No HD_ROLE → try cwd-based detection (witness/forge/raider/clan directories)
 //  3. No match → return "overseer" (human at terminal)
 //
-// All Horde agents run in tmux sessions with GT_ROLE set at muster.
+// All Horde agents run in tmux sessions with HD_ROLE set at muster.
 // However, cwd-based detection is also tried to support running commands
-// from agent directories without GT_ROLE set (e.g., debugging sessions).
+// from agent directories without HD_ROLE set (e.g., debugging sessions).
 func detectSender() string {
-	// Check GT_ROLE first (authoritative for agent sessions)
-	role := os.Getenv("GT_ROLE")
+	// Check HD_ROLE first (authoritative for agent sessions)
+	role := os.Getenv("HD_ROLE")
 	if role != "" {
 		// Agent session - build address from role and context
 		return detectSenderFromRole(role)
 	}
 
-	// No GT_ROLE - try cwd-based detection, defaults to overseer if not in agent directory
+	// No HD_ROLE - try cwd-based detection, defaults to overseer if not in agent directory
 	return detectSenderFromCwd()
 }
 
-// detectSenderFromRole builds an address from the GT_ROLE and related env vars.
-// GT_ROLE can be either a simple role name ("clan", "raider") or a full address
+// detectSenderFromRole builds an address from the HD_ROLE and related env vars.
+// HD_ROLE can be either a simple role name ("clan", "raider") or a full address
 // ("greenplace/clan/joe") depending on how the session was started.
 //
-// If GT_ROLE is a simple name but required env vars (GT_RIG, GT_RAIDER, etc.)
+// If HD_ROLE is a simple name but required env vars (HD_WARBAND, HD_RAIDER, etc.)
 // are missing, falls back to cwd-based detection. This could return "overseer"
 // if cwd doesn't match any known agent path - a misconfigured agent session.
 func detectSenderFromRole(role string) string {
-	warband := os.Getenv("GT_RIG")
+	warband := os.Getenv("HD_WARBAND")
 
 	// Check if role is already a full address (contains /)
 	if strings.Contains(role, "/") {
-		// GT_ROLE is already a full address, use it directly
+		// HD_ROLE is already a full address, use it directly
 		return role
 	}
 
-	// GT_ROLE is a simple role name, build the full address
+	// HD_ROLE is a simple role name, build the full address
 	switch role {
 	case "warchief":
 		return "warchief/"
 	case "shaman":
 		return "shaman/"
 	case "raider":
-		raider := os.Getenv("GT_RAIDER")
+		raider := os.Getenv("HD_RAIDER")
 		if warband != "" && raider != "" {
 			return fmt.Sprintf("%s/%s", warband, raider)
 		}
 		// Fallback to cwd detection for raiders
 		return detectSenderFromCwd()
 	case "clan":
-		clan := os.Getenv("GT_CREW")
+		clan := os.Getenv("HD_CLAN")
 		if warband != "" && clan != "" {
 			return fmt.Sprintf("%s/clan/%s", warband, clan)
 		}
