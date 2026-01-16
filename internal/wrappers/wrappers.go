@@ -1,5 +1,5 @@
 // ABOUTME: Manages wrapper scripts for non-Claude agentic coding tools.
-// ABOUTME: Provides gt-codex and gt-opencode wrappers that run hd rally first.
+// ABOUTME: Provides hd-codex and hd-opencode wrappers that run hd rally first.
 
 package wrappers
 

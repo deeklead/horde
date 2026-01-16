@@ -30,7 +30,7 @@ var uninstallCmd = &cobra.Command{
 
 By default, removes:
   - Shell integration (~/.zshrc or ~/.bashrc)
-  - Wrapper scripts (~/bin/gt-codex, ~/bin/gt-opencode)
+  - Wrapper scripts (~/bin/hd-codex, ~/bin/hd-opencode)
   - State directory (~/.local/state/horde/)
   - Config directory (~/.config/horde/)
   - Cache directory (~/.cache/horde/)
