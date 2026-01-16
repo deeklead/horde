@@ -1,6 +1,6 @@
 {
   "name": "@horde/hd",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Horde CLI - multi-agent workspace manager with native binary support",
   "main": "bin/hd.js",
   "bin": {

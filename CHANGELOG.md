@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-01-16
+
+### Added
+
+- Initial release of Horde multi-agent workspace manager
+- Warchief agent for high-level coordination and task distribution
+- Witness agent for monitoring and verification
+- Forge agent for merge queue management
+- Raider agents for autonomous task execution
+- Clan workers for persistent development tasks
+- Shaman agent for system maintenance
+- Drums messaging system for inter-agent communication
+- Relics integration for issue tracking
+- Tmux-based session management
+- Web dashboard for monitoring
+- npm package for easy installation
+
 ## [0.2.6] - 2026-01-12
 
 ### Added
