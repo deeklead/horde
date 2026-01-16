@@ -1,0 +1,210 @@
+description = """
+Archive completed raids and notify overseer.
+
+Dogs work through totems (poured from this ritual) when raids complete. The Shaman detects completed
+raids (all tracked issues closed) and charges this work to a dog for:
+- Generating raid summary
+- Archiving raid state
+- Notifying the overseer (Warchief)
+- Updating activity feed
+
+## Dog Contract
+
+This is infrastructure work. You:
+1. Receive raid ID via banner_bead
+2. Generate summary of completed work
+3. Archive to appropriate location
+4. Notify stakeholders
+5. Return to kennel
+
+## Variables
+
+| Variable | Source | Description |
+|----------|--------|-------------|
+| raid | banner_bead | The raid ID to archive |
+
+## Failure Modes
+
+| Situation | Action |
+|-----------|--------|
+| Raid not found | Exit with error, notify Shaman |
+| Archive location full | Create space, retry, or escalate |
+| Drums send fails | Retry once, then proceed anyway |"""
+ritual = "totem-raid-cleanup"
+version = 1
+
+[squash]
+trigger = "on_complete"
+template_type = "work"
+include_metrics = true
+
+[[steps]]
+id = "load-raid"
+title = "Load raid and verify completion"
+description = """
+Load the raid bead and verify it's ready for archival.
+
+**1. Check your assignment:**
+```bash
+hd banner               # Shows banner_bead = raid ID
+bd show {{raid}}          # Full raid details
+```
+
+**2. Verify raid is complete:**
+- Status should be 'closed' or all tracked issues closed
+- If raid is still open, exit - Shaman dispatched too early
+
+```bash
+bd show {{raid}}
+# Check 'tracks' or 'dependencies' field
+# All tracked issues should be closed
+```
+
+**3. Gather raid metadata:**
+- Start date (created_at)
+- End date (last closure timestamp)
+- Total issues tracked
+- Contributing raiders
+
+**Exit criteria:** Raid loaded, verified complete, metadata gathered."""
+
+[[steps]]
+id = "generate-summary"
+title = "Generate raid summary"
+needs = ["load-raid"]
+description = """
+Create a summary of the raid's completed work.
+
+**1. Collect tracked issue details:**
+```bash
+# For each tracked issue
+bd show <tracked-id>
+# Extract: title, type, assignee, duration
+```
+
+**2. Calculate statistics:**
+- Total duration (raid start to finish)
+- Issues by type (task, bug, feature)
+- Contributors (unique assignees)
+- Commits generated (if tracked)
+
+**3. Create summary text:**
+```markdown
+## Raid Summary: {{raid.title}}
+
+**Duration**: X days/hours
+**Issues completed**: N
+
+### Work Breakdown
+- Tasks: N
+- Bugs: N
+- Features: N
+
+### Contributors
+- raider-1: N issues
+- raider-2: N issues
+
+### Key Outcomes
+- <notable achievement 1>
+- <notable achievement 2>
+```
+
+**Exit criteria:** Summary text generated and ready for notification."""
+
+[[steps]]
+id = "archive-raid"
+title = "Archive raid to cold storage"
+needs = ["generate-summary"]
+description = """
+Move raid from active to archived state.
+
+**1. Update raid status:**
+```bash
+bd update {{raid}} --status=archived
+# Or close if not already closed
+bd close {{raid}} --reason="Raid complete, archived"
+```
+
+**2. Generate archive record:**
+The raid bead with all metadata is the archive record. Relics retention
+handles moving it to `.relics/archive/` after the retention period.
+
+**3. Verify archive:**
+```bash
+bd show {{raid}}
+# Status should reflect archived state
+```
+
+**4. Sync to persist:**
+```bash
+bd sync
+```
+
+**Exit criteria:** Raid archived, changes synced."""
+
+[[steps]]
+id = "notify-overseer"
+title = "Send completion notification to overseer"
+needs = ["archive-raid"]
+description = """
+Notify the Warchief (overseer) of raid completion.
+
+**1. Send completion drums:**
+```bash
+hd drums send warchief/ -s "Raid complete: {{raid.title}}" -m "$(cat <<EOF
+Raid {{raid}} has completed and been archived.
+
+## Summary
+{{generated_summary}}
+
+## Metrics
+- Duration: {{duration}}
+- Issues: {{issue_count}}
+- Contributors: {{contributor_list}}
+
+This raid has been archived. View details: rl show {{raid}}
+EOF
+)"
+```
+
+**2. Post to activity feed:**
+The raid closure already creates a feed entry. Verify:
+```bash
+hd feed --since 5m
+# Should show raid completion
+```
+
+**Exit criteria:** Overseer notified via drums, activity feed updated."""
+
+[[steps]]
+id = "return-to-kennel"
+title = "Signal completion and return to kennel"
+needs = ["notify-overseer"]
+description = """
+Signal work complete and return to available pool.
+
+**1. Signal completion to Shaman:**
+```bash
+hd drums send shaman/ -s "DOG_DONE $(hostname)" -m "Task: raid-cleanup
+Raid: {{raid}}
+Status: COMPLETE
+Duration: {{work_duration}}
+
+Ready for next assignment."
+```
+
+**2. Clean workspace:**
+- No raid-specific state to clean
+- Workspace should already be clean
+
+**3. Return to kennel:**
+Dog returns to available state in the pool. Shaman will assign next work
+or retire the dog if pool is oversized.
+
+**Exit criteria:** Shaman notified, dog ready for next work or retirement."""
+
+[vars]
+[vars.raid]
+description = "The raid ID to archive"
+required = true
+

@@ -1,0 +1,229 @@
+description = """
+Boot triage cycle - the daemon's watchdog for Shaman health.
+
+Boot is spawned fresh on each daemon tick to decide whether to start/wake/signal/interrupt
+the Shaman, or do nothing. This centralizes the "when to wake" decision in an agent that
+can reason about context rather than relying on mechanical thresholds.
+
+Boot lifecycle:
+1. Observe (wisps, drums, git state, tmux panes)
+2. Decide (start/wake/signal/interrupt/nothing)
+3. Act
+4. Clean inbox (discard stale handoffs)
+5. Exit (or handoff in non-degraded mode)
+
+Boot is always fresh - no persistent state between invocations.
+Handoff drums provides continuity for the next Boot instance.
+"""
+ritual = "totem-boot-triage"
+version = 1
+
+[[steps]]
+id = "observe"
+title = "Observe system state"
+description = """
+Observe the current system state to inform triage decisions.
+
+**Step 1: Check Shaman state**
+```bash
+# Is Shaman session alive?
+tmux has-session -t hq-shaman 2>/dev/null && echo "alive" || echo "dead"
+
+# If alive, what's the pane output showing?
+hd peek shaman --lines 20
+```
+
+**Step 2: Check agent bead state**
+```bash
+bd show hq-shaman 2>/dev/null
+# Look for:
+# - state: running/working/idle
+# - last_activity: when was last update?
+```
+
+**Step 3: Check recent activity**
+```bash
+# Recent feed events
+hd feed --since 10m --plain | head -20
+
+# Recent wisps (operational state)
+ls -lt ~/horde/.relics-wisp/*.wisp.json 2>/dev/null | head -5
+```
+
+**Step 4: Check Shaman drums**
+```bash
+# Does Shaman have unread drums?
+hd drums inbox shaman 2>/dev/null | head -10
+```
+
+Record observations for the decide step:
+- shaman_alive: true/false
+- pane_activity: active/idle/stuck
+- last_activity_age: duration since last activity
+- pending_mail: count of unread messages
+- error_signals: any errors observed
+"""
+
+[[steps]]
+id = "decide"
+title = "Decide on action"
+needs = ["observe"]
+description = """
+Analyze observations and decide what action to take.
+
+**Decision Matrix**
+
+| Shaman State | Pane Activity | Action |
+|--------------|---------------|--------|
+| Dead session | N/A | START |
+| Alive, active output | N/A | NOTHING |
+| Alive, idle < 5 min | N/A | NOTHING |
+| Alive, idle 5-15 min | No drums | NOTHING |
+| Alive, idle 5-15 min | Has drums | SIGNAL |
+| Alive, idle > 15 min | Any | WAKE |
+| Alive, stuck (errors) | Any | INTERRUPT |
+
+**Judgment Guidance**
+
+Agents may take several minutes on legitimate work. Ten minutes or more in edge cases.
+Don't be too aggressive - false positives are disruptive.
+
+Signs of stuck:
+- Same error repeated in pane
+- Tool prompt waiting indefinitely
+- Silence with pending drums
+- Agent reporting issues but not progressing
+
+Signs of working:
+- Tool calls in progress
+- File reads/writes happening
+- Recent commits or relics updates
+
+**Output**: Record decision as one of:
+- NOTHING: Let Shaman continue
+- SIGNAL: Gentle wake signal (hd signal)
+- WAKE: Stronger wake (escape + message)
+- INTERRUPT: Force restart needed
+- START: Session is dead, start fresh
+"""
+
+[[steps]]
+id = "act"
+title = "Execute decided action"
+needs = ["decide"]
+description = """
+Execute the action decided in the previous step.
+
+**NOTHING**
+No action needed. Log observation and exit.
+
+**SIGNAL**
+```bash
+hd signal shaman "Boot check-in: you have pending work"
+```
+
+**WAKE**
+```bash
+# Send escape to break any tool waiting
+tmux send-keys -t hq-shaman Escape
+
+# Brief pause
+sleep 1
+
+# Send wake message
+hd signal shaman "Boot wake: please check your inbox and pending work"
+```
+
+**INTERRUPT**
+```bash
+# This is more aggressive - signals Shaman to restart
+hd drums send shaman -s "INTERRUPT: Boot detected stuck state" \
+  -m "Boot observed stuck state. Please check your context and consider handoff.
+
+Observations:
+- <summary of what was observed>
+
+If you're making progress, please update your agent bead to reflect activity."
+```
+
+**START**
+```bash
+# Shaman is dead - daemon will restart it
+# Just log that we detected this
+echo "Boot detected dead Shaman session - daemon will restart"
+```
+
+Record action taken for status update.
+"""
+
+[[steps]]
+id = "cleanup"
+title = "Clean stale handoffs"
+needs = ["act"]
+description = """
+Clean up stale handoff messages from Shaman's inbox.
+
+Handoff messages older than 1 hour are likely stale - the intended recipient
+either processed them or crashed before seeing them.
+
+**Step 1: List Shaman inbox**
+```bash
+hd drums inbox shaman --json 2>/dev/null
+```
+
+**Step 2: Archive stale handoffs**
+For each message:
+- Check if subject contains "HANDOFF" or "handoff"
+- Check if age > 1 hour
+- If both: archive it
+
+```bash
+# For each stale handoff:
+hd drums archive <message-id>
+```
+
+**Step 3: Archive Boot's own old drums**
+Boot doesn't need persistent inbox. Archive anything processed:
+```bash
+hd drums inbox boot --json 2>/dev/null
+# Archive any messages older than current session
+```
+
+Keep the system clean - old handoffs just add noise.
+"""
+
+[[steps]]
+id = "exit"
+title = "Exit or handoff"
+needs = ["cleanup"]
+description = """
+Complete this Boot cycle.
+
+**In degraded mode (GT_DEGRADED=true)**
+Exit directly - no handoff needed:
+```bash
+# Log completion
+echo "Boot triage complete: <action taken>"
+exit 0
+```
+
+**In normal mode**
+Write brief handoff for next Boot instance:
+```bash
+hd drums send boot -s "Boot handoff" -m "Completed triage cycle.
+Action: <action taken>
+Observations: <brief summary>
+Time: $(date)"
+```
+
+Then exit. The next daemon tick will muster a fresh Boot.
+
+**Update status file**
+```bash
+# The hd boot command handles this automatically
+# Status is written to ~/horde/shaman/dogs/boot/.boot-status.json
+```
+
+Boot is ephemeral by design. Each instance runs fresh.
+"""
+

@@ -1,0 +1,260 @@
+description = """
+Feed stranded raids by dispatching ready work to available raiders.
+
+Dogs execute this ritual when the Shaman detects a stranded raid. A raid
+is stranded when it has ready issues (open, unblocked, no assignee) but no
+workers are processing them.
+
+## Dog Contract
+
+This is infrastructure work. You:
+1. Receive raid ID via variable
+2. Load raid and find ready issues
+3. Check idle raider capacity across warbands
+4. Dispatch min(ready_issues, idle_raiders) using hd charge
+5. Report actions taken
+6. Return to kennel
+
+## Variables
+
+| Variable | Source | Description |
+|----------|--------|-------------|
+| raid | --var | The stranded raid ID to feed |
+
+## Single Pass Design
+
+Dog doesn't babysit or wait for completion. The workflow is:
+1. Find ready issues in raid
+2. Dispatch each to an available raider
+3. Exit immediately
+
+If raid is still stranded next Shaman scout cycle, another dog will be
+dispatched. This keeps the system stateless and batch-oriented.
+
+## Failure Modes
+
+| Situation | Action |
+|-----------|--------|
+| Raid not found | Exit with error, notify Shaman |
+| No ready issues | Exit success (false positive, raid is fine) |
+| No idle raiders | Exit success, note in report (will retry next cycle) |
+| Charge fails | Continue with remaining issues, note failures |"""
+ritual = "totem-raid-feed"
+version = 1
+
+[squash]
+trigger = "on_complete"
+template_type = "work"
+include_metrics = true
+
+[[steps]]
+id = "load-raid"
+title = "Load raid and identify ready issues"
+description = """
+Load the raid and find issues ready for dispatch.
+
+**1. Check assignment:**
+```bash
+hd banner               # Shows raid in banner_bead or vars
+```
+
+**2. Load raid details:**
+```bash
+hd raid status {{raid}} --json
+```
+
+**3. Identify ready issues:**
+
+For each tracked issue in the raid:
+```bash
+bd show <issue-id> --json
+```
+
+An issue is "ready" if ALL of these are true:
+- status = "open" (NOT in_progress, closed, or bannered)
+- not in blocked list (check: rl blocked --json)
+- assignee is empty OR assignee session is dead
+
+Check blocked status:
+```bash
+bd blocked --json
+# If issue ID appears here, it's blocked (skip it)
+```
+
+Check assignee session if set:
+```bash
+# If assignee like "horde/raiders/nux"
+tmux has-session -t gt-horde-raider-nux 2>/dev/null && echo "alive" || echo "dead"
+```
+
+**4. Build ready list:**
+Collect all ready issues with their metadata:
+- Issue ID
+- Title
+- Priority
+- Warband (extracted from prefix)
+
+Sort by priority (P0 first) for dispatch order.
+
+**Exit criteria:** Ready issues identified and prioritized."""
+
+[[steps]]
+id = "check-capacity"
+title = "Check raider capacity across warbands"
+needs = ["load-raid"]
+description = """
+Determine how many raiders are available for dispatch.
+
+**1. For each warband that has ready issues:**
+```bash
+hd raiders <warband>
+# Shows raider status: idle, working, etc.
+```
+
+**2. Count available capacity:**
+Available raiders are those that:
+- Exist in the warband's raider pool
+- Currently idle (no bannered work)
+- Session is running
+
+**3. Calculate dispatch count:**
+```
+dispatch_count = min(ready_issues, available_raiders)
+```
+
+If dispatch_count = 0:
+- Log: "No capacity available, will retry next cycle"
+- Proceed to report step (no dispatches to make)
+
+**4. Match issues to warbands:**
+For each ready issue, determine target warband from issue prefix:
+- gt-* issues → horde warband
+- bd-* issues → relics warband
+- etc.
+
+**Exit criteria:** Dispatch plan created with issue→warband mappings."""
+
+[[steps]]
+id = "dispatch-work"
+title = "Dispatch ready issues to raiders"
+needs = ["check-capacity"]
+description = """
+Charge each ready issue to an available raider.
+
+**For each issue in dispatch plan:**
+
+```bash
+# Dispatch issue to the appropriate warband
+# This spawns a fresh raider or assigns to idle one
+hd charge <issue-id> <warband>
+
+# Example:
+hd charge gt-abc123 horde
+hd charge bd-xyz789 relics
+```
+
+**Track results:**
+For each dispatch:
+- Success: Note issue ID, target warband, raider assigned
+- Failure: Note issue ID, error message
+
+**Important notes:**
+- `hd charge` handles raider selection automatically
+- It will muster a new raider if none available
+- The raider gets the issue bannered and starts immediately
+- Don't wait for raider to complete - fire and forget
+
+**If charge fails:**
+- Continue with remaining issues
+- Note the failure for the report
+- Don't escalate individual failures (will retry next cycle)
+
+**Exit criteria:** All dispatchable issues have been charged."""
+
+[[steps]]
+id = "report-results"
+title = "Generate and send feeding report"
+needs = ["dispatch-work"]
+description = """
+Create summary report of raid feeding actions.
+
+**1. Generate report:**
+```markdown
+## Raid Feed Report: {{raid}}
+
+**Ready issues found**: {{ready_count}}
+**Raiders available**: {{available_count}}
+**Issues dispatched**: {{dispatch_count}}
+
+### Dispatched Work
+{{#each dispatched}}
+- {{issue_id}}: {{title}} → {{warband}}/{{raider}}
+{{/each}}
+
+### Skipped (no capacity)
+{{#if skipped}}
+{{#each skipped}}
+- {{issue_id}}: {{title}} (will retry next cycle)
+{{/each}}
+{{else}}
+(none)
+{{/if}}
+
+### Errors
+{{#if errors}}
+{{#each errors}}
+- {{issue_id}}: {{error}}
+{{/each}}
+{{else}}
+(none)
+{{/if}}
+```
+
+**2. Send to Shaman:**
+```bash
+hd drums send shaman/ -s "Raid fed: {{raid}}" -m "$(cat <<EOF
+Raid {{raid}} feeding complete.
+
+Dispatched: {{dispatch_count}}/{{ready_count}} issues
+{{#if errors}}Errors: {{error_count}}{{/if}}
+
+{{report_summary}}
+EOF
+)"
+```
+
+**3. Update raid (optional):**
+If raid has a notify field, could add a note about feeding activity.
+Not required - the dispatch tracking handles visibility.
+
+**Exit criteria:** Report generated and sent."""
+
+[[steps]]
+id = "return-to-kennel"
+title = "Signal completion and return to kennel"
+needs = ["report-results"]
+description = """
+Signal work complete and return to available pool.
+
+**1. Signal completion to Shaman:**
+```bash
+hd drums send shaman/ -s "DOG_DONE $(hostname)" -m "Task: raid-feed
+Raid: {{raid}}
+Ready: {{ready_count}}
+Dispatched: {{dispatch_count}}
+Status: COMPLETE
+
+Ready for next assignment."
+```
+
+**2. Return to kennel:**
+Dog returns to available state in the pool. Shaman will assign next work
+or retire the dog if pool is oversized.
+
+**Exit criteria:** Shaman notified, dog ready for next work or retirement."""
+
+[vars]
+[vars.raid]
+description = "The raid ID to feed"
+required = true
+

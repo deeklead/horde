@@ -1,0 +1,199 @@
+description = """
+Witness-side tracking of a single raider's lifecycle.
+
+The Witness bonds this totem for each active raider, creating a lease that
+tracks the raider from muster through work to cleanup. This is the WITNESS'S
+view of the raider, not the raider's own work totem.
+
+## Lifecycle States
+
+```
+BOOT ─► WORKING ─► VERIFYING ─► MERGE_REQUESTED ─► DONE
+  │         │           │              │
+  └─► STUCK ─┴─► STUCK ──┴──► STUCK ───┘
+```
+
+## Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| raider | Yes | Name of the raider |
+| issue | Yes | The issue assigned to the raider |
+| warband | Yes | The warband this raider belongs to |"""
+ritual = "totem-raider-lease"
+version = 2
+
+[[steps]]
+id = "boot"
+title = "Verify raider boots successfully"
+description = """
+Raider has been spawned. Verify it initializes and starts working.
+
+**Check if alive:**
+```bash
+tmux capture-pane -t gt-{{warband}}-{{raider}} -p | tail -20
+```
+
+Look for:
+- Claude prompt visible ("> " at start of line)
+- `hd rally` output
+- Signs of reading the assigned issue
+
+**If idle for >60 seconds:**
+```bash
+hd signal {{warband}}/raiders/{{raider}} "Begin work on {{issue}}."
+```
+
+**If still no response after signal:**
+```bash
+hd signal {{warband}}/raiders/{{raider}} "Are you there? Please acknowledge."
+```
+
+After 3 failed nudges, mark as stuck and escalate.
+
+**Exit criteria:** Raider shows signs of active work on {{issue}}."""
+
+[[steps]]
+id = "working"
+title = "Monitor raider progress"
+needs = ["boot"]
+description = """
+Raider is actively working. Monitor for stuck or completion.
+
+**Periodic checks:**
+- Use standard signal protocol from Witness CLAUDE.md
+- Watch for RAIDER_DONE drums or agent_state=done
+
+**Signs of progress:**
+- Git commits appearing
+- File changes visible in peek
+- Active tool usage in tmux capture
+
+**Signs of stuck:**
+- Idle >15 minutes
+- Repeated errors
+- Explicit "I'm stuck" messages
+
+**If RAIDER_DONE received or agent_state=done:**
+Proceed to verifying step.
+
+**Exit criteria:** Raider signals completion (RAIDER_DONE drums or state=done)."""
+
+[[steps]]
+id = "verifying"
+title = "Verify raider work is merge-ready"
+needs = ["working"]
+description = """
+Raider claims completion. Verify before sending to Forge.
+
+**1. Check git state:**
+```bash
+cd raiders/{{raider}}
+git status                    # Must be "working tree clean"
+git stash list                # Must be empty
+git log origin/main..HEAD     # Should have commits
+```
+
+**2. Verify branch is pushed:**
+```bash
+git log origin/$(git branch --show-current)..HEAD  # Should be empty
+```
+
+**3. Verify issue is closed:**
+```bash
+bd show {{issue}}             # Status should be 'closed'
+```
+
+**4. Spot-check quality (ZFC - your judgment):**
+- Commits have reasonable messages
+- Changes look related to issue
+- No obvious problems in git log
+
+**If verification fails:**
+Signal raider to fix:
+```bash
+hd signal {{warband}}/raiders/{{raider}} "Verification failed: <issue>. Please fix."
+```
+Return to working step.
+
+**If verification passes:**
+Proceed to merge_requested step.
+
+**Exit criteria:** Git clean, branch pushed, issue closed, work looks legit."""
+
+[[steps]]
+id = "merge_requested"
+title = "Request merge from Forge"
+needs = ["verifying"]
+description = """
+Work verified. Send MERGE_READY to Forge and wait.
+
+**Send merge request:**
+```bash
+hd drums send {{warband}}/forge -s "MERGE_READY {{raider}}" -m "Branch: $(cd raiders/{{raider}} && git branch --show-current)
+Issue: {{issue}}
+Raider: {{raider}}
+Verified: clean git state, issue closed"
+```
+
+**Update cleanup wisp state:**
+```bash
+bd update <wisp-id> --labels cleanup,raider:{{raider}},state:merge-requested
+```
+
+**Wait for MERGED response:**
+The Forge will:
+1. Fetch and rebase the branch
+2. Run tests
+3. Merge to main (if pass)
+4. Send MERGED drums back
+
+This may take several minutes.
+
+**If MERGED received:** Proceed to done step.
+**If merge fails:** Forge notifies, return to working state.
+
+**Exit criteria:** MERGED drums received from Forge."""
+
+[[steps]]
+id = "done"
+title = "Complete raider cleanup"
+needs = ["merge_requested"]
+description = """
+Merge confirmed. Clean up the raider.
+
+**1. Kill the raider session:**
+```bash
+hd session kill {{warband}}/raiders/{{raider}}
+```
+
+**2. Remove worktree (if ephemeral):**
+```bash
+git worktree remove raiders/{{raider}} --force
+```
+
+**3. Delete local branch (if exists):**
+```bash
+git branch -D raider/{{raider}} 2>/dev/null || true
+```
+
+**4. Close this lease:**
+```bash
+bd close <this-lease-id>
+```
+
+**Exit criteria:** Raider session killed, worktree removed, lease closed."""
+
+[vars]
+[vars.raider]
+description = "Name of the raider"
+required = true
+
+[vars.issue]
+description = "The issue assigned to the raider"
+required = true
+
+[vars.warband]
+description = "The warband this raider belongs to"
+required = true
+

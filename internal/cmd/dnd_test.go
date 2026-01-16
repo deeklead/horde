@@ -1,0 +1,34 @@
+package cmd
+
+import (
+	"testing"
+)
+
+func TestAddressToAgentBeadID(t *testing.T) {
+	tests := []struct {
+		address  string
+		expected string
+	}{
+		// Warchief and shaman use hq- prefix (encampment-level)
+		{"warchief", "hq-warchief"},
+		{"shaman", "hq-shaman"},
+		{"horde/witness", "gt-horde-witness"},
+		{"horde/forge", "gt-horde-forge"},
+		{"horde/alpha", "gt-horde-raider-alpha"},
+		{"horde/clan/max", "gt-horde-clan-max"},
+		{"relics/witness", "gt-relics-witness"},
+		{"relics/beta", "gt-relics-raider-beta"},
+		// Invalid addresses should return empty string
+		{"invalid", ""},
+		{"", ""},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.address, func(t *testing.T) {
+			got := addressToAgentBeadID(tt.address)
+			if got != tt.expected {
+				t.Errorf("addressToAgentBeadID(%q) = %q, want %q", tt.address, got, tt.expected)
+			}
+		})
+	}
+}

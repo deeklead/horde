@@ -1,0 +1,228 @@
+description = """
+Generate daily digest for overseer (Warchief).
+
+Dogs work through totems (poured from this ritual) on a scheduled basis (daily, or triggered by plugin)
+to create summary digests of Horde activity. This aggregates:
+- Work completed across all warbands
+- Issues filed and closed
+- Incidents and escalations
+- Agent health metrics
+- Key statistics and trends
+
+## Dog Contract
+
+This is infrastructure work. You:
+1. Receive digest period via banner_bead (e.g., daily, weekly)
+2. Collect data from all warbands you have access to
+3. Generate formatted digest
+4. Send to overseer
+5. Archive digest as bead
+6. Return to kennel
+
+## Variables
+
+| Variable | Source | Description |
+|----------|--------|-------------|
+| period | banner_bead | Time period for digest (daily, weekly) |
+| since | computed | Start timestamp for data collection |
+| until | computed | End timestamp (usually now) |
+
+## Why Dogs?
+
+Digest generation requires reading from multiple warbands. Dogs have multi-warband
+worktrees. This is also a periodic task that doesn't need a dedicated raider."""
+ritual = "totem-digest-generate"
+version = 1
+
+[squash]
+trigger = "on_complete"
+template_type = "work"
+include_metrics = true
+
+[[steps]]
+id = "determine-period"
+title = "Determine digest time period"
+description = """
+Establish the time range for this digest.
+
+**1. Check assignment:**
+```bash
+hd banner               # Shows period type
+```
+
+**2. Calculate time range:**
+
+| Period | Since | Until |
+|--------|-------|-------|
+| daily | Yesterday 00:00 | Today 00:00 |
+| weekly | Last Monday 00:00 | This Monday 00:00 |
+| custom | From banner_bead | From banner_bead |
+
+```bash
+# For daily digest
+since=$(date -v-1d +%Y-%m-%dT00:00:00)
+until=$(date +%Y-%m-%dT00:00:00)
+```
+
+**3. Record period for reporting:**
+Note the exact timestamps for the digest header.
+
+**Exit criteria:** Time period established with precise timestamps."""
+
+[[steps]]
+id = "collect-warband-data"
+title = "Collect activity data from all warbands"
+needs = ["determine-period"]
+description = """
+Gather activity data from each warband in the encampment.
+
+**1. List accessible warbands:**
+```bash
+hd warbands
+# Returns list of warbands: horde, relics, etc.
+```
+
+**2. For each warband, collect:**
+
+a) **Issues filed and closed:**
+```bash
+# From warband relics
+bd list --created-after={{since}} --created-before={{until}}
+bd list --status=closed --updated-after={{since}}
+```
+
+b) **Agent activity:**
+```bash
+hd raiders <warband>           # Raider activity
+hd feed --since={{since}}   # Activity feed entries
+```
+
+c) **Merges:**
+```bash
+# Git log for merges to main
+git -C <warband-path> log --merges --since={{since}} --oneline main
+```
+
+d) **Incidents:**
+```bash
+# Issues tagged as incident or high-priority
+bd list --label=incident --created-after={{since}}
+```
+
+**3. Aggregate across warbands:**
+Sum counts, collect notable items, identify trends.
+
+**Exit criteria:** Raw data collected from all accessible warbands."""
+
+[[steps]]
+id = "generate-digest"
+title = "Generate formatted digest"
+needs = ["collect-warband-data"]
+description = """
+Transform collected data into formatted digest.
+
+**1. Calculate summary statistics:**
+- Total issues filed
+- Total issues closed
+- Net change (closed - filed)
+- By type (task, bug, feature)
+- By warband
+
+**2. Identify highlights:**
+- Biggest completions (epics, large features)
+- Incidents (any P0/P1 issues)
+- Notable trends (increasing backlog, fast closure rate)
+
+**3. Generate digest text:**
+```markdown
+# Horde Daily Digest: {{date}}
+
+## Summary
+- **Issues filed**: N (tasks: X, bugs: Y, features: Z)
+- **Issues closed**: N
+- **Net change**: +/-N
+
+## By Warband
+| Warband | Filed | Closed | Active Raiders |
+|-----|-------|--------|-----------------|
+| horde | X | Y | Z |
+| relics | X | Y | Z |
+
+## Highlights
+### Completed
+- {{epic or feature}} - completed by {{raider}}
+
+### Incidents
+- {{incident summary if any}}
+
+## Agent Health
+- Raiders spawned: N
+- Raiders retired: N
+- Average work duration: Xh
+
+## Trends
+- Backlog: {{increasing/stable/decreasing}}
+- Throughput: {{issues/day}}
+```
+
+**Exit criteria:** Formatted digest ready for delivery."""
+
+[[steps]]
+id = "send-digest"
+title = "Send digest to overseer"
+needs = ["generate-digest"]
+description = """
+Deliver digest to the Warchief.
+
+**1. Send via drums:**
+```bash
+hd drums send warchief/ -s "Horde Digest: {{date}}" -m "$(cat <<EOF
+{{formatted_digest}}
+EOF
+)"
+```
+
+**2. Archive as bead:**
+Create a digest bead for permanent record:
+```bash
+bd create --title="Digest: {{date}}" --type=digest \
+  --description="{{formatted_digest}}" \
+  --label=digest,{{period}}
+```
+
+**3. Sync:**
+```bash
+bd sync
+```
+
+**Exit criteria:** Digest sent to Warchief and archived as bead."""
+
+[[steps]]
+id = "return-to-kennel"
+title = "Signal completion and return to kennel"
+needs = ["send-digest"]
+description = """
+Signal work complete and return to available pool.
+
+**1. Signal completion to Shaman:**
+```bash
+hd drums send shaman/ -s "DOG_DONE $(hostname)" -m "Task: digest-generate
+Period: {{period}}
+Date range: {{since}} to {{until}}
+Status: COMPLETE
+
+Digest sent to Warchief.
+Ready for next assignment."
+```
+
+**2. Return to kennel:**
+Dog returns to available state in the pool.
+
+**Exit criteria:** Shaman notified, dog ready for next work."""
+
+[vars]
+[vars.period]
+description = "The digest period type (daily, weekly, custom)"
+required = true
+default = "daily"
+

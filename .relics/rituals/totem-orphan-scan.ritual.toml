@@ -1,0 +1,313 @@
+description = """
+Find and reassign orphaned work.
+
+Dogs work through totems (poured from this ritual) to scan for orphaned state:
+- Issues marked in_progress with no active raider
+- Totems attached but worker gone
+- Merge queue entries with dead owners
+- Wisps from terminated sessions
+
+This is a cleanup and recovery ritual. Found orphans are either:
+- Reassigned to available workers
+- Reset to open status for next dispatch
+- Escalated if data loss occurred
+
+## Dog Contract
+
+This is infrastructure work. You:
+1. Receive scan scope via banner_bead (warband or encampment-wide)
+2. Scan for orphaned state
+3. Classify and triage orphans
+4. Take recovery action
+5. Report findings
+6. Return to kennel
+
+## Variables
+
+| Variable | Source | Description |
+|----------|--------|-------------|
+| scope | banner_bead | Scan scope: 'encampment' or specific warband name |
+
+## Why Dogs?
+
+Orphan scanning requires multi-warband access and may need to interact with
+multiple Witnesses. Dogs have the cross-warband worktrees needed for this."""
+ritual = "totem-orphan-scan"
+version = 1
+
+[squash]
+trigger = "on_complete"
+template_type = "work"
+include_metrics = true
+
+[[steps]]
+id = "determine-scope"
+title = "Determine scan scope"
+description = """
+Establish what to scan for orphans.
+
+**1. Check assignment:**
+```bash
+hd banner               # Shows scope in banner_bead
+```
+
+**2. Resolve scope:**
+- 'encampment': Scan all warbands
+- '<warband>': Scan specific warband only
+
+```bash
+# If encampment-wide
+hd warbands                     # Get list of all warbands
+
+# If specific warband
+# Just use that warband
+```
+
+**Exit criteria:** Scope determined, warband list established."""
+
+[[steps]]
+id = "scan-orphaned-issues"
+title = "Scan for orphaned issues"
+needs = ["determine-scope"]
+description = """
+Find issues marked in_progress with no active worker.
+
+**1. For each warband in scope, find in_progress issues:**
+```bash
+bd list --status=in_progress
+```
+
+**2. For each in_progress issue, check assignee:**
+```bash
+bd show <issue-id>
+# Get assignee field
+```
+
+**3. Check if assignee session exists:**
+```bash
+# If assignee is a raider
+hd raiders <warband>           # Is the raider active?
+tmux has-session -t <session> 2>/dev/null
+```
+
+**4. Identify orphans:**
+- Issue in_progress + assignee session dead = orphan
+- Issue in_progress + no assignee = orphan
+
+Record each orphan with:
+- Issue ID
+- Last assignee (if any)
+- How long orphaned (last update timestamp)
+
+**Exit criteria:** Orphaned issues identified."""
+
+[[steps]]
+id = "scan-orphaned-totems"
+title = "Scan for orphaned totems"
+needs = ["determine-scope"]
+description = """
+Find totems attached to dead sessions.
+
+**1. List active totems:**
+```bash
+bd mol list --active
+```
+
+**2. For each totem, check owner session:**
+```bash
+bd mol show <totem-id>
+# Get agent/session info
+```
+
+**3. Check if owner session exists:**
+```bash
+tmux has-session -t <session> 2>/dev/null
+```
+
+**4. Identify orphans:**
+- Totem in_progress + owner session dead = orphan
+- Totem bannered + owner session dead = orphan
+
+Record each orphan for triage.
+
+**Exit criteria:** Orphaned totems identified."""
+
+[[steps]]
+id = "scan-orphaned-wisps"
+title = "Scan for orphaned wisps"
+needs = ["determine-scope"]
+description = """
+Find wisps from terminated sessions.
+
+**1. List wisps in ephemeral storage:**
+```bash
+ls .relics-wisp/             # Or equivalent location
+```
+
+**2. For each wisp, check spawner session:**
+Wisps should have metadata indicating the spawning session.
+
+**3. Identify orphans:**
+- Wisp age > 1 hour + spawner session dead = orphan
+- Wisp with no spawner metadata = orphan
+
+**4. Check for unsquashed content:**
+Orphaned wisps may have audit-worthy content that wasn't squashed.
+
+**Exit criteria:** Orphaned wisps identified."""
+
+[[steps]]
+id = "triage-orphans"
+title = "Classify and triage orphans"
+needs = ["scan-orphaned-issues", "scan-orphaned-totems", "scan-orphaned-wisps"]
+description = """
+Classify orphans by severity and determine action.
+
+**1. Classify by type:**
+
+| Type | Severity | Typical Action |
+|------|----------|----------------|
+| Issue in_progress, no work done | Low | Reset to open |
+| Issue in_progress, work in progress | Medium | Check branch, reassign |
+| Totem mid-execution | Medium | Resume or restart |
+| Wisp with content | Low | Squash or burn |
+| Wisp empty | None | Delete |
+
+**2. Check for data loss:**
+For issues/totems with possible work:
+```bash
+# Check for branch with work
+git branch -a | grep <raider-or-issue>
+git log --oneline <branch>
+```
+
+**3. Categorize for action:**
+- RESET: Return to open status for normal dispatch
+- REASSIGN: Assign to specific worker immediately
+- RECOVER: Salvage work from branch/state
+- ESCALATE: Data loss or complex situation
+- BURN: Safe to delete (empty wisps, etc.)
+
+**Exit criteria:** All orphans categorized with planned action."""
+
+[[steps]]
+id = "execute-recovery"
+title = "Execute recovery actions"
+needs = ["triage-orphans"]
+description = """
+Take action on each orphan based on triage.
+
+**1. RESET orphans:**
+```bash
+bd update <issue> --status=open --assignee=""
+# Clears in_progress, ready for dispatch
+```
+
+**2. REASSIGN orphans:**
+```bash
+# Notify Witness to handle assignment
+hd drums send <warband>/witness -s "Orphan needs assignment: <issue>" \
+  -m "Issue <id> was orphaned. Has partial work. Needs reassignment."
+```
+
+**3. RECOVER orphans:**
+```bash
+# For issues with work on branch:
+# - Preserve the branch
+# - Create recovery note
+bd update <issue> --status=open \
+  --note="Recovery: work exists on branch <branch>"
+```
+
+**4. ESCALATE orphans:**
+```bash
+hd drums send warchief/ -s "Orphan requires escalation: <issue>" \
+  -m "Issue <id> orphaned with possible data loss.
+Details: ...
+Recommended action: ..."
+```
+
+**5. BURN orphans:**
+```bash
+# For empty wisps, etc.
+rm .relics-wisp/<wisp-file>
+```
+
+**Exit criteria:** All orphans handled."""
+
+[[steps]]
+id = "report-findings"
+title = "Generate and send orphan report"
+needs = ["execute-recovery"]
+description = """
+Create summary report of orphan scan and actions.
+
+**1. Generate report:**
+```markdown
+## Orphan Scan Report: {{timestamp}}
+
+**Scope**: {{scope}}
+**Orphans found**: {{total_count}}
+
+### By Type
+- Issues: {{issue_count}}
+- Totems: {{mol_count}}
+- Wisps: {{wisp_count}}
+
+### Actions Taken
+- Reset to open: {{reset_count}}
+- Reassigned: {{reassign_count}}
+- Recovered: {{recover_count}}
+- Escalated: {{escalate_count}}
+- Burned: {{burn_count}}
+
+### Details
+{{#each orphan}}
+- {{type}} {{id}}: {{action}} - {{reason}}
+{{/each}}
+```
+
+**2. Send to Shaman (for logs):**
+```bash
+hd drums send shaman/ -s "Orphan scan complete: {{total_count}} found" \
+  -m "{{report}}"
+```
+
+**3. Send to Warchief (if escalations):**
+```bash
+# Only if there were escalations
+hd drums send warchief/ -s "Orphan scan: {{escalate_count}} escalations" \
+  -m "{{escalations_section}}"
+```
+
+**Exit criteria:** Reports sent."""
+
+[[steps]]
+id = "return-to-kennel"
+title = "Signal completion and return to kennel"
+needs = ["report-findings"]
+description = """
+Signal work complete and return to available pool.
+
+**1. Signal completion to Shaman:**
+```bash
+hd drums send shaman/ -s "DOG_DONE $(hostname)" -m "Task: orphan-scan
+Scope: {{scope}}
+Orphans found: {{total_count}}
+Actions taken: {{action_summary}}
+Status: COMPLETE
+
+Ready for next assignment."
+```
+
+**2. Return to kennel:**
+Dog returns to available state in the pool.
+
+**Exit criteria:** Shaman notified, dog ready for next work."""
+
+[vars]
+[vars.scope]
+description = "Scan scope: 'encampment' or specific warband name"
+required = true
+default = "encampment"
+

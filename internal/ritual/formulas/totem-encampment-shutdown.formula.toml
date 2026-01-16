@@ -1,0 +1,199 @@
+description = """
+Full Horde shutdown and restart.
+
+This is an idempotent shutdown - it stops Claude sessions but preserves
+raider sandboxes and hooks. Raiders can resume their work after restart.
+
+Use when you need to:
+- Reset all state for a fresh start
+- Recover from corrupted agent state
+- Prepare for maintenance or upgrades
+
+Charge to Warchief when ready to reboot:
+  hd charge totem-encampment-shutdown warchief
+"""
+ritual = "totem-encampment-shutdown"
+type = "workflow"
+version = 2
+
+[[steps]]
+id = "preflight-check"
+title = "Preflight safety check"
+description = """
+Scan for conditions that might make shutdown inadvisable.
+
+```bash
+hd shutdown preflight
+```
+
+This checks for:
+- **Uncommitted changes**: Raiders with dirty git status
+- **Unpushed commits**: Work that hasn't reached remote
+- **Active merges**: Forge mid-merge (could corrupt state)
+- **Pending CI**: PRs waiting on GitHub Actions
+
+Output is a report with warnings/blockers:
+
+| Severity | Condition | Action |
+|----------|-----------|--------|
+| BLOCKER | Active merge in progress | Abort shutdown |
+| WARNING | Uncommitted raider changes | List affected raiders |
+| WARNING | Unpushed commits | List repos needing push |
+| INFO | Pending CI runs | Note for awareness |
+
+If blockers exist, STOP and resolve them first.
+If only warnings, decide whether to proceed (work will be preserved).
+"""
+
+[[steps]]
+id = "stop-sessions"
+title = "Stop Claude sessions (preserve sandboxes)"
+needs = ["preflight-check"]
+description = """
+Kill Claude processes but leave raider sandboxes intact.
+
+```bash
+# Stop all raider Claude sessions
+hd stop --all --preserve-sandbox
+
+# Verify sandboxes still exist
+hd raiders --all --status
+```
+
+What this does:
+- Kills tmux sessions running Claude
+- Leaves git clones untouched
+- Leaves hook files (pinned totems) intact
+- Leaves uncommitted work in place
+
+What this does NOT do:
+- Delete raider directories
+- Remove hook attachments
+- Lose any git state
+
+After restart, raiders can be respawned and will resume from their hooks.
+
+Note: Clan workers are NOT stopped (they're user-managed).
+"""
+
+[[steps]]
+id = "clear-inboxes"
+title = "Archive and clear inboxes"
+needs = ["stop-sessions"]
+description = """
+Archive and clear all agent inboxes across all warbands.
+
+```bash
+# For each warband
+for warband in $(hd warbands --names); do
+  hd drums clear $warband/witness --archive
+  hd drums clear $warband/forge --archive
+done
+
+# Clear Warchief inbox
+hd drums clear warchief --archive
+```
+
+Messages are archived to `.relics/drums-archive/` before deletion.
+Clan inboxes are NOT cleared (user manages those).
+"""
+
+[[steps]]
+id = "stop-daemon"
+title = "Stop the daemon"
+needs = ["clear-inboxes"]
+description = """
+Stop the Horde daemon gracefully.
+
+```bash
+hd daemon stop
+```
+
+The daemon handles:
+- Heartbeat monitoring
+- Pending muster triggers
+- Background coordination
+
+It will be restarted in the final step.
+"""
+
+[[steps]]
+id = "rotate-logs"
+title = "Rotate and archive logs"
+needs = ["stop-daemon"]
+description = """
+Rotate logs to prevent unbounded growth.
+
+```bash
+# Rotate daemon logs
+hd daemon rotate-logs
+
+# Clean up old session captures (but not current sandboxes)
+hd doctor --fix
+```
+
+Old logs are moved to `~/horde/logs/archive/` with timestamps.
+"""
+
+[[steps]]
+id = "sync-state"
+title = "Sync relics and push"
+needs = ["rotate-logs"]
+description = """
+Ensure all relics state is persisted.
+
+```bash
+bd sync
+```
+
+Note: We do NOT force-commit raider work here. Their sandboxes
+are preserved with whatever state they had. They'll commit their
+own work when they resume.
+"""
+
+[[steps]]
+id = "handoff-warchief"
+title = "Send Warchief handoff"
+needs = ["sync-state"]
+description = """
+Record shutdown context for the fresh Warchief session.
+
+```bash
+hd drums send warchief -s "🤝 HANDOFF: Encampment shutdown complete" -m "
+Encampment shutdown completed. State preserved.
+
+Raider sandboxes: PRESERVED (will resume from hooks)
+Inboxes: ARCHIVED and cleared
+Daemon: STOPPED
+
+Next steps:
+1. hd daemon start
+2. hd rally
+3. hd status (verify health)
+4. Resume operations or respawn raiders
+
+Shutdown reason: {{shutdown_reason}}
+"
+```
+"""
+
+[[steps]]
+id = "restart-daemon"
+title = "Restart daemon"
+needs = ["handoff-warchief"]
+description = """
+Start the daemon with fresh state.
+
+```bash
+hd daemon start
+```
+
+The daemon will:
+- Begin heartbeat monitoring
+- Watch for pending spawns
+- Resume background coordination
+
+Raiders are NOT auto-respawned. Use `hd charge` or let Witness
+restart them based on their preserved hooks.
+"""
+

@@ -1,0 +1,511 @@
+// Package relics provides agent bead management.
+package relics
+
+import (
+	"encoding/json"
+	"errors"
+	"fmt"
+	"os"
+	"strings"
+)
+
+// AgentFields holds structured fields for agent relics.
+// These are stored as "key: value" lines in the description.
+type AgentFields struct {
+	RoleType          string // raider, witness, forge, shaman, warchief
+	Warband               string // Warband name (empty for global agents like warchief/shaman)
+	AgentState        string // spawning, working, done, stuck
+	BannerBead          string // Currently pinned work bead ID
+	RoleBead          string // Role definition bead ID (canonical location; may not exist yet)
+	CleanupStatus     string // ZFC: raider self-reports git state (clean, has_uncommitted, has_stash, has_unpushed)
+	ActiveMR          string // Currently active merge request bead ID (for traceability)
+	NotificationLevel string // DND mode: verbose, normal, muted (default: normal)
+}
+
+// Notification level constants
+const (
+	NotifyVerbose = "verbose" // All notifications (drums, raid events, etc.)
+	NotifyNormal  = "normal"  // Important events only (default)
+	NotifyMuted   = "muted"   // Silent/DND mode - batch for later
+)
+
+// FormatAgentDescription creates a description string from agent fields.
+func FormatAgentDescription(title string, fields *AgentFields) string {
+	if fields == nil {
+		return title
+	}
+
+	var lines []string
+	lines = append(lines, title)
+	lines = append(lines, "")
+	lines = append(lines, fmt.Sprintf("role_type: %s", fields.RoleType))
+
+	if fields.Warband != "" {
+		lines = append(lines, fmt.Sprintf("warband: %s", fields.Warband))
+	} else {
+		lines = append(lines, "warband: null")
+	}
+
+	lines = append(lines, fmt.Sprintf("agent_state: %s", fields.AgentState))
+
+	if fields.BannerBead != "" {
+		lines = append(lines, fmt.Sprintf("banner_bead: %s", fields.BannerBead))
+	} else {
+		lines = append(lines, "banner_bead: null")
+	}
+
+	if fields.RoleBead != "" {
+		lines = append(lines, fmt.Sprintf("role_bead: %s", fields.RoleBead))
+	} else {
+		lines = append(lines, "role_bead: null")
+	}
+
+	if fields.CleanupStatus != "" {
+		lines = append(lines, fmt.Sprintf("cleanup_status: %s", fields.CleanupStatus))
+	} else {
+		lines = append(lines, "cleanup_status: null")
+	}
+
+	if fields.ActiveMR != "" {
+		lines = append(lines, fmt.Sprintf("active_mr: %s", fields.ActiveMR))
+	} else {
+		lines = append(lines, "active_mr: null")
+	}
+
+	if fields.NotificationLevel != "" {
+		lines = append(lines, fmt.Sprintf("notification_level: %s", fields.NotificationLevel))
+	} else {
+		lines = append(lines, "notification_level: null")
+	}
+
+	return strings.Join(lines, "\n")
+}
+
+// ParseAgentFields extracts agent fields from an issue's description.
+func ParseAgentFields(description string) *AgentFields {
+	fields := &AgentFields{}
+
+	for _, line := range strings.Split(description, "\n") {
+		line = strings.TrimSpace(line)
+		if line == "" {
+			continue
+		}
+
+		colonIdx := strings.Index(line, ":")
+		if colonIdx == -1 {
+			continue
+		}
+
+		key := strings.TrimSpace(line[:colonIdx])
+		value := strings.TrimSpace(line[colonIdx+1:])
+		if value == "null" || value == "" {
+			value = ""
+		}
+
+		switch strings.ToLower(key) {
+		case "role_type":
+			fields.RoleType = value
+		case "warband":
+			fields.Warband = value
+		case "agent_state":
+			fields.AgentState = value
+		case "banner_bead":
+			fields.BannerBead = value
+		case "role_bead":
+			fields.RoleBead = value
+		case "cleanup_status":
+			fields.CleanupStatus = value
+		case "active_mr":
+			fields.ActiveMR = value
+		case "notification_level":
+			fields.NotificationLevel = value
+		}
+	}
+
+	return fields
+}
+
+// CreateAgentBead creates an agent bead for tracking agent lifecycle.
+// The ID format is: <prefix>-<warband>-<role>-<name> (e.g., gt-horde-raider-Toast)
+// Use AgentBeadID() helper to generate correct IDs.
+// The created_by field is populated from BD_ACTOR env var for provenance tracking.
+func (b *Relics) CreateAgentBead(id, title string, fields *AgentFields) (*Issue, error) {
+	description := FormatAgentDescription(title, fields)
+
+	args := []string{"create", "--json",
+		"--id=" + id,
+		"--title=" + title,
+		"--description=" + description,
+		"--type=agent",
+		"--labels=gt:agent",
+	}
+
+	// Default actor from BD_ACTOR env var for provenance tracking
+	if actor := os.Getenv("BD_ACTOR"); actor != "" {
+		args = append(args, "--actor="+actor)
+	}
+
+	out, err := b.run(args...)
+	if err != nil {
+		return nil, err
+	}
+
+	var issue Issue
+	if err := json.Unmarshal(out, &issue); err != nil {
+		return nil, fmt.Errorf("parsing rl create output: %w", err)
+	}
+
+	// Set the role slot if specified (this is the authoritative storage)
+	if fields != nil && fields.RoleBead != "" {
+		if _, err := b.run("slot", "set", id, "role", fields.RoleBead); err != nil {
+			// Non-fatal: warn but continue
+			fmt.Printf("Warning: could not set role slot: %v\n", err)
+		}
+	}
+
+	// Set the banner slot if specified (this is the authoritative storage)
+	// This fixes the slot inconsistency bug where bead status is 'bannered' but
+	// agent's banner slot is empty. See mi-619.
+	if fields != nil && fields.BannerBead != "" {
+		if _, err := b.run("slot", "set", id, "banner", fields.BannerBead); err != nil {
+			// Non-fatal: warn but continue - description text has the backup
+			fmt.Printf("Warning: could not set banner slot: %v\n", err)
+		}
+	}
+
+	return &issue, nil
+}
+
+// CreateOrReopenAgentBead creates an agent bead or reopens an existing one.
+// This handles the case where a raider is nuked and re-spawned with the same name:
+// the old agent bead exists as a closed bead, so we reopen and update it instead of
+// failing with a UNIQUE constraint error.
+//
+// NOTE: This does NOT handle tombstones. If the old bead was hard-deleted (creating
+// a tombstone), this function will fail. Use CloseAndClearAgentBead instead of DeleteAgentBead
+// when cleaning up agent relics to ensure they can be reopened later.
+//
+//
+// The function:
+// 1. Tries to create the agent bead
+// 2. If UNIQUE constraint fails, reopens the existing bead and updates its fields
+func (b *Relics) CreateOrReopenAgentBead(id, title string, fields *AgentFields) (*Issue, error) {
+	// First try to create the bead
+	issue, err := b.CreateAgentBead(id, title, fields)
+	if err == nil {
+		return issue, nil
+	}
+
+	// Check if it's a UNIQUE constraint error
+	if !strings.Contains(err.Error(), "UNIQUE constraint failed") {
+		return nil, err
+	}
+
+	// The bead already exists (should be closed from previous raider lifecycle)
+	// Reopen it and update its fields
+	if _, reopenErr := b.run("reopen", id, "--reason=re-spawning agent"); reopenErr != nil {
+		// If reopen fails, the bead might already be open - continue with update
+		if !strings.Contains(reopenErr.Error(), "already open") {
+			return nil, fmt.Errorf("reopening existing agent bead: %w (original error: %v)", reopenErr, err)
+		}
+	}
+
+	// Update the bead with new fields
+	description := FormatAgentDescription(title, fields)
+	updateOpts := UpdateOptions{
+		Title:       &title,
+		Description: &description,
+	}
+	if err := b.Update(id, updateOpts); err != nil {
+		return nil, fmt.Errorf("updating reopened agent bead: %w", err)
+	}
+
+	// Set the role slot if specified
+	if fields != nil && fields.RoleBead != "" {
+		if _, err := b.run("slot", "set", id, "role", fields.RoleBead); err != nil {
+			// Non-fatal: warn but continue
+			fmt.Printf("Warning: could not set role slot: %v\n", err)
+		}
+	}
+
+	// Clear any existing banner slot (handles stale state from previous lifecycle)
+	_, _ = b.run("slot", "clear", id, "banner")
+
+	// Set the banner slot if specified
+	if fields != nil && fields.BannerBead != "" {
+		if _, err := b.run("slot", "set", id, "banner", fields.BannerBead); err != nil {
+			// Non-fatal: warn but continue
+			fmt.Printf("Warning: could not set banner slot: %v\n", err)
+		}
+	}
+
+	// Return the updated bead
+	return b.Show(id)
+}
+
+// UpdateAgentState updates the agent_state field in an agent bead.
+// Optionally updates banner_bead if provided.
+//
+// IMPORTANT: This function uses the proper rl commands to update agent fields:
+// - `rl agent state` for agent_state (uses SQLite column directly)
+// - `rl slot set/clear` for banner_bead (uses SQLite column directly)
+//
+// This ensures consistency with `rl slot show` and other relics commands.
+// Previously, this function embedded these fields in the description text,
+// which caused inconsistencies with rl slot commands (see GH #gt-9v52).
+func (b *Relics) UpdateAgentState(id string, state string, bannerBead *string) error {
+	// Update agent state using rl agent state command
+	// This updates the agent_state column directly in SQLite
+	_, err := b.run("agent", "state", id, state)
+	if err != nil {
+		return fmt.Errorf("updating agent state: %w", err)
+	}
+
+	// Update banner_bead if provided
+	if bannerBead != nil {
+		if *bannerBead != "" {
+			// Set the hook using rl slot set
+			// This updates the banner_bead column directly in SQLite
+			_, err = b.run("slot", "set", id, "banner", *bannerBead)
+			if err != nil {
+				// If slot is already occupied, clear it first then retry
+				// This handles re-charging scenarios where we're updating the hook
+				errStr := err.Error()
+				if strings.Contains(errStr, "already occupied") {
+					_, _ = b.run("slot", "clear", id, "banner")
+					_, err = b.run("slot", "set", id, "banner", *bannerBead)
+				}
+				if err != nil {
+					return fmt.Errorf("setting hook: %w", err)
+				}
+			}
+		} else {
+			// Clear the hook
+			_, err = b.run("slot", "clear", id, "banner")
+			if err != nil {
+				return fmt.Errorf("clearing hook: %w", err)
+			}
+		}
+	}
+
+	return nil
+}
+
+// SetBannerBead sets the banner_bead slot on an agent bead.
+// This is a convenience wrapper that only sets the hook without changing agent_state.
+// Per gt-zecmc: agent_state ("running", "dead", "idle") is observable from tmux
+// and should not be recorded in relics ("discover, don't track" principle).
+func (b *Relics) SetBannerBead(agentBeadID, bannerBeadID string) error {
+	// Set the hook using rl slot set
+	// This updates the banner_bead column directly in SQLite
+	_, err := b.run("slot", "set", agentBeadID, "banner", bannerBeadID)
+	if err != nil {
+		// If slot is already occupied, clear it first then retry
+		errStr := err.Error()
+		if strings.Contains(errStr, "already occupied") {
+			_, _ = b.run("slot", "clear", agentBeadID, "banner")
+			_, err = b.run("slot", "set", agentBeadID, "banner", bannerBeadID)
+		}
+		if err != nil {
+			return fmt.Errorf("setting hook: %w", err)
+		}
+	}
+	return nil
+}
+
+// ClearBannerBead clears the banner_bead slot on an agent bead.
+// Used when work is complete or unslung.
+func (b *Relics) ClearBannerBead(agentBeadID string) error {
+	_, err := b.run("slot", "clear", agentBeadID, "banner")
+	if err != nil {
+		return fmt.Errorf("clearing hook: %w", err)
+	}
+	return nil
+}
+
+// UpdateAgentCleanupStatus updates the cleanup_status field in an agent bead.
+// This is called by the raider to self-report its git state (ZFC compliance).
+// Valid statuses: clean, has_uncommitted, has_stash, has_unpushed
+func (b *Relics) UpdateAgentCleanupStatus(id string, cleanupStatus string) error {
+	// First get current issue to preserve other fields
+	issue, err := b.Show(id)
+	if err != nil {
+		return err
+	}
+
+	// Parse existing fields
+	fields := ParseAgentFields(issue.Description)
+	fields.CleanupStatus = cleanupStatus
+
+	// Format new description
+	description := FormatAgentDescription(issue.Title, fields)
+
+	return b.Update(id, UpdateOptions{Description: &description})
+}
+
+// UpdateAgentActiveMR updates the active_mr field in an agent bead.
+// This links the agent to their current merge request for traceability.
+// Pass empty string to clear the field (e.g., after merge completes).
+func (b *Relics) UpdateAgentActiveMR(id string, activeMR string) error {
+	// First get current issue to preserve other fields
+	issue, err := b.Show(id)
+	if err != nil {
+		return err
+	}
+
+	// Parse existing fields
+	fields := ParseAgentFields(issue.Description)
+	fields.ActiveMR = activeMR
+
+	// Format new description
+	description := FormatAgentDescription(issue.Title, fields)
+
+	return b.Update(id, UpdateOptions{Description: &description})
+}
+
+// UpdateAgentNotificationLevel updates the notification_level field in an agent bead.
+// Valid levels: verbose, normal, muted (DND mode).
+// Pass empty string to reset to default (normal).
+func (b *Relics) UpdateAgentNotificationLevel(id string, level string) error {
+	// Validate level
+	if level != "" && level != NotifyVerbose && level != NotifyNormal && level != NotifyMuted {
+		return fmt.Errorf("invalid notification level %q: must be verbose, normal, or muted", level)
+	}
+
+	// First get current issue to preserve other fields
+	issue, err := b.Show(id)
+	if err != nil {
+		return err
+	}
+
+	// Parse existing fields
+	fields := ParseAgentFields(issue.Description)
+	fields.NotificationLevel = level
+
+	// Format new description
+	description := FormatAgentDescription(issue.Title, fields)
+
+	return b.Update(id, UpdateOptions{Description: &description})
+}
+
+// GetAgentNotificationLevel returns the notification level for an agent.
+// Returns "normal" if not set (the default).
+func (b *Relics) GetAgentNotificationLevel(id string) (string, error) {
+	_, fields, err := b.GetAgentBead(id)
+	if err != nil {
+		return "", err
+	}
+	if fields == nil {
+		return NotifyNormal, nil
+	}
+	if fields.NotificationLevel == "" {
+		return NotifyNormal, nil
+	}
+	return fields.NotificationLevel, nil
+}
+
+// DeleteAgentBead permanently deletes an agent bead.
+// Uses --hard --force for immediate permanent deletion (no tombstone).
+//
+// WARNING: Due to a rl bug, --hard --force still creates tombstones instead of
+// truly deleting. This breaks CreateOrReopenAgentBead because tombstones are
+// invisible to rl show/reopen but still block rl create via UNIQUE constraint.
+//
+//
+// WORKAROUND: Use CloseAndClearAgentBead instead, which allows CreateOrReopenAgentBead
+// to reopen the bead on re-muster.
+func (b *Relics) DeleteAgentBead(id string) error {
+	_, err := b.run("delete", id, "--hard", "--force")
+	return err
+}
+
+// CloseAndClearAgentBead closes an agent bead (soft delete).
+// This is the recommended way to clean up agent relics because CreateOrReopenAgentBead
+// can reopen closed relics when re-spawning raiders with the same name.
+//
+// This is a workaround for the rl tombstone bug where DeleteAgentBead creates
+// tombstones that cannot be reopened.
+//
+// To emulate the clean slate of delete --force --hard, this clears all mutable
+// fields (banner_bead, active_mr, cleanup_status, agent_state) before closing.
+func (b *Relics) CloseAndClearAgentBead(id, reason string) error {
+	// Clear mutable fields to emulate delete --force --hard behavior.
+	// This ensures reopened agent relics don't have stale state.
+
+	// First get current issue to preserve immutable fields
+	issue, err := b.Show(id)
+	if err != nil {
+		// If we can't read the issue, still attempt to close
+		args := []string{"close", id}
+		if reason != "" {
+			args = append(args, "--reason="+reason)
+		}
+		_, closeErr := b.run(args...)
+		return closeErr
+	}
+
+	// Parse existing fields and clear mutable ones
+	fields := ParseAgentFields(issue.Description)
+	fields.BannerBead = ""     // Clear banner_bead
+	fields.ActiveMR = ""     // Clear active_mr
+	fields.CleanupStatus = "" // Clear cleanup_status
+	fields.AgentState = "closed"
+
+	// Update description with cleared fields
+	description := FormatAgentDescription(issue.Title, fields)
+	if err := b.Update(id, UpdateOptions{Description: &description}); err != nil {
+		// Non-fatal: continue with close even if update fails
+	}
+
+	// Also clear the banner slot in the database
+	if err := b.ClearBannerBead(id); err != nil {
+		// Non-fatal
+	}
+
+	args := []string{"close", id}
+	if reason != "" {
+		args = append(args, "--reason="+reason)
+	}
+	_, err = b.run(args...)
+	return err
+}
+
+// GetAgentBead retrieves an agent bead by ID.
+// Returns nil if not found.
+func (b *Relics) GetAgentBead(id string) (*Issue, *AgentFields, error) {
+	issue, err := b.Show(id)
+	if err != nil {
+		if errors.Is(err, ErrNotFound) {
+			return nil, nil, nil
+		}
+		return nil, nil, err
+	}
+
+	if !HasLabel(issue, "gt:agent") {
+		return nil, nil, fmt.Errorf("issue %s is not an agent bead (missing gt:agent label)", id)
+	}
+
+	fields := ParseAgentFields(issue.Description)
+	return issue, fields, nil
+}
+
+// ListAgentRelics returns all agent relics in a single query.
+// Returns a map of agent bead ID to Issue.
+func (b *Relics) ListAgentRelics() (map[string]*Issue, error) {
+	out, err := b.run("list", "--label=gt:agent", "--json")
+	if err != nil {
+		return nil, err
+	}
+
+	var issues []*Issue
+	if err := json.Unmarshal(out, &issues); err != nil {
+		return nil, fmt.Errorf("parsing rl list output: %w", err)
+	}
+
+	result := make(map[string]*Issue, len(issues))
+	for _, issue := range issues {
+		result[issue.ID] = issue
+	}
+
+	return result, nil
+}
