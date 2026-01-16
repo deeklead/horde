@@ -54,7 +54,7 @@ func runMoleculeAttach(cmd *cobra.Command, args []string) error {
 }
 
 // detectAgentBeadID detects the current agent's bead ID from the working directory.
-// Returns the agent bead ID (e.g., "hq-warchief", "gt-horde-raider-nux") or empty string if not detectable.
+// Returns the agent bead ID (e.g., "hq-warchief", "hd-horde-raider-nux") or empty string if not detectable.
 func detectAgentBeadID() (string, error) {
 	cwd, err := os.Getwd()
 	if err != nil {

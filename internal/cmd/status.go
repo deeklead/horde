@@ -1044,7 +1044,7 @@ func discoverRigAgents(allSessions map[string]bool, r *warband.Warband, clans []
 		defs = append(defs, agentDef{
 			name:    "forge",
 			address: r.Name + "/forge",
-			session: fmt.Sprintf("gt-%s-forge", r.Name),
+			session: fmt.Sprintf("hd-%s-forge", r.Name),
 			role:    "forge",
 			beadID:  relics.ForgeBeadIDWithPrefix(prefix, r.Name),
 		})
@@ -1055,7 +1055,7 @@ func discoverRigAgents(allSessions map[string]bool, r *warband.Warband, clans []
 		defs = append(defs, agentDef{
 			name:    name,
 			address: r.Name + "/" + name,
-			session: fmt.Sprintf("gt-%s-%s", r.Name, name),
+			session: fmt.Sprintf("hd-%s-%s", r.Name, name),
 			role:    "raider",
 			beadID:  relics.RaiderBeadIDWithPrefix(prefix, r.Name, name),
 		})

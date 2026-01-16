@@ -221,7 +221,7 @@ func (t *Tmux) IsAvailable() bool {
 
 // HasSession checks if a session exists (exact match).
 // Uses "=" prefix for exact matching, preventing prefix matches
-// (e.g., "gt-shaman-boot" won't match when checking for "gt-shaman").
+// (e.g., "hd-shaman-boot" won't match when checking for "hd-shaman").
 func (t *Tmux) HasSession(name string) (bool, error) {
 	_, err := t.run("has-session", "-t", "="+name)
 	if err != nil {

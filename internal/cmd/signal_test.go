@@ -9,14 +9,14 @@ func TestResolveNudgePattern(t *testing.T) {
 	agents := []*AgentSession{
 		{Name: "hq-warchief", Type: AgentWarchief},
 		{Name: "hq-shaman", Type: AgentShaman},
-		{Name: "gt-horde-witness", Type: AgentWitness, Warband: "horde"},
-		{Name: "gt-horde-forge", Type: AgentForge, Warband: "horde"},
-		{Name: "gt-horde-clan-max", Type: AgentCrew, Warband: "horde", AgentName: "max"},
-		{Name: "gt-horde-clan-jack", Type: AgentCrew, Warband: "horde", AgentName: "jack"},
-		{Name: "gt-horde-alpha", Type: AgentRaider, Warband: "horde", AgentName: "alpha"},
-		{Name: "gt-horde-beta", Type: AgentRaider, Warband: "horde", AgentName: "beta"},
-		{Name: "gt-relics-witness", Type: AgentWitness, Warband: "relics"},
-		{Name: "gt-relics-gamma", Type: AgentRaider, Warband: "relics", AgentName: "gamma"},
+		{Name: "hd-horde-witness", Type: AgentWitness, Warband: "horde"},
+		{Name: "hd-horde-forge", Type: AgentForge, Warband: "horde"},
+		{Name: "hd-horde-clan-max", Type: AgentCrew, Warband: "horde", AgentName: "max"},
+		{Name: "hd-horde-clan-jack", Type: AgentCrew, Warband: "horde", AgentName: "jack"},
+		{Name: "hd-horde-alpha", Type: AgentRaider, Warband: "horde", AgentName: "alpha"},
+		{Name: "hd-horde-beta", Type: AgentRaider, Warband: "horde", AgentName: "beta"},
+		{Name: "hd-relics-witness", Type: AgentWitness, Warband: "relics"},
+		{Name: "hd-relics-gamma", Type: AgentRaider, Warband: "relics", AgentName: "gamma"},
 	}
 
 	tests := []struct {
@@ -37,42 +37,42 @@ func TestResolveNudgePattern(t *testing.T) {
 		{
 			name:     "specific witness",
 			pattern:  "horde/witness",
-			expected: []string{"gt-horde-witness"},
+			expected: []string{"hd-horde-witness"},
 		},
 		{
 			name:     "all witnesses",
 			pattern:  "*/witness",
-			expected: []string{"gt-horde-witness", "gt-relics-witness"},
+			expected: []string{"hd-horde-witness", "hd-relics-witness"},
 		},
 		{
 			name:     "specific forge",
 			pattern:  "horde/forge",
-			expected: []string{"gt-horde-forge"},
+			expected: []string{"hd-horde-forge"},
 		},
 		{
 			name:     "all raiders in warband",
 			pattern:  "horde/raiders/*",
-			expected: []string{"gt-horde-alpha", "gt-horde-beta"},
+			expected: []string{"hd-horde-alpha", "hd-horde-beta"},
 		},
 		{
 			name:     "specific raider",
 			pattern:  "horde/raiders/alpha",
-			expected: []string{"gt-horde-alpha"},
+			expected: []string{"hd-horde-alpha"},
 		},
 		{
 			name:     "all clan in warband",
 			pattern:  "horde/clan/*",
-			expected: []string{"gt-horde-clan-max", "gt-horde-clan-jack"},
+			expected: []string{"hd-horde-clan-max", "hd-horde-clan-jack"},
 		},
 		{
 			name:     "specific clan member",
 			pattern:  "horde/clan/max",
-			expected: []string{"gt-horde-clan-max"},
+			expected: []string{"hd-horde-clan-max"},
 		},
 		{
 			name:     "legacy raider format",
 			pattern:  "horde/alpha",
-			expected: []string{"gt-horde-alpha"},
+			expected: []string{"hd-horde-alpha"},
 		},
 		{
 			name:     "no matches",

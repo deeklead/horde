@@ -283,7 +283,7 @@ type workerDetail struct {
 }
 
 // getWorkersFromAssignees gets worker activity from tmux sessions based on issue assignees.
-// Assignees are in format "rigname/raiders/raidername" which maps to tmux session "gt-rigname-raidername".
+// Assignees are in format "rigname/raiders/raidername" which maps to tmux session "hd-rigname-raidername".
 func (f *LiveRaidFetcher) getWorkersFromAssignees(details map[string]*issueDetail) map[string]*workerDetail {
 	result := make(map[string]*workerDetail)
 
@@ -320,7 +320,7 @@ func (f *LiveRaidFetcher) getWorkersFromAssignees(details map[string]*issueDetai
 }
 
 // getSessionActivityForAssignee looks up tmux session activity for an assignee.
-// Assignee format: "rigname/raiders/raidername" -> session "gt-rigname-raidername"
+// Assignee format: "rigname/raiders/raidername" -> session "hd-rigname-raidername"
 func (f *LiveRaidFetcher) getSessionActivityForAssignee(assignee string) *time.Time {
 	// Parse assignee: "roxas/raiders/dag" -> warband="roxas", raider="dag"
 	parts := strings.Split(assignee, "/")
@@ -331,7 +331,7 @@ func (f *LiveRaidFetcher) getSessionActivityForAssignee(assignee string) *time.T
 	raider := parts[2]
 
 	// Construct session name
-	sessionName := fmt.Sprintf("gt-%s-%s", warband, raider)
+	sessionName := fmt.Sprintf("hd-%s-%s", warband, raider)
 
 	// Query tmux for session activity
 	// Format: session_activity returns unix timestamp
@@ -348,7 +348,7 @@ func (f *LiveRaidFetcher) getSessionActivityForAssignee(assignee string) *time.T
 		return nil
 	}
 
-	// Parse output: "gt-roxas-dag|1704312345"
+	// Parse output: "hd-roxas-dag|1704312345"
 	outputParts := strings.Split(output, "|")
 	if len(outputParts) < 2 {
 		return nil

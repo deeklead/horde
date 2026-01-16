@@ -33,10 +33,10 @@ func TestManager_GetMR(t *testing.T) {
 
 	// Create a test MR in the pending queue
 	mr := &MergeRequest{
-		ID:       "gt-mr-abc123",
+		ID:       "hd-mr-abc123",
 		Branch:   "raider/Toast/gt-xyz",
 		Worker:   "Toast",
-		IssueID:  "gt-xyz",
+		IssueID:  "hd-xyz",
 		Status:   MROpen,
 		Error:    "test failure",
 	}
@@ -46,7 +46,7 @@ func TestManager_GetMR(t *testing.T) {
 	}
 
 	t.Run("find existing MR", func(t *testing.T) {
-		found, err := mgr.GetMR("gt-mr-abc123")
+		found, err := mgr.GetMR("hd-mr-abc123")
 		if err != nil {
 			t.Errorf("GetMR() unexpected error: %v", err)
 		}
@@ -72,7 +72,7 @@ func TestManager_Retry(t *testing.T) {
 
 		// Create a failed MR
 		mr := &MergeRequest{
-			ID:       "gt-mr-failed",
+			ID:       "hd-mr-failed",
 			Branch:   "raider/Toast/gt-xyz",
 			Worker:   "Toast",
 			Status:   MROpen,
@@ -84,13 +84,13 @@ func TestManager_Retry(t *testing.T) {
 		}
 
 		// Retry without processing
-		err := mgr.Retry("gt-mr-failed", false)
+		err := mgr.Retry("hd-mr-failed", false)
 		if err != nil {
 			t.Errorf("Retry() unexpected error: %v", err)
 		}
 
 		// Verify error was cleared
-		found, _ := mgr.GetMR("gt-mr-failed")
+		found, _ := mgr.GetMR("hd-mr-failed")
 		if found.Error != "" {
 			t.Errorf("Retry() error not cleared, got %s", found.Error)
 		}
@@ -101,7 +101,7 @@ func TestManager_Retry(t *testing.T) {
 
 		// Create a successful MR (no error)
 		mr := &MergeRequest{
-			ID:     "gt-mr-success",
+			ID:     "hd-mr-success",
 			Branch: "raider/Toast/gt-abc",
 			Worker: "Toast",
 			Status: MROpen,
@@ -112,7 +112,7 @@ func TestManager_Retry(t *testing.T) {
 			t.Fatalf("RegisterMR: %v", err)
 		}
 
-		err := mgr.Retry("gt-mr-success", false)
+		err := mgr.Retry("hd-mr-success", false)
 		if err != ErrMRNotFailed {
 			t.Errorf("Retry() error = %v, want %v", err, ErrMRNotFailed)
 		}
@@ -132,10 +132,10 @@ func TestManager_RegisterMR(t *testing.T) {
 	mgr, rigPath := setupTestManager(t)
 
 	mr := &MergeRequest{
-		ID:           "gt-mr-new",
+		ID:           "hd-mr-new",
 		Branch:       "raider/Cheedo/gt-123",
 		Worker:       "Cheedo",
-		IssueID:      "gt-123",
+		IssueID:      "hd-123",
 		TargetBranch: "main",
 		CreatedAt:    time.Now(),
 		Status:       MROpen,
@@ -161,7 +161,7 @@ func TestManager_RegisterMR(t *testing.T) {
 		t.Fatal("PendingMRs is nil")
 	}
 
-	saved, ok := ref.PendingMRs["gt-mr-new"]
+	saved, ok := ref.PendingMRs["hd-mr-new"]
 	if !ok {
 		t.Fatal("MR not found in PendingMRs")
 	}

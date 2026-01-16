@@ -81,7 +81,7 @@ func TestRaidMeta(t *testing.T) {
 		Status:    "open",
 		Ritual:   "code-review",
 		ReviewID:  "pr123",
-		LegIssues: []string{"gt-leg1", "gt-leg2", "gt-leg3"},
+		LegIssues: []string{"hd-leg1", "hd-leg2", "hd-leg3"},
 	}
 
 	if meta.ID != "hq-cv-abc" {

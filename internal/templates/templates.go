@@ -34,8 +34,8 @@ type RoleData struct {
 	Raiders       []string // list of raiders (for witness role)
 	RelicsDir       string   // RELICS_DIR path
 	IssuePrefix    string   // relics issue prefix
-	WarchiefSession   string   // e.g., "gt-ai-warchief" - dynamic warchief session name
-	ShamanSession  string   // e.g., "gt-ai-shaman" - dynamic shaman session name
+	WarchiefSession   string   // e.g., "hd-ai-warchief" - dynamic warchief session name
+	ShamanSession  string   // e.g., "hd-ai-shaman" - dynamic shaman session name
 }
 
 // SpawnData contains information for muster assignment messages.

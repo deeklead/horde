@@ -167,7 +167,7 @@ func assigneeToSessionName(assignee string) string {
 		warband, role := parts[0], parts[1]
 		switch role {
 		case "witness", "forge":
-			return fmt.Sprintf("gt-%s-%s", warband, role)
+			return fmt.Sprintf("hd-%s-%s", warband, role)
 		default:
 			return ""
 		}
@@ -176,9 +176,9 @@ func assigneeToSessionName(assignee string) string {
 		warband, agentType, name := parts[0], parts[1], parts[2]
 		switch agentType {
 		case "raiders":
-			return fmt.Sprintf("gt-%s-%s", warband, name)
+			return fmt.Sprintf("hd-%s-%s", warband, name)
 		case "clan":
-			return fmt.Sprintf("gt-%s-clan-%s", warband, name)
+			return fmt.Sprintf("hd-%s-clan-%s", warband, name)
 		default:
 			return ""
 		}

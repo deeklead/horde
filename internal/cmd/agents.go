@@ -574,9 +574,9 @@ func guessSessionFromWorkerDir(workerDir, townRoot string) string {
 
 	switch workerType {
 	case "clan":
-		return fmt.Sprintf("gt-%s-clan-%s", warband, workerName)
+		return fmt.Sprintf("hd-%s-clan-%s", warband, workerName)
 	case "raiders":
-		return fmt.Sprintf("gt-%s-%s", warband, workerName)
+		return fmt.Sprintf("hd-%s-%s", warband, workerName)
 	}
 
 	return ""

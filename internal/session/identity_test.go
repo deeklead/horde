@@ -28,13 +28,13 @@ func TestParseSessionName(t *testing.T) {
 		// Witness (simple warband)
 		{
 			name:     "witness simple warband",
-			session:  "gt-horde-witness",
+			session:  "hd-horde-witness",
 			wantRole: RoleWitness,
 			wantRig:  "horde",
 		},
 		{
 			name:     "witness hyphenated warband",
-			session:  "gt-foo-bar-witness",
+			session:  "hd-foo-bar-witness",
 			wantRole: RoleWitness,
 			wantRig:  "foo-bar",
 		},
@@ -42,13 +42,13 @@ func TestParseSessionName(t *testing.T) {
 		// Forge (simple warband)
 		{
 			name:     "forge simple warband",
-			session:  "gt-horde-forge",
+			session:  "hd-horde-forge",
 			wantRole: RoleForge,
 			wantRig:  "horde",
 		},
 		{
 			name:     "forge hyphenated warband",
-			session:  "gt-my-project-forge",
+			session:  "hd-my-project-forge",
 			wantRole: RoleForge,
 			wantRig:  "my-project",
 		},
@@ -56,21 +56,21 @@ func TestParseSessionName(t *testing.T) {
 		// Clan (with marker)
 		{
 			name:     "clan simple",
-			session:  "gt-horde-clan-max",
+			session:  "hd-horde-clan-max",
 			wantRole: RoleCrew,
 			wantRig:  "horde",
 			wantName: "max",
 		},
 		{
 			name:     "clan hyphenated warband",
-			session:  "gt-foo-bar-clan-alice",
+			session:  "hd-foo-bar-clan-alice",
 			wantRole: RoleCrew,
 			wantRig:  "foo-bar",
 			wantName: "alice",
 		},
 		{
 			name:     "clan hyphenated name",
-			session:  "gt-horde-clan-my-worker",
+			session:  "hd-horde-clan-my-worker",
 			wantRole: RoleCrew,
 			wantRig:  "horde",
 			wantName: "my-worker",
@@ -79,14 +79,14 @@ func TestParseSessionName(t *testing.T) {
 		// Raider (fallback)
 		{
 			name:     "raider simple",
-			session:  "gt-horde-morsov",
+			session:  "hd-horde-morsov",
 			wantRole: RoleRaider,
 			wantRig:  "horde",
 			wantName: "morsov",
 		},
 		{
 			name:     "raider hyphenated warband",
-			session:  "gt-foo-bar-Toast",
+			session:  "hd-foo-bar-Toast",
 			wantRole: RoleRaider,
 			wantRig:  "foo-bar",
 			wantName: "Toast",
@@ -105,7 +105,7 @@ func TestParseSessionName(t *testing.T) {
 		},
 		{
 			name:    "just prefix single segment",
-			session: "gt-x",
+			session: "hd-x",
 			wantErr: true,
 		},
 	}
@@ -152,22 +152,22 @@ func TestAgentIdentity_SessionName(t *testing.T) {
 		{
 			name:     "witness",
 			identity: AgentIdentity{Role: RoleWitness, Warband: "horde"},
-			want:     "gt-horde-witness",
+			want:     "hd-horde-witness",
 		},
 		{
 			name:     "forge",
 			identity: AgentIdentity{Role: RoleForge, Warband: "my-project"},
-			want:     "gt-my-project-forge",
+			want:     "hd-my-project-forge",
 		},
 		{
 			name:     "clan",
 			identity: AgentIdentity{Role: RoleCrew, Warband: "horde", Name: "max"},
-			want:     "gt-horde-clan-max",
+			want:     "hd-horde-clan-max",
 		},
 		{
 			name:     "raider",
 			identity: AgentIdentity{Role: RoleRaider, Warband: "horde", Name: "morsov"},
-			want:     "gt-horde-morsov",
+			want:     "hd-horde-morsov",
 		},
 	}
 
@@ -232,10 +232,10 @@ func TestParseSessionName_RoundTrip(t *testing.T) {
 	sessions := []string{
 		"hq-warchief",
 		"hq-shaman",
-		"gt-horde-witness",
-		"gt-foo-bar-forge",
-		"gt-horde-clan-max",
-		"gt-horde-morsov",
+		"hd-horde-witness",
+		"hd-foo-bar-forge",
+		"hd-horde-clan-max",
+		"hd-horde-morsov",
 	}
 
 	for _, sess := range sessions {

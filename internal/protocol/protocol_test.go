@@ -83,7 +83,7 @@ func TestIsProtocolMessage(t *testing.T) {
 }
 
 func TestNewMergeReadyMessage(t *testing.T) {
-	msg := NewMergeReadyMessage("horde", "nux", "raider/nux/gt-abc", "gt-abc")
+	msg := NewMergeReadyMessage("horde", "nux", "raider/nux/gt-abc", "hd-abc")
 
 	if msg.Subject != "MERGE_READY nux" {
 		t.Errorf("Subject = %q, want %q", msg.Subject, "MERGE_READY nux")
@@ -106,7 +106,7 @@ func TestNewMergeReadyMessage(t *testing.T) {
 }
 
 func TestNewMergedMessage(t *testing.T) {
-	msg := NewMergedMessage("horde", "nux", "raider/nux/gt-abc", "gt-abc", "main", "abc123")
+	msg := NewMergedMessage("horde", "nux", "raider/nux/gt-abc", "hd-abc", "main", "abc123")
 
 	if msg.Subject != "MERGED nux" {
 		t.Errorf("Subject = %q, want %q", msg.Subject, "MERGED nux")
@@ -123,7 +123,7 @@ func TestNewMergedMessage(t *testing.T) {
 }
 
 func TestNewMergeFailedMessage(t *testing.T) {
-	msg := NewMergeFailedMessage("horde", "nux", "raider/nux/gt-abc", "gt-abc", "main", "tests", "Test failed")
+	msg := NewMergeFailedMessage("horde", "nux", "raider/nux/gt-abc", "hd-abc", "main", "tests", "Test failed")
 
 	if msg.Subject != "MERGE_FAILED nux" {
 		t.Errorf("Subject = %q, want %q", msg.Subject, "MERGE_FAILED nux")
@@ -138,7 +138,7 @@ func TestNewMergeFailedMessage(t *testing.T) {
 
 func TestNewReworkRequestMessage(t *testing.T) {
 	conflicts := []string{"file1.go", "file2.go"}
-	msg := NewReworkRequestMessage("horde", "nux", "raider/nux/gt-abc", "gt-abc", "main", conflicts)
+	msg := NewReworkRequestMessage("horde", "nux", "raider/nux/gt-abc", "hd-abc", "main", conflicts)
 
 	if msg.Subject != "REWORK_REQUEST nux" {
 		t.Errorf("Subject = %q, want %q", msg.Subject, "REWORK_REQUEST nux")
@@ -163,8 +163,8 @@ Verified: clean git state`
 	if payload.Branch != "raider/nux/gt-abc" {
 		t.Errorf("Branch = %q, want %q", payload.Branch, "raider/nux/gt-abc")
 	}
-	if payload.Issue != "gt-abc" {
-		t.Errorf("Issue = %q, want %q", payload.Issue, "gt-abc")
+	if payload.Issue != "hd-abc" {
+		t.Errorf("Issue = %q, want %q", payload.Issue, "hd-abc")
 	}
 	if payload.Raider != "nux" {
 		t.Errorf("Raider = %q, want %q", payload.Raider, "nux")
@@ -296,7 +296,7 @@ func TestDefaultWitnessHandler(t *testing.T) {
 	// Test HandleMerged
 	mergedPayload := &MergedPayload{
 		Branch:       "raider/nux/gt-abc",
-		Issue:        "gt-abc",
+		Issue:        "hd-abc",
 		Raider:      "nux",
 		Warband:          "horde",
 		TargetBranch: "main",
@@ -313,7 +313,7 @@ func TestDefaultWitnessHandler(t *testing.T) {
 	buf.Reset()
 	failedPayload := &MergeFailedPayload{
 		Branch:       "raider/nux/gt-abc",
-		Issue:        "gt-abc",
+		Issue:        "hd-abc",
 		Raider:      "nux",
 		Warband:          "horde",
 		TargetBranch: "main",
@@ -331,7 +331,7 @@ func TestDefaultWitnessHandler(t *testing.T) {
 	buf.Reset()
 	reworkPayload := &ReworkRequestPayload{
 		Branch:        "raider/nux/gt-abc",
-		Issue:         "gt-abc",
+		Issue:         "hd-abc",
 		Raider:       "nux",
 		Warband:           "horde",
 		TargetBranch:  "main",

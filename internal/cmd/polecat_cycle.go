@@ -141,7 +141,7 @@ func findRigRaiderSessions(rigName string) ([]string, error) { //nolint:unparam 
 		return nil, nil
 	}
 
-	prefix := fmt.Sprintf("gt-%s-", rigName)
+	prefix := fmt.Sprintf("hd-%s-", rigName)
 	var sessions []string
 
 	for _, line := range strings.Split(strings.TrimSpace(string(out)), "\n") {

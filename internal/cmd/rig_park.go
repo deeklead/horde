@@ -95,7 +95,7 @@ func parkOneRig(rigName string) error {
 	t := tmux.NewTmux()
 
 	// Stop witness if running
-	witnessSession := fmt.Sprintf("gt-%s-witness", rigName)
+	witnessSession := fmt.Sprintf("hd-%s-witness", rigName)
 	witnessRunning, _ := t.HasSession(witnessSession)
 	if witnessRunning {
 		fmt.Printf("  Stopping witness...\n")
@@ -108,7 +108,7 @@ func parkOneRig(rigName string) error {
 	}
 
 	// Stop forge if running
-	forgeSession := fmt.Sprintf("gt-%s-forge", rigName)
+	forgeSession := fmt.Sprintf("hd-%s-forge", rigName)
 	forgeRunning, _ := t.HasSession(forgeSession)
 	if forgeRunning {
 		fmt.Printf("  Stopping forge...\n")

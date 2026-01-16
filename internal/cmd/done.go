@@ -705,7 +705,7 @@ func selfKillSession(townRoot string, roleInfo RoleInfo) error {
 		return fmt.Errorf("cannot determine session: warband=%q, raider=%q", rigName, raiderName)
 	}
 
-	sessionName := fmt.Sprintf("gt-%s-%s", rigName, raiderName)
+	sessionName := fmt.Sprintf("hd-%s-%s", rigName, raiderName)
 	agentID := fmt.Sprintf("%s/raiders/%s", rigName, raiderName)
 
 	// Log to encampmentlog (human-readable audit log)

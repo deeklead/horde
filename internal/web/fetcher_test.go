@@ -336,12 +336,12 @@ func TestParseRaiderSessionName(t *testing.T) {
 		wantRaider string
 		wantOk      bool
 	}{
-		{"valid raider session", "gt-roxas-dag", "roxas", "dag", true},
-		{"valid raider with hyphen", "gt-horde-nux", "gas", "encampment-nux", true},
-		{"forge session", "gt-roxas-forge", "roxas", "forge", true},
-		{"witness session", "gt-horde-witness", "horde", "witness", true},
+		{"valid raider session", "hd-roxas-dag", "roxas", "dag", true},
+		{"valid raider with hyphen", "hd-horde-nux", "gas", "encampment-nux", true},
+		{"forge session", "hd-roxas-forge", "roxas", "forge", true},
+		{"witness session", "hd-horde-witness", "horde", "witness", true},
 		{"not hd prefix", "other-roxas-dag", "", "", false},
-		{"too few parts", "gt-roxas", "", "", false},
+		{"too few parts", "hd-roxas", "", "", false},
 		{"empty string", "", "", "", false},
 		{"single gt", "hd", "", "", false},
 	}

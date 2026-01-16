@@ -23,10 +23,10 @@ import (
 // Examples:
 //   - "warchief" -> "hq-warchief"
 //   - "shaman" -> "hq-shaman"
-//   - "horde/witness" -> "gt-horde-witness"
-//   - "horde/forge" -> "gt-horde-forge"
-//   - "horde/nux" (raider) -> "gt-horde-raider-nux"
-//   - "horde/clan/max" -> "gt-horde-clan-max"
+//   - "horde/witness" -> "hd-horde-witness"
+//   - "horde/forge" -> "hd-horde-forge"
+//   - "horde/nux" (raider) -> "hd-horde-raider-nux"
+//   - "horde/clan/max" -> "hd-horde-clan-max"
 //
 // If role is unknown, it tries to infer from the identity string.
 // townRoot is needed to look up the warband's configured prefix.

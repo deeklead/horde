@@ -1474,8 +1474,8 @@ func getWorkersForIssues(issueIDs []string) map[string]*workerInfo {
 }
 
 // parseWorkerFromAgentBead extracts worker identity from agent bead ID.
-// Input: "gt-horde-raider-nux" -> Output: "horde/nux"
-// Input: "gt-relics-clan-amber" -> Output: "relics/clan/amber"
+// Input: "hd-horde-raider-nux" -> Output: "horde/nux"
+// Input: "hd-relics-clan-amber" -> Output: "relics/clan/amber"
 func parseWorkerFromAgentBead(agentID string) string {
 	// Remove prefix (gt-, bd-, etc.)
 	parts := strings.Split(agentID, "-")

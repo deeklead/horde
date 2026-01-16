@@ -477,7 +477,7 @@ func runWitnessStatusLine(t *tmux.Tmux, rigName string) error {
 
 	// Get encampment root from witness pane's working directory
 	var townRoot string
-	sessionName := fmt.Sprintf("gt-%s-witness", rigName)
+	sessionName := fmt.Sprintf("hd-%s-witness", rigName)
 	paneDir, err := t.GetPaneWorkDir(sessionName)
 	if err == nil && paneDir != "" {
 		townRoot, _ = workspace.Find(paneDir)
@@ -556,7 +556,7 @@ func runForgeStatusLine(t *tmux.Tmux, rigName string) error {
 
 	// Get encampment root from forge pane's working directory
 	var townRoot string
-	sessionName := fmt.Sprintf("gt-%s-forge", rigName)
+	sessionName := fmt.Sprintf("hd-%s-forge", rigName)
 	paneDir, err := t.GetPaneWorkDir(sessionName)
 	if err == nil && paneDir != "" {
 		townRoot, _ = workspace.Find(paneDir)

@@ -136,9 +136,9 @@ func TestEnvVarsCheck_WarchiefMissing(t *testing.T) {
 func TestEnvVarsCheck_WitnessCorrect(t *testing.T) {
 	expected := expectedEnv("witness", "myrig", "")
 	reader := &mockEnvReader{
-		sessions: []string{"gt-myrig-witness"},
+		sessions: []string{"hd-myrig-witness"},
 		sessionEnvs: map[string]map[string]string{
-			"gt-myrig-witness": expected,
+			"hd-myrig-witness": expected,
 		},
 	}
 	check := NewEnvVarsCheckWithReader(reader)
@@ -151,9 +151,9 @@ func TestEnvVarsCheck_WitnessCorrect(t *testing.T) {
 
 func TestEnvVarsCheck_WitnessMismatch(t *testing.T) {
 	reader := &mockEnvReader{
-		sessions: []string{"gt-myrig-witness"},
+		sessions: []string{"hd-myrig-witness"},
 		sessionEnvs: map[string]map[string]string{
-			"gt-myrig-witness": {
+			"hd-myrig-witness": {
 				"HD_ROLE": "witness",
 				"HD_WARBAND":  "wrongrig", // Wrong warband
 			},
@@ -170,9 +170,9 @@ func TestEnvVarsCheck_WitnessMismatch(t *testing.T) {
 func TestEnvVarsCheck_ForgeCorrect(t *testing.T) {
 	expected := expectedEnv("forge", "myrig", "")
 	reader := &mockEnvReader{
-		sessions: []string{"gt-myrig-forge"},
+		sessions: []string{"hd-myrig-forge"},
 		sessionEnvs: map[string]map[string]string{
-			"gt-myrig-forge": expected,
+			"hd-myrig-forge": expected,
 		},
 	}
 	check := NewEnvVarsCheckWithReader(reader)
@@ -186,9 +186,9 @@ func TestEnvVarsCheck_ForgeCorrect(t *testing.T) {
 func TestEnvVarsCheck_RaiderCorrect(t *testing.T) {
 	expected := expectedEnv("raider", "myrig", "Toast")
 	reader := &mockEnvReader{
-		sessions: []string{"gt-myrig-Toast"},
+		sessions: []string{"hd-myrig-Toast"},
 		sessionEnvs: map[string]map[string]string{
-			"gt-myrig-Toast": expected,
+			"hd-myrig-Toast": expected,
 		},
 	}
 	check := NewEnvVarsCheckWithReader(reader)
@@ -201,9 +201,9 @@ func TestEnvVarsCheck_RaiderCorrect(t *testing.T) {
 
 func TestEnvVarsCheck_RaiderMissing(t *testing.T) {
 	reader := &mockEnvReader{
-		sessions: []string{"gt-myrig-Toast"},
+		sessions: []string{"hd-myrig-Toast"},
 		sessionEnvs: map[string]map[string]string{
-			"gt-myrig-Toast": {
+			"hd-myrig-Toast": {
 				"HD_ROLE": "raider",
 				// Missing HD_WARBAND, HD_RAIDER, BD_ACTOR, GIT_AUTHOR_NAME
 			},
@@ -220,9 +220,9 @@ func TestEnvVarsCheck_RaiderMissing(t *testing.T) {
 func TestEnvVarsCheck_CrewCorrect(t *testing.T) {
 	expected := expectedEnv("clan", "myrig", "worker1")
 	reader := &mockEnvReader{
-		sessions: []string{"gt-myrig-clan-worker1"},
+		sessions: []string{"hd-myrig-clan-worker1"},
 		sessionEnvs: map[string]map[string]string{
-			"gt-myrig-clan-worker1": expected,
+			"hd-myrig-clan-worker1": expected,
 		},
 	}
 	check := NewEnvVarsCheckWithReader(reader)
@@ -239,11 +239,11 @@ func TestEnvVarsCheck_MultipleSessions(t *testing.T) {
 	raiderEnv := expectedEnv("raider", "rig1", "Toast")
 
 	reader := &mockEnvReader{
-		sessions: []string{"hq-warchief", "gt-rig1-witness", "gt-rig1-Toast"},
+		sessions: []string{"hq-warchief", "hd-rig1-witness", "hd-rig1-Toast"},
 		sessionEnvs: map[string]map[string]string{
 			"hq-warchief":        warchiefEnv,
-			"gt-rig1-witness": witnessEnv,
-			"gt-rig1-Toast":   raiderEnv,
+			"hd-rig1-witness": witnessEnv,
+			"hd-rig1-Toast":   raiderEnv,
 		},
 	}
 	check := NewEnvVarsCheckWithReader(reader)
@@ -261,10 +261,10 @@ func TestEnvVarsCheck_MixedCorrectAndMismatch(t *testing.T) {
 	warchiefEnv := expectedEnv("warchief", "", "")
 
 	reader := &mockEnvReader{
-		sessions: []string{"hq-warchief", "gt-rig1-witness"},
+		sessions: []string{"hq-warchief", "hd-rig1-witness"},
 		sessionEnvs: map[string]map[string]string{
 			"hq-warchief": warchiefEnv,
-			"gt-rig1-witness": {
+			"hd-rig1-witness": {
 				"HD_ROLE": "witness",
 				// Missing HD_WARBAND and other vars
 			},
@@ -311,9 +311,9 @@ func TestEnvVarsCheck_ShamanMissing(t *testing.T) {
 
 func TestEnvVarsCheck_GetEnvError(t *testing.T) {
 	reader := &mockEnvReader{
-		sessions: []string{"gt-myrig-witness"},
+		sessions: []string{"hd-myrig-witness"},
 		envErrs: map[string]error{
-			"gt-myrig-witness": errors.New("session not found"),
+			"hd-myrig-witness": errors.New("session not found"),
 		},
 	}
 	check := NewEnvVarsCheckWithReader(reader)
@@ -328,9 +328,9 @@ func TestEnvVarsCheck_HyphenatedRig(t *testing.T) {
 	// Test warband name with hyphens: "foo-bar"
 	expected := expectedEnv("witness", "foo-bar", "")
 	reader := &mockEnvReader{
-		sessions: []string{"gt-foo-bar-witness"},
+		sessions: []string{"hd-foo-bar-witness"},
 		sessionEnvs: map[string]map[string]string{
-			"gt-foo-bar-witness": expected,
+			"hd-foo-bar-witness": expected,
 		},
 	}
 	check := NewEnvVarsCheckWithReader(reader)
@@ -346,9 +346,9 @@ func TestEnvVarsCheck_RelicsDirWarning(t *testing.T) {
 	expected := expectedEnv("witness", "myrig", "")
 	expected["RELICS_DIR"] = "/some/path/.relics" // This shouldn't be set!
 	reader := &mockEnvReader{
-		sessions: []string{"gt-myrig-witness"},
+		sessions: []string{"hd-myrig-witness"},
 		sessionEnvs: map[string]map[string]string{
-			"gt-myrig-witness": expected,
+			"hd-myrig-witness": expected,
 		},
 	}
 	check := NewEnvVarsCheckWithReader(reader)
@@ -370,9 +370,9 @@ func TestEnvVarsCheck_RelicsDirEmptyIsOK(t *testing.T) {
 	expected := expectedEnv("witness", "myrig", "")
 	expected["RELICS_DIR"] = "" // Empty is fine
 	reader := &mockEnvReader{
-		sessions: []string{"gt-myrig-witness"},
+		sessions: []string{"hd-myrig-witness"},
 		sessionEnvs: map[string]map[string]string{
-			"gt-myrig-witness": expected,
+			"hd-myrig-witness": expected,
 		},
 	}
 	check := NewEnvVarsCheckWithReader(reader)
@@ -390,10 +390,10 @@ func TestEnvVarsCheck_RelicsDirMultipleSessions(t *testing.T) {
 	raiderEnv["RELICS_DIR"] = "/bad/path" // This shouldn't be set!
 
 	reader := &mockEnvReader{
-		sessions: []string{"gt-myrig-witness", "gt-myrig-Toast"},
+		sessions: []string{"hd-myrig-witness", "hd-myrig-Toast"},
 		sessionEnvs: map[string]map[string]string{
-			"gt-myrig-witness": witnessEnv,
-			"gt-myrig-Toast":   raiderEnv,
+			"hd-myrig-witness": witnessEnv,
+			"hd-myrig-Toast":   raiderEnv,
 		},
 	}
 	check := NewEnvVarsCheckWithReader(reader)
@@ -410,9 +410,9 @@ func TestEnvVarsCheck_RelicsDirMultipleSessions(t *testing.T) {
 func TestEnvVarsCheck_RelicsDirWithOtherMismatches(t *testing.T) {
 	// Session has RELICS_DIR AND other mismatches - both should be reported
 	reader := &mockEnvReader{
-		sessions: []string{"gt-myrig-witness"},
+		sessions: []string{"hd-myrig-witness"},
 		sessionEnvs: map[string]map[string]string{
-			"gt-myrig-witness": {
+			"hd-myrig-witness": {
 				"HD_ROLE":   "witness",
 				"HD_WARBAND":    "wrongrig", // Mismatch
 				"RELICS_DIR": "/bad/path",

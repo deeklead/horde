@@ -8,27 +8,27 @@ func TestCategorizeSessionRig(t *testing.T) {
 		wantRig string
 	}{
 		// Standard raider sessions
-		{"gt-horde-slit", "horde"},
-		{"gt-horde-Toast", "horde"},
-		{"gt-myrig-worker", "myrig"},
+		{"hd-horde-slit", "horde"},
+		{"hd-horde-Toast", "horde"},
+		{"hd-myrig-worker", "myrig"},
 
 		// Clan sessions
-		{"gt-horde-clan-max", "horde"},
-		{"gt-myrig-clan-user", "myrig"},
+		{"hd-horde-clan-max", "horde"},
+		{"hd-myrig-clan-user", "myrig"},
 
 		// Witness sessions (canonical format: gt-<warband>-witness)
-		{"gt-horde-witness", "horde"},
-		{"gt-myrig-witness", "myrig"},
+		{"hd-horde-witness", "horde"},
+		{"hd-myrig-witness", "myrig"},
 		// Legacy format still works as fallback
-		{"gt-witness-horde", "horde"},
-		{"gt-witness-myrig", "myrig"},
+		{"hd-witness-horde", "horde"},
+		{"hd-witness-myrig", "myrig"},
 
 		// Forge sessions
-		{"gt-horde-forge", "horde"},
-		{"gt-myrig-forge", "myrig"},
+		{"hd-horde-forge", "horde"},
+		{"hd-myrig-forge", "myrig"},
 
 		// Edge cases
-		{"gt-a-b", "a"}, // minimum valid
+		{"hd-a-b", "a"}, // minimum valid
 
 		// Encampment-level agents (no warband, use hq- prefix)
 		{"hq-warchief", ""},
@@ -55,17 +55,17 @@ func TestCategorizeSessionType(t *testing.T) {
 		wantType AgentType
 	}{
 		// Raider sessions
-		{"gt-horde-slit", AgentRaider},
-		{"gt-horde-Toast", AgentRaider},
-		{"gt-myrig-worker", AgentRaider},
-		{"gt-a-b", AgentRaider},
+		{"hd-horde-slit", AgentRaider},
+		{"hd-horde-Toast", AgentRaider},
+		{"hd-myrig-worker", AgentRaider},
+		{"hd-a-b", AgentRaider},
 
 		// Non-raider sessions
-		{"gt-horde-witness", AgentWitness}, // canonical format
-		{"gt-witness-horde", AgentWitness}, // legacy fallback
-		{"gt-horde-forge", AgentForge},
-		{"gt-horde-clan-max", AgentCrew},
-		{"gt-myrig-clan-user", AgentCrew},
+		{"hd-horde-witness", AgentWitness}, // canonical format
+		{"hd-witness-horde", AgentWitness}, // legacy fallback
+		{"hd-horde-forge", AgentForge},
+		{"hd-horde-clan-max", AgentCrew},
+		{"hd-myrig-clan-user", AgentCrew},
 
 		// Encampment-level agents (hq- prefix)
 		{"hq-warchief", AgentWarchief},

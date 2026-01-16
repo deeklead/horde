@@ -188,7 +188,7 @@ func runUp(cmd *cobra.Command, args []string) error {
 		for _, rigName := range warbands {
 			crewStarted, crewErrors := startCrewFromSettings(townRoot, rigName)
 			for _, name := range crewStarted {
-				printStatus(fmt.Sprintf("Clan (%s/%s)", rigName, name), true, fmt.Sprintf("gt-%s-clan-%s", rigName, name))
+				printStatus(fmt.Sprintf("Clan (%s/%s)", rigName, name), true, fmt.Sprintf("hd-%s-clan-%s", rigName, name))
 			}
 			for name, err := range crewErrors {
 				printStatus(fmt.Sprintf("Clan (%s/%s)", rigName, name), false, err.Error())
@@ -200,7 +200,7 @@ func runUp(cmd *cobra.Command, args []string) error {
 		for _, rigName := range warbands {
 			raidersStarted, raiderErrors := startRaidersWithWork(townRoot, rigName)
 			for _, name := range raidersStarted {
-				printStatus(fmt.Sprintf("Raider (%s/%s)", rigName, name), true, fmt.Sprintf("gt-%s-raider-%s", rigName, name))
+				printStatus(fmt.Sprintf("Raider (%s/%s)", rigName, name), true, fmt.Sprintf("hd-%s-raider-%s", rigName, name))
 			}
 			for name, err := range raiderErrors {
 				printStatus(fmt.Sprintf("Raider (%s/%s)", rigName, name), false, err.Error())

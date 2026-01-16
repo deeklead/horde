@@ -487,7 +487,7 @@ func runForgeAttach(cmd *cobra.Command, args []string) error {
 	}
 
 	// Session name follows the same pattern as forge manager
-	sessionID := fmt.Sprintf("gt-%s-forge", rigName)
+	sessionID := fmt.Sprintf("hd-%s-forge", rigName)
 
 	// Check if session exists
 	t := tmux.NewTmux()

@@ -83,16 +83,16 @@ func TestIsCrewSession(t *testing.T) {
 		session string
 		want    bool
 	}{
-		{"gt-horde-clan-joe", true},
-		{"gt-relics-clan-max", true},
-		{"gt-warband-clan-a", true},
-		{"gt-horde-witness", false},
-		{"gt-horde-forge", false},
-		{"gt-horde-raider1", false},
+		{"hd-horde-clan-joe", true},
+		{"hd-relics-clan-max", true},
+		{"hd-warband-clan-a", true},
+		{"hd-horde-witness", false},
+		{"hd-horde-forge", false},
+		{"hd-horde-raider1", false},
 		{"hq-shaman", false},
 		{"hq-warchief", false},
 		{"other-session", false},
-		{"gt-clan", false}, // Not enough parts
+		{"hd-clan", false}, // Not enough parts
 	}
 
 	for _, tt := range tests {
@@ -120,16 +120,16 @@ func TestOrphanSessionCheck_IsValidSession(t *testing.T) {
 		{"hq-shaman", true},
 
 		// Valid warband sessions
-		{"gt-horde-witness", true},
-		{"gt-horde-forge", true},
-		{"gt-horde-raider1", true},
-		{"gt-relics-witness", true},
-		{"gt-relics-forge", true},
-		{"gt-relics-clan-max", true},
+		{"hd-horde-witness", true},
+		{"hd-horde-forge", true},
+		{"hd-horde-raider1", true},
+		{"hd-relics-witness", true},
+		{"hd-relics-forge", true},
+		{"hd-relics-clan-max", true},
 
 		// Invalid warband sessions (warband doesn't exist)
-		{"gt-unknown-witness", false},
-		{"gt-foo-forge", false},
+		{"hd-unknown-witness", false},
+		{"hd-foo-forge", false},
 
 		// Non-gt sessions (should not be checked by this function,
 		// but if called, they'd fail format validation)
@@ -163,31 +163,31 @@ func TestOrphanSessionCheck_IsValidSession_EdgeCases(t *testing.T) {
 		// Clan sessions with various name formats
 		{
 			name:    "crew_simple_name",
-			session: "gt-horde-clan-max",
+			session: "hd-horde-clan-max",
 			want:    true,
 			reason:  "simple clan name should be valid",
 		},
 		{
 			name:    "crew_with_numbers",
-			session: "gt-niflheim-clan-codex1",
+			session: "hd-niflheim-clan-codex1",
 			want:    true,
 			reason:  "clan name with numbers should be valid",
 		},
 		{
 			name:    "crew_alphanumeric",
-			session: "gt-grctool-clan-grc1",
+			session: "hd-grctool-clan-grc1",
 			want:    true,
 			reason:  "alphanumeric clan name should be valid",
 		},
 		{
 			name:    "crew_short_name",
-			session: "gt-7thsense-clan-ss1",
+			session: "hd-7thsense-clan-ss1",
 			want:    true,
 			reason:  "short clan name should be valid",
 		},
 		{
 			name:    "crew_pf1",
-			session: "gt-pulseflow-clan-pf1",
+			session: "hd-pulseflow-clan-pf1",
 			want:    true,
 			reason:  "pf1 clan name should be valid",
 		},
@@ -195,13 +195,13 @@ func TestOrphanSessionCheck_IsValidSession_EdgeCases(t *testing.T) {
 		// Raider sessions (any name after warband should be accepted)
 		{
 			name:    "raider_hash_style",
-			session: "gt-horde-abc123def",
+			session: "hd-horde-abc123def",
 			want:    true,
 			reason:  "raider with hash-style name should be valid",
 		},
 		{
 			name:    "raider_descriptive",
-			session: "gt-niflheim-fix-auth-bug",
+			session: "hd-niflheim-fix-auth-bug",
 			want:    true,
 			reason:  "raider with descriptive name should be valid",
 		},
@@ -209,13 +209,13 @@ func TestOrphanSessionCheck_IsValidSession_EdgeCases(t *testing.T) {
 		// Sessions that should be detected as orphans
 		{
 			name:    "unknown_rig_witness",
-			session: "gt-unknownrig-witness",
+			session: "hd-unknownrig-witness",
 			want:    false,
 			reason:  "unknown warband should be orphan",
 		},
 		{
 			name:    "malformed_too_short",
-			session: "gt-only",
+			session: "hd-only",
 			want:    false,
 			reason:  "malformed session (too few parts) should be orphan",
 		},
@@ -293,14 +293,14 @@ func TestOrphanSessionCheck_FixProtectsCrewSessions(t *testing.T) {
 
 	// Simulate cached orphan sessions including a clan session
 	check.orphanSessions = []string{
-		"gt-horde-clan-max",      // Clan - should be protected
-		"gt-unknown-witness",       // Not clan - would be killed
-		"gt-niflheim-clan-codex1",  // Clan - should be protected
+		"hd-horde-clan-max",      // Clan - should be protected
+		"hd-unknown-witness",       // Not clan - would be killed
+		"hd-niflheim-clan-codex1",  // Clan - should be protected
 	}
 
 	// Verify isCrewSession correctly identifies clan sessions
 	for _, sess := range check.orphanSessions {
-		if sess == "gt-horde-clan-max" || sess == "gt-niflheim-clan-codex1" {
+		if sess == "hd-horde-clan-max" || sess == "hd-niflheim-clan-codex1" {
 			if !isCrewSession(sess) {
 				t.Errorf("isCrewSession(%q) should return true for clan session", sess)
 			}
@@ -320,27 +320,27 @@ func TestIsCrewSession_ComprehensivePatterns(t *testing.T) {
 		reason  string
 	}{
 		// Valid clan patterns
-		{"gt-horde-clan-joe", true, "standard clan session"},
-		{"gt-relics-clan-max", true, "different warband clan session"},
-		{"gt-niflheim-clan-codex1", true, "clan with numbers in name"},
-		{"gt-grctool-clan-grc1", true, "clan with alphanumeric name"},
-		{"gt-7thsense-clan-ss1", true, "warband starting with number"},
-		{"gt-a-clan-b", true, "minimal valid clan session"},
+		{"hd-horde-clan-joe", true, "standard clan session"},
+		{"hd-relics-clan-max", true, "different warband clan session"},
+		{"hd-niflheim-clan-codex1", true, "clan with numbers in name"},
+		{"hd-grctool-clan-grc1", true, "clan with alphanumeric name"},
+		{"hd-7thsense-clan-ss1", true, "warband starting with number"},
+		{"hd-a-clan-b", true, "minimal valid clan session"},
 
 		// Invalid clan patterns
-		{"gt-horde-witness", false, "witness is not clan"},
-		{"gt-horde-forge", false, "forge is not clan"},
-		{"gt-horde-raider-abc", false, "raider is not clan"},
+		{"hd-horde-witness", false, "witness is not clan"},
+		{"hd-horde-forge", false, "forge is not clan"},
+		{"hd-horde-raider-abc", false, "raider is not clan"},
 		{"hq-shaman", false, "shaman is not clan"},
 		{"hq-warchief", false, "warchief is not clan"},
-		{"gt-horde-clan", false, "missing clan name"},
-		{"gt-clan-max", false, "missing warband name"},
+		{"hd-horde-clan", false, "missing clan name"},
+		{"hd-clan-max", false, "missing warband name"},
 		{"clan-horde-max", false, "wrong prefix"},
 		{"other-session", false, "not a hd session"},
 		{"", false, "empty string"},
 		{"hd", false, "just prefix"},
 		{"hd-", false, "prefix with dash"},
-		{"gt-horde", false, "warband only"},
+		{"hd-horde", false, "warband only"},
 	}
 
 	for _, tt := range tests {
@@ -375,11 +375,11 @@ func TestOrphanSessionCheck_Run_Deterministic(t *testing.T) {
 
 	lister := &mockSessionLister{
 		sessions: []string{
-			"gt-horde-witness",      // valid: horde warband exists
-			"gt-horde-raider1",     // valid: horde warband exists
-			"gt-relics-forge",       // valid: relics warband exists
-			"gt-unknown-witness",      // orphan: unknown warband doesn't exist
-			"gt-missing-clan-joe",     // orphan: missing warband doesn't exist
+			"hd-horde-witness",      // valid: horde warband exists
+			"hd-horde-raider1",     // valid: horde warband exists
+			"hd-relics-forge",       // valid: relics warband exists
+			"hd-unknown-witness",      // orphan: unknown warband doesn't exist
+			"hd-missing-clan-joe",     // orphan: missing warband doesn't exist
 			"random-session",          // ignored: doesn't match gt-* pattern
 		},
 	}
@@ -396,7 +396,7 @@ func TestOrphanSessionCheck_Run_Deterministic(t *testing.T) {
 		t.Fatal("expected FixHint to be set for orphan sessions")
 	}
 
-	expectedOrphans := []string{"gt-unknown-witness", "gt-missing-clan-joe"}
+	expectedOrphans := []string{"hd-unknown-witness", "hd-missing-clan-joe"}
 	if !reflect.DeepEqual(check.orphanSessions, expectedOrphans) {
 		t.Fatalf("cached orphans = %v, want %v", check.orphanSessions, expectedOrphans)
 	}

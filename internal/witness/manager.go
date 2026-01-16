@@ -63,7 +63,7 @@ func (m *Manager) saveState(w *Witness) error {
 
 // SessionName returns the tmux session name for this witness.
 func (m *Manager) SessionName() string {
-	return fmt.Sprintf("gt-%s-witness", m.warband.Name)
+	return fmt.Sprintf("hd-%s-witness", m.warband.Name)
 }
 
 // Status returns the current witness status.

@@ -124,7 +124,7 @@ func autoSpawnPatrol(cfg PatrolConfig) (string, error) {
 		if strings.Contains(line, cfg.PatrolMolName) {
 			parts := strings.Fields(line)
 			if len(parts) > 0 {
-				// Strip trailing colon from ID (catalog format: "gt-xxx: title")
+				// Strip trailing colon from ID (catalog format: "hd-xxx: title")
 				protoID = strings.TrimSuffix(parts[0], ":")
 				break
 			}

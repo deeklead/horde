@@ -72,7 +72,7 @@ func DefaultMergeQueueConfig() *MergeQueueConfig {
 // MRInfo holds merge request information for display and processing.
 // This replaces mrqueue.MR after the mrqueue package removal.
 type MRInfo struct {
-	ID              string     // Bead ID (e.g., "gt-abc123")
+	ID              string     // Bead ID (e.g., "hd-abc123")
 	Branch          string     // Source branch (e.g., "raider/nux")
 	Target          string     // Target branch (e.g., "main")
 	SourceIssue     string     // The work item being merged

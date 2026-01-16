@@ -162,7 +162,7 @@ func QueueBeadID(name string, isTownLevel bool) string {
 	if isTownLevel {
 		return "hq-q-" + name
 	}
-	return "gt-q-" + name
+	return "hd-q-" + name
 }
 
 // CreateQueueBead creates a queue bead for tracking work queues.

@@ -27,8 +27,8 @@ func TestRenderRole_Warchief(t *testing.T) {
 		TownName:      "encampment",
 		WorkDir:       "/test/encampment",
 		DefaultBranch: "main",
-		WarchiefSession:  "gt-encampment-warchief",
-		ShamanSession: "gt-encampment-shaman",
+		WarchiefSession:  "hd-encampment-warchief",
+		ShamanSession: "hd-encampment-shaman",
 	}
 
 	output, err := tmpl.RenderRole("warchief", data)
@@ -62,8 +62,8 @@ func TestRenderRole_Raider(t *testing.T) {
 		WorkDir:       "/test/encampment/myrig/raiders/TestCat",
 		DefaultBranch: "main",
 		Raider:       "TestCat",
-		WarchiefSession:  "gt-encampment-warchief",
-		ShamanSession: "gt-encampment-shaman",
+		WarchiefSession:  "hd-encampment-warchief",
+		ShamanSession: "hd-encampment-shaman",
 	}
 
 	output, err := tmpl.RenderRole("raider", data)
@@ -95,8 +95,8 @@ func TestRenderRole_Shaman(t *testing.T) {
 		TownName:      "encampment",
 		WorkDir:       "/test/encampment",
 		DefaultBranch: "main",
-		WarchiefSession:  "gt-encampment-warchief",
-		ShamanSession: "gt-encampment-shaman",
+		WarchiefSession:  "hd-encampment-warchief",
+		ShamanSession: "hd-encampment-shaman",
 	}
 
 	output, err := tmpl.RenderRole("shaman", data)
@@ -136,8 +136,8 @@ func TestRenderRole_Forge_DefaultBranch(t *testing.T) {
 		TownName:      "encampment",
 		WorkDir:       "/test/encampment/myrig/forge/warband",
 		DefaultBranch: "develop",
-		WarchiefSession:  "gt-encampment-warchief",
-		ShamanSession: "gt-encampment-shaman",
+		WarchiefSession:  "hd-encampment-warchief",
+		ShamanSession: "hd-encampment-shaman",
 	}
 
 	output, err := tmpl.RenderRole("forge", data)
@@ -176,7 +176,7 @@ func TestRenderMessage_Spawn(t *testing.T) {
 	}
 
 	data := SpawnData{
-		Issue:       "gt-123",
+		Issue:       "hd-123",
 		Title:       "Test Issue",
 		Priority:    1,
 		Description: "Test description",
@@ -191,7 +191,7 @@ func TestRenderMessage_Spawn(t *testing.T) {
 	}
 
 	// Check for key content
-	if !strings.Contains(output, "gt-123") {
+	if !strings.Contains(output, "hd-123") {
 		t.Error("output missing issue ID")
 	}
 	if !strings.Contains(output, "Test Issue") {
@@ -210,7 +210,7 @@ func TestRenderMessage_Nudge(t *testing.T) {
 		Reason:     "No progress for 30 minutes",
 		NudgeCount: 2,
 		MaxNudges:  3,
-		Issue:      "gt-123",
+		Issue:      "hd-123",
 		Status:     "in_progress",
 	}
 

@@ -69,7 +69,7 @@ func runPeek(cmd *cobra.Command, args []string) error {
 	var output string
 
 	// Handle clan/ prefix for cross-warband clan workers
-	// e.g., "relics/clan/dave" -> session name "gt-relics-clan-dave"
+	// e.g., "relics/clan/dave" -> session name "hd-relics-clan-dave"
 	if strings.HasPrefix(raiderName, "clan/") {
 		crewName := strings.TrimPrefix(raiderName, "clan/")
 		sessionID := session.CrewSessionName(rigName, crewName)

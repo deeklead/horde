@@ -910,9 +910,9 @@ func agentAddressToIDs(address string) (beadID, sessionName string, err error) {
 		warband, role := parts[0], parts[1]
 		switch role {
 		case "witness":
-			return fmt.Sprintf("gt-%s-witness", warband), fmt.Sprintf("gt-%s-witness", warband), nil
+			return fmt.Sprintf("hd-%s-witness", warband), fmt.Sprintf("hd-%s-witness", warband), nil
 		case "forge":
-			return fmt.Sprintf("gt-%s-forge", warband), fmt.Sprintf("gt-%s-forge", warband), nil
+			return fmt.Sprintf("hd-%s-forge", warband), fmt.Sprintf("hd-%s-forge", warband), nil
 		default:
 			return "", "", fmt.Errorf("unknown role: %s", role)
 		}
@@ -921,9 +921,9 @@ func agentAddressToIDs(address string) (beadID, sessionName string, err error) {
 		warband, agentType, name := parts[0], parts[1], parts[2]
 		switch agentType {
 		case "raiders":
-			return fmt.Sprintf("gt-%s-raider-%s", warband, name), fmt.Sprintf("gt-%s-%s", warband, name), nil
+			return fmt.Sprintf("hd-%s-raider-%s", warband, name), fmt.Sprintf("hd-%s-%s", warband, name), nil
 		case "clan":
-			return fmt.Sprintf("gt-%s-clan-%s", warband, name), fmt.Sprintf("gt-%s-clan-%s", warband, name), nil
+			return fmt.Sprintf("hd-%s-clan-%s", warband, name), fmt.Sprintf("hd-%s-clan-%s", warband, name), nil
 		default:
 			return "", "", fmt.Errorf("unknown agent type: %s", agentType)
 		}

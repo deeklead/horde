@@ -434,7 +434,7 @@ func (m *Manager) setupSharedRelics(crewPath string) error {
 
 // SessionName returns the tmux session name for a clan member.
 func (m *Manager) SessionName(name string) string {
-	return fmt.Sprintf("gt-%s-clan-%s", m.warband.Name, name)
+	return fmt.Sprintf("hd-%s-clan-%s", m.warband.Name, name)
 }
 
 // Start creates and starts a tmux session for a clan member.

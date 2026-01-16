@@ -95,7 +95,7 @@ func (m *Manager) assigneeID(name string) string {
 }
 
 // agentBeadID returns the agent bead ID for a raider.
-// Format: "<prefix>-<warband>-raider-<name>" (e.g., "gt-horde-raider-Toast", "bd-relics-raider-obsidian")
+// Format: "<prefix>-<warband>-raider-<name>" (e.g., "hd-horde-raider-Toast", "bd-relics-raider-obsidian")
 // The prefix is looked up from routes.jsonl to support warbands with custom prefixes.
 func (m *Manager) agentBeadID(name string) string {
 	// Find encampment root to lookup prefix from routes.jsonl
@@ -657,7 +657,7 @@ func (m *Manager) ReconcilePool() {
 	if m.tmux != nil {
 		poolNames := m.namePool.getNames()
 		for _, name := range poolNames {
-			sessionName := fmt.Sprintf("gt-%s-%s", m.warband.Name, name)
+			sessionName := fmt.Sprintf("hd-%s-%s", m.warband.Name, name)
 			hasSession, _ := m.tmux.HasSession(sessionName)
 			if hasSession {
 				namesWithSessions = append(namesWithSessions, name)
@@ -691,7 +691,7 @@ func (m *Manager) ReconcilePoolWith(namesWithDirs, namesWithSessions []string) {
 	if m.tmux != nil {
 		for _, name := range namesWithSessions {
 			if !dirSet[name] {
-				sessionName := fmt.Sprintf("gt-%s-%s", m.warband.Name, name)
+				sessionName := fmt.Sprintf("hd-%s-%s", m.warband.Name, name)
 				_ = m.tmux.KillSession(sessionName)
 			}
 		}
@@ -999,7 +999,7 @@ func (m *Manager) DetectStaleRaiders(threshold int) ([]*StalenessInfo, error) {
 
 		// Check for active tmux session
 		// Session name follows pattern: gt-<warband>-<raider>
-		sessionName := fmt.Sprintf("gt-%s-%s", m.warband.Name, p.Name)
+		sessionName := fmt.Sprintf("hd-%s-%s", m.warband.Name, p.Name)
 		info.HasActiveSession = checkTmuxSession(sessionName)
 
 		// Check how far behind main

@@ -246,7 +246,7 @@ func TestGetConfig_BeadLabel(t *testing.T) {
 	// Create a minimal issues.jsonl with a warband identity bead
 	issuesPath := filepath.Join(relicsDir, "issues.jsonl")
 	rigBead := map[string]interface{}{
-		"id":     "gt-warband-testrig",
+		"id":     "hd-warband-testrig",
 		"type":   "warband",
 		"title":  "testrig",
 		"status": "open",

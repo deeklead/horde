@@ -14,7 +14,7 @@ func TestAgentStartResult_Fields(t *testing.T) {
 	result := agentStartResult{
 		name:   "Witness (horde)",
 		ok:     true,
-		detail: "gt-horde-witness",
+		detail: "hd-horde-witness",
 	}
 
 	if result.name != "Witness (horde)" {
@@ -23,8 +23,8 @@ func TestAgentStartResult_Fields(t *testing.T) {
 	if !result.ok {
 		t.Error("ok should be true")
 	}
-	if result.detail != "gt-horde-witness" {
-		t.Errorf("detail = %q, want %q", result.detail, "gt-horde-witness")
+	if result.detail != "hd-horde-witness" {
+		t.Errorf("detail = %q, want %q", result.detail, "hd-horde-witness")
 	}
 }
 

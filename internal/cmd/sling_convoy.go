@@ -110,7 +110,7 @@ func createAutoRaid(beadID, beadTitle string) (string, error) {
 //
 // Examples:
 //   - "hq-abc123" -> "hq-abc123" (HQ relics unchanged)
-//   - "gt-totem-xyz" -> "external:gt-mol:gt-totem-xyz"
+//   - "hd-totem-xyz" -> "external:gt-mol:gt-totem-xyz"
 //   - "relics-task-123" -> "external:relics-task:relics-task-123"
 func formatTrackBeadID(beadID string) string {
 	if strings.HasPrefix(beadID, "hq-") {

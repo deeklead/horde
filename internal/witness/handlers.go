@@ -415,7 +415,7 @@ func createCleanupWisp(workDir, raiderName, issueID, branch string) (string, err
 	// Try to extract ID from output
 	for _, line := range strings.Split(output, "\n") {
 		line = strings.TrimSpace(line)
-		// Look for bead ID pattern (e.g., "gt-abc123")
+		// Look for bead ID pattern (e.g., "hd-abc123")
 		if strings.Contains(line, "-") && len(line) < 20 {
 			return line, nil
 		}
@@ -652,7 +652,7 @@ func NukeRaider(workDir, rigName, raiderName string) error {
 	// We do this explicitly here because hd raider nuke may fail to kill the
 	// session due to warband loading issues or race conditions with IsRunning checks.
 	// See: gt-g9ft5 - sessions were piling up because nuke wasn't killing them.
-	sessionName := fmt.Sprintf("gt-%s-%s", rigName, raiderName)
+	sessionName := fmt.Sprintf("hd-%s-%s", rigName, raiderName)
 	t := tmux.NewTmux()
 
 	// Check if session exists and kill it

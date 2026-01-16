@@ -49,22 +49,22 @@ func TestAgentBeadIDToAddress(t *testing.T) {
 		want string
 	}{
 		// Encampment-level agents
-		{"gt-warchief", "warchief/"},
-		{"gt-shaman", "shaman/"},
+		{"hd-warchief", "warchief/"},
+		{"hd-shaman", "shaman/"},
 
 		// Warband singletons
-		{"gt-horde-witness", "horde/witness"},
-		{"gt-horde-forge", "horde/forge"},
-		{"gt-relics-witness", "relics/witness"},
+		{"hd-horde-witness", "horde/witness"},
+		{"hd-horde-forge", "horde/forge"},
+		{"hd-relics-witness", "relics/witness"},
 
 		// Named agents
-		{"gt-horde-clan-max", "horde/clan/max"},
-		{"gt-horde-raider-Toast", "horde/raider/Toast"},
-		{"gt-relics-clan-wolf", "relics/clan/wolf"},
+		{"hd-horde-clan-max", "horde/clan/max"},
+		{"hd-horde-raider-Toast", "horde/raider/Toast"},
+		{"hd-relics-clan-wolf", "relics/clan/wolf"},
 
 		// Agent with hyphen in name
-		{"gt-horde-clan-max-v2", "horde/clan/max-v2"},
-		{"gt-horde-raider-my-agent", "horde/raider/my-agent"},
+		{"hd-horde-clan-max-v2", "horde/clan/max-v2"},
+		{"hd-horde-raider-my-agent", "horde/raider/my-agent"},
 
 		// Invalid
 		{"invalid", ""},

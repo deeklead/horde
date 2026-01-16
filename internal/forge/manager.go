@@ -59,7 +59,7 @@ func (m *Manager) stateFile() string {
 
 // SessionName returns the tmux session name for this forge.
 func (m *Manager) SessionName() string {
-	return fmt.Sprintf("gt-%s-forge", m.warband.Name)
+	return fmt.Sprintf("hd-%s-forge", m.warband.Name)
 }
 
 // loadState loads forge state from disk.

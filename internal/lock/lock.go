@@ -281,7 +281,7 @@ func CleanStaleLocks(root string) (int, error) {
 // (%N, $N) to handle different lock file formats.
 func getActiveTmuxSessions() []string {
 	// Get both session name and ID to handle different lock formats
-	// Format: "session_name:session_id" e.g., "gt-relics-clan-dave:$55"
+	// Format: "session_name:session_id" e.g., "hd-relics-clan-dave:$55"
 	cmd := execCommand("tmux", "list-sessions", "-F", "#{session_name}:#{session_id}")
 	output, err := cmd.Output()
 	if err != nil {

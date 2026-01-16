@@ -988,5 +988,5 @@ func addressToSessionID(address string) string {
 
 	// Raider: gt-warband-raider
 	// Forge: gt-warband-forge (if forge has its own session)
-	return fmt.Sprintf("gt-%s-%s", warband, target)
+	return fmt.Sprintf("hd-%s-%s", warband, target)
 }

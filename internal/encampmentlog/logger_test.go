@@ -22,7 +22,7 @@ func TestFormatLogLine(t *testing.T) {
 				Timestamp: ts,
 				Type:      EventSpawn,
 				Agent:     "horde/clan/max",
-				Context:   "gt-xyz",
+				Context:   "hd-xyz",
 			},
 			contains: []string{"2025-12-26 15:30:45", "[muster]", "horde/clan/max", "spawned for gt-xyz"},
 		},
@@ -42,7 +42,7 @@ func TestFormatLogLine(t *testing.T) {
 				Timestamp: ts,
 				Type:      EventDone,
 				Agent:     "horde/clan/max",
-				Context:   "gt-abc",
+				Context:   "hd-abc",
 			},
 			contains: []string{"[done]", "completed gt-abc"},
 		},
@@ -144,7 +144,7 @@ func TestLoggerLogEvent(t *testing.T) {
 	logger := NewLogger(tmpDir)
 
 	// Log an event
-	err = logger.Log(EventSpawn, "horde/clan/max", "gt-xyz")
+	err = logger.Log(EventSpawn, "horde/clan/max", "hd-xyz")
 	if err != nil {
 		t.Fatalf("Log() error: %v", err)
 	}
@@ -167,10 +167,10 @@ func TestLoggerLogEvent(t *testing.T) {
 func TestFilterEvents(t *testing.T) {
 	now := time.Now()
 	events := []Event{
-		{Timestamp: now.Add(-2 * time.Hour), Type: EventSpawn, Agent: "horde/clan/max", Context: "gt-1"},
+		{Timestamp: now.Add(-2 * time.Hour), Type: EventSpawn, Agent: "horde/clan/max", Context: "hd-1"},
 		{Timestamp: now.Add(-1 * time.Hour), Type: EventNudge, Agent: "horde/clan/max", Context: "hi"},
-		{Timestamp: now.Add(-30 * time.Minute), Type: EventDone, Agent: "horde/raiders/Toast", Context: "gt-2"},
-		{Timestamp: now.Add(-10 * time.Minute), Type: EventSpawn, Agent: "wyvern/clan/joe", Context: "gt-3"},
+		{Timestamp: now.Add(-30 * time.Minute), Type: EventDone, Agent: "horde/raiders/Toast", Context: "hd-2"},
+		{Timestamp: now.Add(-10 * time.Minute), Type: EventSpawn, Agent: "wyvern/clan/joe", Context: "hd-3"},
 	}
 
 	tests := []struct {

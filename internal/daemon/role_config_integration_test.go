@@ -72,7 +72,7 @@ func TestGetRoleConfigForIdentity_FallsBackToLegacyRoleBead(t *testing.T) {
 
 	// Only legacy role bead exists.
 	runBd(t, townRoot, "create",
-		"--id", "gt-witness-role",
+		"--id", "hd-witness-role",
 		"--type", "role",
 		"--title", "Witness Role (legacy)",
 		"--description", "start_command: exec echo gt\n",

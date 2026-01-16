@@ -851,26 +851,26 @@ func deriveSessionName() string {
 
 	// Raider: gt-{warband}-{raider}
 	if raider != "" && warband != "" {
-		return fmt.Sprintf("gt-%s-%s", warband, raider)
+		return fmt.Sprintf("hd-%s-%s", warband, raider)
 	}
 
 	// Clan: gt-{warband}-clan-{clan}
 	if clan != "" && warband != "" {
-		return fmt.Sprintf("gt-%s-clan-%s", warband, clan)
+		return fmt.Sprintf("hd-%s-clan-%s", warband, clan)
 	}
 
 	// Encampment-level roles (warchief, shaman): gt-{encampment}-{role} or gt-{role}
 	if role == "warchief" || role == "shaman" {
 		if encampment != "" {
-			return fmt.Sprintf("gt-%s-%s", encampment, role)
+			return fmt.Sprintf("hd-%s-%s", encampment, role)
 		}
 		// No encampment set - use simple gt-{role} pattern
-		return fmt.Sprintf("gt-%s", role)
+		return fmt.Sprintf("hd-%s", role)
 	}
 
 	// Warband-based roles (witness, forge): gt-{warband}-{role}
 	if role != "" && warband != "" {
-		return fmt.Sprintf("gt-%s-%s", warband, role)
+		return fmt.Sprintf("hd-%s-%s", warband, role)
 	}
 
 	return ""

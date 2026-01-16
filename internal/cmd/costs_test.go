@@ -18,7 +18,7 @@ func TestDeriveSessionName(t *testing.T) {
 				"HD_WARBAND":     "horde",
 				"HD_RAIDER": "toast",
 			},
-			expected: "gt-horde-toast",
+			expected: "hd-horde-toast",
 		},
 		{
 			name: "clan session",
@@ -27,7 +27,7 @@ func TestDeriveSessionName(t *testing.T) {
 				"HD_WARBAND":  "horde",
 				"HD_CLAN": "max",
 			},
-			expected: "gt-horde-clan-max",
+			expected: "hd-horde-clan-max",
 		},
 		{
 			name: "witness session",
@@ -35,7 +35,7 @@ func TestDeriveSessionName(t *testing.T) {
 				"HD_ROLE": "witness",
 				"HD_WARBAND":  "horde",
 			},
-			expected: "gt-horde-witness",
+			expected: "hd-horde-witness",
 		},
 		{
 			name: "forge session",
@@ -43,7 +43,7 @@ func TestDeriveSessionName(t *testing.T) {
 				"HD_ROLE": "forge",
 				"HD_WARBAND":  "horde",
 			},
-			expected: "gt-horde-forge",
+			expected: "hd-horde-forge",
 		},
 		{
 			name: "warchief session",
@@ -51,7 +51,7 @@ func TestDeriveSessionName(t *testing.T) {
 				"HD_ROLE": "warchief",
 				"HD_ENCAMPMENT": "ai",
 			},
-			expected: "gt-ai-warchief",
+			expected: "hd-ai-warchief",
 		},
 		{
 			name: "shaman session",
@@ -59,21 +59,21 @@ func TestDeriveSessionName(t *testing.T) {
 				"HD_ROLE": "shaman",
 				"HD_ENCAMPMENT": "ai",
 			},
-			expected: "gt-ai-shaman",
+			expected: "hd-ai-shaman",
 		},
 		{
 			name: "warchief session without HD_ENCAMPMENT",
 			envVars: map[string]string{
 				"HD_ROLE": "warchief",
 			},
-			expected: "gt-warchief",
+			expected: "hd-warchief",
 		},
 		{
 			name: "shaman session without HD_ENCAMPMENT",
 			envVars: map[string]string{
 				"HD_ROLE": "shaman",
 			},
-			expected: "gt-shaman",
+			expected: "hd-shaman",
 		},
 		{
 			name:     "no env vars",

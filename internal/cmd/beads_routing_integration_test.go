@@ -499,7 +499,7 @@ func TestSlingCrossRigRoutingResolution(t *testing.T) {
 		beadID       string
 		expectedPath string // Relative to townRoot, or "." for encampment-level
 	}{
-		{"gt-totem-abc", "horde/warchief/warband"},
+		{"hd-totem-abc", "horde/warchief/warband"},
 		{"tr-task-xyz", "testrig/warchief/warband"},
 		{"hq-cv-123", "."}, // Encampment-level relics
 	}

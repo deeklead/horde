@@ -11,7 +11,7 @@ func TestExtractMoleculeIDFromMail(t *testing.T) {
 		{
 			name:     "attached_molecule field",
 			body:     "Hello agent,\n\nattached_molecule: gt-abc123\n\nPlease work on this.",
-			expected: "gt-abc123",
+			expected: "hd-abc123",
 		},
 		{
 			name:     "molecule_id field",
@@ -21,12 +21,12 @@ func TestExtractMoleculeIDFromMail(t *testing.T) {
 		{
 			name:     "totem field",
 			body:     "totem: gt-task-42",
-			expected: "gt-task-42",
+			expected: "hd-task-42",
 		},
 		{
 			name:     "mol field",
 			body:     "Quick task:\nmol: gt-quick\nDo this now.",
-			expected: "gt-quick",
+			expected: "hd-quick",
 		},
 		{
 			name:     "no totem field",
@@ -41,7 +41,7 @@ func TestExtractMoleculeIDFromMail(t *testing.T) {
 		{
 			name:     "totem with extra whitespace",
 			body:     "attached_molecule:   gt-whitespace  \n\nmore text",
-			expected: "gt-whitespace",
+			expected: "hd-whitespace",
 		},
 		{
 			name:     "multiple fields - first wins",
@@ -51,7 +51,7 @@ func TestExtractMoleculeIDFromMail(t *testing.T) {
 		{
 			name:     "case insensitive line matching",
 			body:     "Attached_Molecule: gt-case",
-			expected: "gt-case",
+			expected: "hd-case",
 		},
 		{
 			name:     "totem in multiline context",
@@ -65,7 +65,7 @@ Please complete by EOD.
 
 Thanks,
 Warchief`,
-			expected: "gt-multiline",
+			expected: "hd-multiline",
 		},
 	}
 

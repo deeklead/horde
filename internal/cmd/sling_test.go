@@ -16,23 +16,23 @@ func TestParseWispIDFromJSON(t *testing.T) {
 	}{
 		{
 			name:   "new_epic_id",
-			json:   `{"new_epic_id":"gt-wisp-abc","created":7,"phase":"vapor"}`,
-			wantID: "gt-wisp-abc",
+			json:   `{"new_epic_id":"hd-wisp-abc","created":7,"phase":"vapor"}`,
+			wantID: "hd-wisp-abc",
 		},
 		{
 			name:   "root_id legacy",
-			json:   `{"root_id":"gt-wisp-legacy"}`,
-			wantID: "gt-wisp-legacy",
+			json:   `{"root_id":"hd-wisp-legacy"}`,
+			wantID: "hd-wisp-legacy",
 		},
 		{
 			name:   "result_id forward compat",
-			json:   `{"result_id":"gt-wisp-result"}`,
-			wantID: "gt-wisp-result",
+			json:   `{"result_id":"hd-wisp-result"}`,
+			wantID: "hd-wisp-result",
 		},
 		{
 			name:   "precedence prefers new_epic_id",
-			json:   `{"root_id":"gt-wisp-legacy","new_epic_id":"gt-wisp-new"}`,
-			wantID: "gt-wisp-new",
+			json:   `{"root_id":"hd-wisp-legacy","new_epic_id":"hd-wisp-new"}`,
+			wantID: "hd-wisp-new",
 		},
 		{
 			name:    "missing id keys",
@@ -80,7 +80,7 @@ func TestFormatTrackBeadID(t *testing.T) {
 		// Cross-warband relics get external: prefix
 		{
 			name:     "horde warband bead",
-			beadID:   "gt-totem-abc123",
+			beadID:   "hd-totem-abc123",
 			expected: "external:gt-mol:gt-totem-abc123",
 		},
 		{
@@ -141,8 +141,8 @@ func TestFormatTrackBeadIDConsumerCompatibility(t *testing.T) {
 	}{
 		{
 			name:           "cross-warband bead round-trips",
-			beadID:         "gt-totem-abc123",
-			wantOriginalID: "gt-totem-abc123",
+			beadID:         "hd-totem-abc123",
+			wantOriginalID: "hd-totem-abc123",
 		},
 		{
 			name:           "relics warband bead round-trips",
@@ -246,10 +246,10 @@ case "$cmd" in
     shift || true
     case "$sub" in
       wisp)
-        echo '{"new_epic_id":"gt-wisp-xyz"}'
+        echo '{"new_epic_id":"hd-wisp-xyz"}'
         ;;
       bond)
-        echo '{"root_id":"gt-wisp-xyz"}'
+        echo '{"root_id":"hd-wisp-xyz"}'
         ;;
     esac
     ;;
@@ -291,7 +291,7 @@ exit 0
 	slingDryRun = false
 	slingNoRaid = true
 	slingVars = nil
-	slingOnTarget = "gt-abc123"
+	slingOnTarget = "hd-abc123"
 
 	// Prevent real tmux signal from firing during tests (causes agent self-interruption)
 	t.Setenv("HD_TEST_NO_NUDGE", "1")
@@ -408,10 +408,10 @@ case "$cmd" in
     shift || true
     case "$sub" in
       wisp)
-        echo '{"new_epic_id":"gt-wisp-xyz"}'
+        echo '{"new_epic_id":"hd-wisp-xyz"}'
         ;;
       bond)
-        echo '{"root_id":"gt-wisp-xyz"}'
+        echo '{"root_id":"hd-wisp-xyz"}'
         ;;
     esac
     ;;
@@ -453,7 +453,7 @@ exit 0
 	slingDryRun = false
 	slingNoRaid = true
 	slingVars = nil
-	slingOnTarget = "gt-abc123"
+	slingOnTarget = "hd-abc123"
 
 	// Prevent real tmux signal from firing during tests (causes agent self-interruption)
 	t.Setenv("HD_TEST_NO_NUDGE", "1")
@@ -668,13 +668,13 @@ func TestLooksLikeBeadID(t *testing.T) {
 		want  bool
 	}{
 		// Valid bead IDs - should return true
-		{"gt-abc123", true},
+		{"hd-abc123", true},
 		{"bd-ka761", true},
 		{"hq-cv-abc", true},
 		{"ap-qtsup.16", true},
 		{"relics-xyz", true},
 		{"jv-v599", true},
-		{"gt-9e8s5", true},
+		{"hd-9e8s5", true},
 		{"hq-00gyg", true},
 
 		// Short prefixes that match pattern (but may be rituals in practice)

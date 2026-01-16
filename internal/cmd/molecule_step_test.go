@@ -14,18 +14,18 @@ func TestExtractMoleculeIDFromStep(t *testing.T) {
 	}{
 		{
 			name:     "simple step",
-			stepID:   "gt-abc.1",
-			expected: "gt-abc",
+			stepID:   "hd-abc.1",
+			expected: "hd-abc",
 		},
 		{
 			name:     "multi-digit step number",
-			stepID:   "gt-xyz.12",
-			expected: "gt-xyz",
+			stepID:   "hd-xyz.12",
+			expected: "hd-xyz",
 		},
 		{
 			name:     "totem with dash",
-			stepID:   "gt-my-mol.3",
-			expected: "gt-my-mol",
+			stepID:   "hd-my-mol.3",
+			expected: "hd-my-mol",
 		},
 		{
 			name:     "bd prefix",
@@ -34,22 +34,22 @@ func TestExtractMoleculeIDFromStep(t *testing.T) {
 		},
 		{
 			name:     "complex id",
-			stepID:   "gt-some-complex-id.99",
-			expected: "gt-some-complex-id",
+			stepID:   "hd-some-complex-id.99",
+			expected: "hd-some-complex-id",
 		},
 		{
 			name:     "not a step - no suffix",
-			stepID:   "gt-5gq8r",
+			stepID:   "hd-5gq8r",
 			expected: "",
 		},
 		{
 			name:     "not a step - non-numeric suffix",
-			stepID:   "gt-abc.xyz",
+			stepID:   "hd-abc.xyz",
 			expected: "",
 		},
 		{
 			name:     "not a step - mixed suffix",
-			stepID:   "gt-abc.1a",
+			stepID:   "hd-abc.1a",
 			expected: "",
 		},
 		{
@@ -64,7 +64,7 @@ func TestExtractMoleculeIDFromStep(t *testing.T) {
 		},
 		{
 			name:     "trailing dot",
-			stepID:   "gt-abc.",
+			stepID:   "hd-abc.",
 			expected: "",
 		},
 	}
@@ -154,7 +154,7 @@ func TestFindNextReadyStep(t *testing.T) {
 	}{
 		{
 			name:       "no steps - totem complete",
-			moleculeID: "gt-mol",
+			moleculeID: "hd-mol",
 			setupFunc: func(m *mockRelicsForStep) {
 				// Empty totem - no children
 			},
@@ -163,66 +163,66 @@ func TestFindNextReadyStep(t *testing.T) {
 		},
 		{
 			name:       "all steps closed - totem complete",
-			moleculeID: "gt-mol",
+			moleculeID: "hd-mol",
 			setupFunc: func(m *mockRelicsForStep) {
-				m.addIssue(makeStepIssue("gt-mol.1", "Step 1", "gt-mol", "closed", nil))
-				m.addIssue(makeStepIssue("gt-mol.2", "Step 2", "gt-mol", "closed", []string{"gt-mol.1"}))
+				m.addIssue(makeStepIssue("hd-mol.1", "Step 1", "hd-mol", "closed", nil))
+				m.addIssue(makeStepIssue("hd-mol.2", "Step 2", "hd-mol", "closed", []string{"hd-mol.1"}))
 			},
 			wantComplete: true,
 			wantNilStep:  true,
 		},
 		{
 			name:       "first step ready - no dependencies",
-			moleculeID: "gt-mol",
+			moleculeID: "hd-mol",
 			setupFunc: func(m *mockRelicsForStep) {
-				m.addIssue(makeStepIssue("gt-mol.1", "Step 1", "gt-mol", "open", nil))
-				m.addIssue(makeStepIssue("gt-mol.2", "Step 2", "gt-mol", "open", []string{"gt-mol.1"}))
+				m.addIssue(makeStepIssue("hd-mol.1", "Step 1", "hd-mol", "open", nil))
+				m.addIssue(makeStepIssue("hd-mol.2", "Step 2", "hd-mol", "open", []string{"hd-mol.1"}))
 			},
-			wantStepID:   "gt-mol.1",
+			wantStepID:   "hd-mol.1",
 			wantComplete: false,
 		},
 		{
 			name:       "second step ready - first closed",
-			moleculeID: "gt-mol",
+			moleculeID: "hd-mol",
 			setupFunc: func(m *mockRelicsForStep) {
-				m.addIssue(makeStepIssue("gt-mol.1", "Step 1", "gt-mol", "closed", nil))
-				m.addIssue(makeStepIssue("gt-mol.2", "Step 2", "gt-mol", "open", []string{"gt-mol.1"}))
+				m.addIssue(makeStepIssue("hd-mol.1", "Step 1", "hd-mol", "closed", nil))
+				m.addIssue(makeStepIssue("hd-mol.2", "Step 2", "hd-mol", "open", []string{"hd-mol.1"}))
 			},
-			wantStepID:   "gt-mol.2",
+			wantStepID:   "hd-mol.2",
 			wantComplete: false,
 		},
 		{
 			name:       "all blocked - waiting on dependencies",
-			moleculeID: "gt-mol",
+			moleculeID: "hd-mol",
 			setupFunc: func(m *mockRelicsForStep) {
-				m.addIssue(makeStepIssue("gt-mol.1", "Step 1", "gt-mol", "in_progress", nil))
-				m.addIssue(makeStepIssue("gt-mol.2", "Step 2", "gt-mol", "open", []string{"gt-mol.1"}))
-				m.addIssue(makeStepIssue("gt-mol.3", "Step 3", "gt-mol", "open", []string{"gt-mol.2"}))
+				m.addIssue(makeStepIssue("hd-mol.1", "Step 1", "hd-mol", "in_progress", nil))
+				m.addIssue(makeStepIssue("hd-mol.2", "Step 2", "hd-mol", "open", []string{"hd-mol.1"}))
+				m.addIssue(makeStepIssue("hd-mol.3", "Step 3", "hd-mol", "open", []string{"hd-mol.2"}))
 			},
 			wantComplete: false,
 			wantNilStep:  true, // No ready steps (all blocked or in-progress)
 		},
 		{
 			name:       "parallel steps - multiple ready",
-			moleculeID: "gt-mol",
+			moleculeID: "hd-mol",
 			setupFunc: func(m *mockRelicsForStep) {
 				// Both step 1 and 2 have no deps, so both are ready
-				m.addIssue(makeStepIssue("gt-mol.1", "Step 1", "gt-mol", "open", nil))
-				m.addIssue(makeStepIssue("gt-mol.2", "Step 2", "gt-mol", "open", nil))
-				m.addIssue(makeStepIssue("gt-mol.3", "Synthesis", "gt-mol", "open", []string{"gt-mol.1", "gt-mol.2"}))
+				m.addIssue(makeStepIssue("hd-mol.1", "Step 1", "hd-mol", "open", nil))
+				m.addIssue(makeStepIssue("hd-mol.2", "Step 2", "hd-mol", "open", nil))
+				m.addIssue(makeStepIssue("hd-mol.3", "Synthesis", "hd-mol", "open", []string{"hd-mol.1", "hd-mol.2"}))
 			},
 			wantComplete: false,
 			// Should return one of the ready steps (implementation returns first found)
 		},
 		{
 			name:       "diamond dependency - synthesis blocked",
-			moleculeID: "gt-mol",
+			moleculeID: "hd-mol",
 			setupFunc: func(m *mockRelicsForStep) {
-				m.addIssue(makeStepIssue("gt-mol.1", "Step A", "gt-mol", "closed", nil))
-				m.addIssue(makeStepIssue("gt-mol.2", "Step B", "gt-mol", "open", nil)) // still open
-				m.addIssue(makeStepIssue("gt-mol.3", "Synthesis", "gt-mol", "open", []string{"gt-mol.1", "gt-mol.2"}))
+				m.addIssue(makeStepIssue("hd-mol.1", "Step A", "hd-mol", "closed", nil))
+				m.addIssue(makeStepIssue("hd-mol.2", "Step B", "hd-mol", "open", nil)) // still open
+				m.addIssue(makeStepIssue("hd-mol.3", "Synthesis", "hd-mol", "open", []string{"hd-mol.1", "hd-mol.2"}))
 			},
-			wantStepID:   "gt-mol.2", // B is ready (no deps)
+			wantStepID:   "hd-mol.2", // B is ready (no deps)
 			wantComplete: false,
 		},
 	}
@@ -316,43 +316,43 @@ func TestStepDoneScenarios(t *testing.T) {
 	}{
 		{
 			name:   "complete step, continue to next",
-			stepID: "gt-mol.1",
+			stepID: "hd-mol.1",
 			setupFunc: func(m *mockRelicsForStep) {
-				m.addIssue(makeStepIssue("gt-mol.1", "Step 1", "gt-mol", "open", nil))
-				m.addIssue(makeStepIssue("gt-mol.2", "Step 2", "gt-mol", "open", []string{"gt-mol.1"}))
+				m.addIssue(makeStepIssue("hd-mol.1", "Step 1", "hd-mol", "open", nil))
+				m.addIssue(makeStepIssue("hd-mol.2", "Step 2", "hd-mol", "open", []string{"hd-mol.1"}))
 			},
 			wantAction:   "continue",
-			wantNextStep: "gt-mol.2",
+			wantNextStep: "hd-mol.2",
 		},
 		{
 			name:   "complete final step, totem done",
-			stepID: "gt-mol.2",
+			stepID: "hd-mol.2",
 			setupFunc: func(m *mockRelicsForStep) {
-				m.addIssue(makeStepIssue("gt-mol.1", "Step 1", "gt-mol", "closed", nil))
-				m.addIssue(makeStepIssue("gt-mol.2", "Step 2", "gt-mol", "open", []string{"gt-mol.1"}))
+				m.addIssue(makeStepIssue("hd-mol.1", "Step 1", "hd-mol", "closed", nil))
+				m.addIssue(makeStepIssue("hd-mol.2", "Step 2", "hd-mol", "open", []string{"hd-mol.1"}))
 			},
 			wantAction: "done",
 		},
 		{
 			name:   "complete step, remaining blocked",
-			stepID: "gt-mol.1",
+			stepID: "hd-mol.1",
 			setupFunc: func(m *mockRelicsForStep) {
-				m.addIssue(makeStepIssue("gt-mol.1", "Step 1", "gt-mol", "open", nil))
-				m.addIssue(makeStepIssue("gt-mol.2", "Step 2", "gt-mol", "in_progress", nil)) // another parallel task
-				m.addIssue(makeStepIssue("gt-mol.3", "Synthesis", "gt-mol", "open", []string{"gt-mol.1", "gt-mol.2"}))
+				m.addIssue(makeStepIssue("hd-mol.1", "Step 1", "hd-mol", "open", nil))
+				m.addIssue(makeStepIssue("hd-mol.2", "Step 2", "hd-mol", "in_progress", nil)) // another parallel task
+				m.addIssue(makeStepIssue("hd-mol.3", "Synthesis", "hd-mol", "open", []string{"hd-mol.1", "hd-mol.2"}))
 			},
 			wantAction: "no_more_ready", // .2 is in_progress, .3 blocked
 		},
 		{
 			name:   "parallel workflow - complete one, next ready",
-			stepID: "gt-mol.1",
+			stepID: "hd-mol.1",
 			setupFunc: func(m *mockRelicsForStep) {
-				m.addIssue(makeStepIssue("gt-mol.1", "Parallel A", "gt-mol", "open", nil))
-				m.addIssue(makeStepIssue("gt-mol.2", "Parallel B", "gt-mol", "open", nil))
-				m.addIssue(makeStepIssue("gt-mol.3", "Synthesis", "gt-mol", "open", []string{"gt-mol.1", "gt-mol.2"}))
+				m.addIssue(makeStepIssue("hd-mol.1", "Parallel A", "hd-mol", "open", nil))
+				m.addIssue(makeStepIssue("hd-mol.2", "Parallel B", "hd-mol", "open", nil))
+				m.addIssue(makeStepIssue("hd-mol.3", "Synthesis", "hd-mol", "open", []string{"hd-mol.1", "hd-mol.2"}))
 			},
 			wantAction:   "continue",
-			wantNextStep: "gt-mol.2", // B is still ready
+			wantNextStep: "hd-mol.2", // B is still ready
 		},
 	}
 

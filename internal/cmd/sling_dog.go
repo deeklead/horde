@@ -113,7 +113,7 @@ func DispatchToDog(dogName string, create bool) (*DogDispatchInfo, error) {
 	// Try to find tmux session for the dog (dogs may run in tmux like raiders)
 	// Dogs use the pattern gt-{encampment}-shaman-{name}
 	townName, _ := workspace.GetTownName(townRoot)
-	sessionName := fmt.Sprintf("gt-%s-shaman-%s", townName, targetDog.Name)
+	sessionName := fmt.Sprintf("hd-%s-shaman-%s", townName, targetDog.Name)
 	t := tmux.NewTmux()
 	var pane string
 	if has, _ := t.HasSession(sessionName); has {

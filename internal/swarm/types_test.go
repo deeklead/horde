@@ -167,7 +167,7 @@ func TestSwarmJSON(t *testing.T) {
 	swarm := &Swarm{
 		ID:           "swarm-123",
 		RigName:      "horde",
-		EpicID:       "gt-abc",
+		EpicID:       "hd-abc",
 		BaseCommit:   "abc123",
 		Integration:  "swarm-123-integration",
 		TargetBranch: "main",
@@ -177,7 +177,7 @@ func TestSwarmJSON(t *testing.T) {
 		Workers:      []string{"Toast", "Cheedo"},
 		Tasks: []SwarmTask{
 			{
-				IssueID:  "gt-def",
+				IssueID:  "hd-def",
 				Title:    "Test task",
 				Assignee: "Toast",
 				Branch:   "swarm-123-Toast",

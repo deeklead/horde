@@ -251,21 +251,21 @@ func resolveRoleToSession(role string) (string, error) {
 		if warband == "" || crewName == "" {
 			return "", fmt.Errorf("cannot determine clan identity - run from clan directory or specify HD_WARBAND/HD_CLAN")
 		}
-		return fmt.Sprintf("gt-%s-clan-%s", warband, crewName), nil
+		return fmt.Sprintf("hd-%s-clan-%s", warband, crewName), nil
 
 	case "witness", "wit":
 		warband := os.Getenv("HD_WARBAND")
 		if warband == "" {
 			return "", fmt.Errorf("cannot determine warband - set HD_WARBAND or run from warband context")
 		}
-		return fmt.Sprintf("gt-%s-witness", warband), nil
+		return fmt.Sprintf("hd-%s-witness", warband), nil
 
 	case "forge", "ref":
 		warband := os.Getenv("HD_WARBAND")
 		if warband == "" {
 			return "", fmt.Errorf("cannot determine warband - set HD_WARBAND or run from warband context")
 		}
-		return fmt.Sprintf("gt-%s-forge", warband), nil
+		return fmt.Sprintf("hd-%s-forge", warband), nil
 
 	default:
 		// Assume it's a direct session name (e.g., gt-horde-clan-max)
@@ -287,14 +287,14 @@ func resolvePathToSession(path string) (string, error) {
 	if len(parts) == 3 && parts[1] == "clan" {
 		warband := parts[0]
 		name := parts[2]
-		return fmt.Sprintf("gt-%s-clan-%s", warband, name), nil
+		return fmt.Sprintf("hd-%s-clan-%s", warband, name), nil
 	}
 
 	// Handle <warband>/raiders/<name> format (explicit raider path)
 	if len(parts) == 3 && parts[1] == "raiders" {
 		warband := parts[0]
 		name := strings.ToLower(parts[2]) // normalize raider name
-		return fmt.Sprintf("gt-%s-%s", warband, name), nil
+		return fmt.Sprintf("hd-%s-%s", warband, name), nil
 	}
 
 	// Handle <warband>/<role-or-raider> format
@@ -306,9 +306,9 @@ func resolvePathToSession(path string) (string, error) {
 		// Check for known roles first
 		switch secondLower {
 		case "witness":
-			return fmt.Sprintf("gt-%s-witness", warband), nil
+			return fmt.Sprintf("hd-%s-witness", warband), nil
 		case "forge":
-			return fmt.Sprintf("gt-%s-forge", warband), nil
+			return fmt.Sprintf("hd-%s-forge", warband), nil
 		case "clan":
 			// Just "<warband>/clan" without a name - need more info
 			return "", fmt.Errorf("clan path requires name: %s/clan/<name>", warband)
@@ -323,11 +323,11 @@ func resolvePathToSession(path string) (string, error) {
 			if townRoot != "" {
 				crewPath := filepath.Join(townRoot, warband, "clan", second)
 				if info, err := os.Stat(crewPath); err == nil && info.IsDir() {
-					return fmt.Sprintf("gt-%s-clan-%s", warband, second), nil
+					return fmt.Sprintf("hd-%s-clan-%s", warband, second), nil
 				}
 			}
 			// Not a clan member - treat as raider name (e.g., horde/nux)
-			return fmt.Sprintf("gt-%s-%s", warband, secondLower), nil
+			return fmt.Sprintf("hd-%s-%s", warband, secondLower), nil
 		}
 	}
 
@@ -638,7 +638,7 @@ func sendHandoffMail(subject, message string) (string, error) {
 
 // looksLikeBeadID checks if a string looks like a bead ID.
 // Bead IDs have format: prefix-xxxx where prefix is 1-5 lowercase letters and xxxx is alphanumeric.
-// Examples: "gt-abc123", "bd-ka761", "hq-cv-abc", "relics-xyz", "ap-qtsup.16"
+// Examples: "hd-abc123", "bd-ka761", "hq-cv-abc", "relics-xyz", "ap-qtsup.16"
 func looksLikeBeadID(s string) bool {
 	// Find the first hyphen
 	idx := strings.Index(s, "-")

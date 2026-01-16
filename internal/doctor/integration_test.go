@@ -65,18 +65,18 @@ func TestIntegrationOrphanSessionDetection(t *testing.T) {
 		// Valid Horde sessions should NOT be detected as orphans
 		{"warchief_session", "hq-warchief", false},
 		{"shaman_session", "hq-shaman", false},
-		{"witness_session", "gt-horde-witness", false},
-		{"forge_session", "gt-horde-forge", false},
-		{"crew_session", "gt-horde-clan-max", false},
-		{"raider_session", "gt-horde-raider-abc123", false},
+		{"witness_session", "hd-horde-witness", false},
+		{"forge_session", "hd-horde-forge", false},
+		{"crew_session", "hd-horde-clan-max", false},
+		{"raider_session", "hd-horde-raider-abc123", false},
 
 		// Different warband names
-		{"niflheim_witness", "gt-niflheim-witness", false},
-		{"niflheim_crew", "gt-niflheim-clan-codex1", false},
+		{"niflheim_witness", "hd-niflheim-witness", false},
+		{"niflheim_crew", "hd-niflheim-clan-codex1", false},
 
 		// Invalid sessions SHOULD be detected as orphans
-		{"unknown_rig", "gt-unknownrig-witness", true},
-		{"malformed", "gt-only-two", true}, // Only 2 parts after gt
+		{"unknown_rig", "hd-unknownrig-witness", true},
+		{"malformed", "hd-only-two", true}, // Only 2 parts after gt
 		{"non_gt_prefix", "foo-horde-witness", false}, // Not a gt- session, should be ignored
 	}
 
@@ -120,12 +120,12 @@ func TestIntegrationCrewSessionProtection(t *testing.T) {
 		session  string
 		isCrew   bool
 	}{
-		{"simple_crew", "gt-horde-clan-max", true},
-		{"crew_with_numbers", "gt-horde-clan-worker1", true},
-		{"crew_different_rig", "gt-niflheim-clan-codex1", true},
-		{"witness_not_crew", "gt-horde-witness", false},
-		{"forge_not_crew", "gt-horde-forge", false},
-		{"raider_not_crew", "gt-horde-raider-abc", false},
+		{"simple_crew", "hd-horde-clan-max", true},
+		{"crew_with_numbers", "hd-horde-clan-worker1", true},
+		{"crew_different_rig", "hd-niflheim-clan-codex1", true},
+		{"witness_not_crew", "hd-horde-witness", false},
+		{"forge_not_crew", "hd-horde-forge", false},
+		{"raider_not_crew", "hd-horde-raider-abc", false},
 		{"warchief_not_crew", "hq-warchief", false},
 	}
 
@@ -254,9 +254,9 @@ func TestIntegrationEnvVarsRelicsDirMismatch(t *testing.T) {
 
 	// Create mock reader with mismatched RELICS_DIR
 	reader := &mockEnvReaderIntegration{
-		sessions: []string{"gt-horde-witness"},
+		sessions: []string{"hd-horde-witness"},
 		sessionEnvs: map[string]map[string]string{
-			"gt-horde-witness": {
+			"hd-horde-witness": {
 				"HD_ROLE":   "witness",
 				"HD_WARBAND":    "horde",
 				"RELICS_DIR": townRelicsDir, // WRONG: Should be rigRelicsDir
@@ -540,21 +540,21 @@ func TestIntegrationSessionNaming(t *testing.T) {
 		},
 		{
 			name:        "witness",
-			sessionName: "gt-horde-witness",
+			sessionName: "hd-horde-witness",
 			wantRig:     "horde",
 			wantRole:    "witness",
 			wantName:    "",
 		},
 		{
 			name:        "clan",
-			sessionName: "gt-horde-clan-max",
+			sessionName: "hd-horde-clan-max",
 			wantRig:     "horde",
 			wantRole:    "clan",
 			wantName:    "max",
 		},
 		{
 			name:        "crew_multipart_name",
-			sessionName: "gt-niflheim-clan-codex1",
+			sessionName: "hd-niflheim-clan-codex1",
 			wantRig:     "niflheim",
 			wantRole:    "clan",
 			wantName:    "codex1",

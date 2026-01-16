@@ -15,7 +15,7 @@ func TestMigrationResultStatus(t *testing.T) {
 		{
 			name: "migrated shows checkmark",
 			result: migrationResult{
-				OldID:   "gt-warchief",
+				OldID:   "hd-warchief",
 				NewID:   "hq-warchief",
 				Status:  "migrated",
 				Message: "successfully migrated",
@@ -25,7 +25,7 @@ func TestMigrationResultStatus(t *testing.T) {
 		{
 			name: "would migrate shows checkmark",
 			result: migrationResult{
-				OldID:   "gt-warchief",
+				OldID:   "hd-warchief",
 				NewID:   "hq-warchief",
 				Status:  "would migrate",
 				Message: "would copy state from gt-warchief",
@@ -35,7 +35,7 @@ func TestMigrationResultStatus(t *testing.T) {
 		{
 			name: "skipped shows empty circle",
 			result: migrationResult{
-				OldID:   "gt-warchief",
+				OldID:   "hd-warchief",
 				NewID:   "hq-warchief",
 				Status:  "skipped",
 				Message: "already exists",
@@ -45,7 +45,7 @@ func TestMigrationResultStatus(t *testing.T) {
 		{
 			name: "error shows X",
 			result: migrationResult{
-				OldID:   "gt-warchief",
+				OldID:   "hd-warchief",
 				NewID:   "hq-warchief",
 				Status:  "error",
 				Message: "failed to create",

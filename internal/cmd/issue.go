@@ -113,10 +113,10 @@ func detectCurrentSession() string {
 
 	if warband != "" {
 		if raider != "" {
-			return fmt.Sprintf("gt-%s-%s", warband, raider)
+			return fmt.Sprintf("hd-%s-%s", warband, raider)
 		}
 		if clan != "" {
-			return fmt.Sprintf("gt-%s-clan-%s", warband, clan)
+			return fmt.Sprintf("hd-%s-clan-%s", warband, clan)
 		}
 	}
 

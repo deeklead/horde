@@ -12,12 +12,12 @@ func TestAddressToAgentBeadID(t *testing.T) {
 		// Warchief and shaman use hq- prefix (encampment-level)
 		{"warchief", "hq-warchief"},
 		{"shaman", "hq-shaman"},
-		{"horde/witness", "gt-horde-witness"},
-		{"horde/forge", "gt-horde-forge"},
-		{"horde/alpha", "gt-horde-raider-alpha"},
-		{"horde/clan/max", "gt-horde-clan-max"},
-		{"relics/witness", "gt-relics-witness"},
-		{"relics/beta", "gt-relics-raider-beta"},
+		{"horde/witness", "hd-horde-witness"},
+		{"horde/forge", "hd-horde-forge"},
+		{"horde/alpha", "hd-horde-raider-alpha"},
+		{"horde/clan/max", "hd-horde-clan-max"},
+		{"relics/witness", "hd-relics-witness"},
+		{"relics/beta", "hd-relics-raider-beta"},
 		// Invalid addresses should return empty string
 		{"invalid", ""},
 		{"", ""},

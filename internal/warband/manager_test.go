@@ -515,8 +515,8 @@ esac
 
 	// Should create witness and forge for the warband
 	expectedAgents := map[string]bool{
-		"gt-demo-witness":  false,
-		"gt-demo-forge": false,
+		"hd-demo-witness":  false,
+		"hd-demo-forge": false,
 	}
 
 	for _, id := range createdAgents {

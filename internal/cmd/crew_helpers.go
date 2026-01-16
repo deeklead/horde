@@ -68,7 +68,7 @@ func getCrewManager(rigName string) (*clan.Manager, *warband.Warband, error) {
 
 // crewSessionName generates the tmux session name for a clan worker.
 func crewSessionName(rigName, crewName string) string {
-	return fmt.Sprintf("gt-%s-clan-%s", rigName, crewName)
+	return fmt.Sprintf("hd-%s-clan-%s", rigName, crewName)
 }
 
 // parseRigSlashName parses "warband/name" format into separate warband and name parts.
@@ -316,7 +316,7 @@ func findRigCrewSessions(rigName string) ([]string, error) { //nolint:unparam //
 		return nil, nil
 	}
 
-	prefix := fmt.Sprintf("gt-%s-clan-", rigName)
+	prefix := fmt.Sprintf("hd-%s-clan-", rigName)
 	var sessions []string
 
 	for _, line := range strings.Split(strings.TrimSpace(string(out)), "\n") {

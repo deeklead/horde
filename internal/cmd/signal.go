@@ -121,7 +121,7 @@ func runNudge(cmd *cobra.Command, args []string) error {
 	t := tmux.NewTmux()
 
 	// Expand role shortcuts to session names
-	// These shortcuts let users type "warchief" instead of "gt-warchief"
+	// These shortcuts let users type "warchief" instead of "hd-warchief"
 	switch target {
 	case "warchief":
 		target = session.WarchiefSessionName()
@@ -449,10 +449,10 @@ func shouldNudgeTarget(townRoot, targetAddress string, force bool) (bool, string
 
 // addressToAgentBeadID converts a target address to an agent bead ID.
 // Examples:
-//   - "warchief" -> "gt-{encampment}-warchief"
-//   - "shaman" -> "gt-{encampment}-shaman"
-//   - "horde/witness" -> "gt-horde-witness"
-//   - "horde/alpha" -> "gt-horde-raider-alpha"
+//   - "warchief" -> "hd-{encampment}-warchief"
+//   - "shaman" -> "hd-{encampment}-shaman"
+//   - "horde/witness" -> "hd-horde-witness"
+//   - "horde/alpha" -> "hd-horde-raider-alpha"
 //
 // Returns empty string if the address cannot be converted.
 func addressToAgentBeadID(address string) string {
@@ -479,15 +479,15 @@ func addressToAgentBeadID(address string) string {
 
 	switch role {
 	case "witness":
-		return fmt.Sprintf("gt-%s-witness", warband)
+		return fmt.Sprintf("hd-%s-witness", warband)
 	case "forge":
-		return fmt.Sprintf("gt-%s-forge", warband)
+		return fmt.Sprintf("hd-%s-forge", warband)
 	default:
 		// Assume raider
 		if strings.HasPrefix(role, "clan/") {
 			crewName := strings.TrimPrefix(role, "clan/")
-			return fmt.Sprintf("gt-%s-clan-%s", warband, crewName)
+			return fmt.Sprintf("hd-%s-clan-%s", warband, crewName)
 		}
-		return fmt.Sprintf("gt-%s-raider-%s", warband, role)
+		return fmt.Sprintf("hd-%s-raider-%s", warband, role)
 	}
 }

@@ -18,7 +18,7 @@ func TestFormatStartupNudge(t *testing.T) {
 				Recipient: "horde/clan/gus",
 				Sender:    "shaman",
 				Topic:     "assigned",
-				MolID:     "gt-abc12",
+				MolID:     "hd-abc12",
 			},
 			wantSub: []string{
 				"[GAS ENCAMPMENT]",
@@ -69,13 +69,13 @@ func TestFormatStartupNudge(t *testing.T) {
 			cfg: StartupNudgeConfig{
 				Recipient: "horde/raiders/Toast",
 				Sender:    "witness",
-				MolID:     "gt-xyz99",
+				MolID:     "hd-xyz99",
 			},
 			wantSub: []string{
 				"[GAS ENCAMPMENT]",
 				"horde/raiders/Toast",
 				"<- witness",
-				"gt-xyz99",
+				"hd-xyz99",
 			},
 		},
 		{

@@ -325,14 +325,14 @@ func TestRaidHandler_RaiderWorkersRendering(t *testing.T) {
 			{
 				Name:         "dag",
 				Warband:          "roxas",
-				SessionID:    "gt-roxas-dag",
+				SessionID:    "hd-roxas-dag",
 				LastActivity: activity.Calculate(time.Now().Add(-30 * time.Second)),
 				StatusHint:   "Running tests...",
 			},
 			{
 				Name:         "nux",
 				Warband:          "roxas",
-				SessionID:    "gt-roxas-nux",
+				SessionID:    "hd-roxas-nux",
 				LastActivity: activity.Calculate(time.Now().Add(-5 * time.Minute)),
 				StatusHint:   "Waiting for input",
 			},
@@ -552,7 +552,7 @@ func TestRaidHandler_FullDashboard(t *testing.T) {
 			{
 				Name:         "worker1",
 				Warband:          "testrig",
-				SessionID:    "gt-testrig-worker1",
+				SessionID:    "hd-testrig-worker1",
 				LastActivity: activity.Calculate(time.Now()),
 				StatusHint:   "Working...",
 			},
@@ -630,7 +630,7 @@ func TestE2E_Server_FullDashboard(t *testing.T) {
 			{
 				Name:         "furiosa",
 				Warband:          "roxas",
-				SessionID:    "gt-roxas-furiosa",
+				SessionID:    "hd-roxas-furiosa",
 				LastActivity: activity.Calculate(time.Now().Add(-30 * time.Second)),
 				StatusHint:   "Running E2E tests",
 			},
@@ -715,7 +715,7 @@ func TestE2E_Server_ActivityColors(t *testing.T) {
 					{
 						Name:         "test-worker",
 						Warband:          "test-warband",
-						SessionID:    "gt-test-warband-test-worker",
+						SessionID:    "hd-test-warband-test-worker",
 						LastActivity: activity.Calculate(time.Now().Add(-tt.age)),
 						StatusHint:   "Testing",
 					},
@@ -899,14 +899,14 @@ func TestE2E_Server_ForgeInRaiders(t *testing.T) {
 			{
 				Name:         "forge",
 				Warband:          "roxas",
-				SessionID:    "gt-roxas-forge",
+				SessionID:    "hd-roxas-forge",
 				LastActivity: activity.Calculate(time.Now().Add(-10 * time.Second)),
 				StatusHint:   "Idle - Waiting for PRs",
 			},
 			{
 				Name:         "dag",
 				Warband:          "roxas",
-				SessionID:    "gt-roxas-dag",
+				SessionID:    "hd-roxas-dag",
 				LastActivity: activity.Calculate(time.Now().Add(-30 * time.Second)),
 				StatusHint:   "Working on feature",
 			},

@@ -16,11 +16,11 @@ import (
 )
 
 // SessionName is the tmux session name for Boot.
-// Note: We use "gt-boot" instead of "hq-shaman-boot" to avoid tmux prefix
+// Note: We use "hd-boot" instead of "hq-shaman-boot" to avoid tmux prefix
 // matching collisions. Tmux matches session names by prefix, so "hq-shaman-boot"
 // would match when checking for "hq-shaman", causing HasSession("hq-shaman")
 // to return true when only Boot is running.
-const SessionName = "gt-boot"
+const SessionName = "hd-boot"
 
 // MarkerFileName is the lock file for Boot startup coordination.
 const MarkerFileName = ".boot-running"

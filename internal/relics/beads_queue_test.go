@@ -285,7 +285,7 @@ func TestQueueBeadID(t *testing.T) {
 			name:        "warband-level queue",
 			queueName:   "merge",
 			isTownLevel: false,
-			want:        "gt-q-merge",
+			want:        "hd-q-merge",
 		},
 	}
 

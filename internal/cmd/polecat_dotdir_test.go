@@ -59,7 +59,7 @@ cmd="$1"
 case "$cmd" in
   list)
     if [ "$(basename "$PWD")" = ".claude" ]; then
-      echo '[{"id":"gt-1"}]'
+      echo '[{"id":"hd-1"}]'
     else
       echo '[]'
     fi

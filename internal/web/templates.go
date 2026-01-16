@@ -23,7 +23,7 @@ type RaidData struct {
 type RaiderRow struct {
 	Name         string        // e.g., "dag", "nux"
 	Warband          string        // e.g., "roxas", "horde"
-	SessionID    string        // e.g., "gt-roxas-dag"
+	SessionID    string        // e.g., "hd-roxas-dag"
 	LastActivity activity.Info // Colored activity display
 	StatusHint   string        // Last line from pane (optional)
 }

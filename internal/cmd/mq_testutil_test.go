@@ -80,7 +80,7 @@ func makeTestMR(id, branch, target, worker string, status string) *relics.Issue 
 		Branch:      branch,
 		Target:      target,
 		Worker:      worker,
-		SourceIssue: "gt-src-123",
+		SourceIssue: "hd-src-123",
 		Warband:         "testrig",
 	})
 	return &relics.Issue{

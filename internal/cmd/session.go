@@ -653,7 +653,7 @@ func runSessionCheck(cmd *cobra.Command, args []string) error {
 				continue
 			}
 			raiderName := entry.Name()
-			sessionName := fmt.Sprintf("gt-%s-%s", r.Name, raiderName)
+			sessionName := fmt.Sprintf("hd-%s-%s", r.Name, raiderName)
 			totalChecked++
 
 			// Check if session exists

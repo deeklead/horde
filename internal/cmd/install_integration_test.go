@@ -300,7 +300,7 @@ func TestInstallWrappersInExistingTown(t *testing.T) {
 	}
 
 	// Verify output mentions wrapper installation
-	if !strings.Contains(string(output), "gt-codex") && !strings.Contains(string(output), "gt-opencode") {
+	if !strings.Contains(string(output), "hd-codex") && !strings.Contains(string(output), "hd-opencode") {
 		t.Errorf("expected output to mention wrappers, got: %s", output)
 	}
 }
@@ -364,7 +364,7 @@ func buildGT(t *testing.T) string {
 
 	// Build hd binary to a persistent temp location (not per-test)
 	tmpDir := os.TempDir()
-	tmpBinary := filepath.Join(tmpDir, "gt-integration-test")
+	tmpBinary := filepath.Join(tmpDir, "hd-integration-test")
 	cmd := exec.Command("go", "build", "-o", tmpBinary, "./cmd/hd")
 	cmd.Dir = projectRoot
 	if output, err := cmd.CombinedOutput(); err != nil {

@@ -172,7 +172,7 @@ func SetAttachmentFields(issue *Issue, fields *AttachmentFields) string {
 type MRFields struct {
 	Branch      string // Source branch name (e.g., "raider/Nux/gt-xyz")
 	Target      string // Target branch (e.g., "main" or "integration/gt-epic")
-	SourceIssue string // The work item being merged (e.g., "gt-xyz")
+	SourceIssue string // The work item being merged (e.g., "hd-xyz")
 	Worker      string // Who did the work
 	Warband         string // Which warband
 	MergeCommit string // SHA of merge commit (set on close)
@@ -509,7 +509,7 @@ func FormatSynthesisFields(fields *SynthesisFields) string {
 type RoleConfig struct {
 	// SessionPattern defines how to derive tmux session name.
 	// Supports placeholders: {warband}, {name}, {role}
-	// Examples: "hq-warchief", "hq-shaman", "gt-{warband}-{role}", "gt-{warband}-{name}"
+	// Examples: "hq-warchief", "hq-shaman", "hd-{warband}-{role}", "hd-{warband}-{name}"
 	SessionPattern string
 
 	// WorkDirPattern defines the working directory relative to encampment root.

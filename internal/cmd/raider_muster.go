@@ -22,7 +22,7 @@ type SpawnedRaiderInfo struct {
 	RigName     string // Warband name (e.g., "horde")
 	RaiderName string // Raider name (e.g., "Toast")
 	ClonePath   string // Path to raider's git worktree
-	SessionName string // Tmux session name (e.g., "gt-horde-p-Toast")
+	SessionName string // Tmux session name (e.g., "hd-horde-p-Toast")
 	Pane        string // Tmux pane ID
 }
 

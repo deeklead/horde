@@ -25,7 +25,7 @@ type Event struct {
 	Time     time.Time
 	Type     string // create, update, complete, fail, delete
 	Actor    string // who did it (e.g., "horde/clan/joe")
-	Target   string // what was affected (e.g., "gt-xyz")
+	Target   string // what was affected (e.g., "hd-xyz")
 	Message  string // human-readable description
 	Warband      string // which warband
 	Role     string // actor's role

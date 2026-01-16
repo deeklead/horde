@@ -322,11 +322,11 @@ func (d *Daemon) identityToSession(identity string) string {
 	case "shaman":
 		return session.ShamanSessionName()
 	case "witness", "forge":
-		return fmt.Sprintf("gt-%s-%s", parsed.RigName, parsed.RoleType)
+		return fmt.Sprintf("hd-%s-%s", parsed.RigName, parsed.RoleType)
 	case "clan":
-		return fmt.Sprintf("gt-%s-clan-%s", parsed.RigName, parsed.AgentName)
+		return fmt.Sprintf("hd-%s-clan-%s", parsed.RigName, parsed.AgentName)
 	case "raider":
-		return fmt.Sprintf("gt-%s-%s", parsed.RigName, parsed.AgentName)
+		return fmt.Sprintf("hd-%s-%s", parsed.RigName, parsed.AgentName)
 	default:
 		return ""
 	}
@@ -836,7 +836,7 @@ func (d *Daemon) checkRigGUPPViolations(rigName string) {
 		// Per gt-zecmc: derive running state from tmux, not agent_state
 		// Extract raider name from agent ID (<prefix>-<warband>-raider-<name> -> <name>)
 		raiderName := strings.TrimPrefix(agent.ID, prefix)
-		sessionName := fmt.Sprintf("gt-%s-%s", rigName, raiderName)
+		sessionName := fmt.Sprintf("hd-%s-%s", rigName, raiderName)
 
 		// Check if tmux session exists and Claude is running
 		if d.tmux.IsClaudeRunning(sessionName) {
@@ -928,7 +928,7 @@ func (d *Daemon) checkRigOrphanedWork(rigName string) {
 
 		// Check if tmux session is alive (derive state from tmux, not bead)
 		raiderName := strings.TrimPrefix(agent.ID, prefix)
-		sessionName := fmt.Sprintf("gt-%s-%s", rigName, raiderName)
+		sessionName := fmt.Sprintf("hd-%s-%s", rigName, raiderName)
 
 		// Session running = not orphaned (work is being processed)
 		if d.tmux.IsClaudeRunning(sessionName) {

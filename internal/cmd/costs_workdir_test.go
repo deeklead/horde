@@ -143,7 +143,7 @@ func TestQuerySessionEvents_FindsEventsFromAllLocations(t *testing.T) {
 	t.Logf("Created encampment event: %s", string(townOut))
 
 	// Create a session.ended event in WARBAND relics (simulating raider)
-	rigEventPayload := `{"cost_usd":2.50,"session_id":"gt-testrig-toast","role":"raider","warband":"testrig","worker":"toast","ended_at":"2026-01-12T11:00:00Z"}`
+	rigEventPayload := `{"cost_usd":2.50,"session_id":"hd-testrig-toast","role":"raider","warband":"testrig","worker":"toast","ended_at":"2026-01-12T11:00:00Z"}`
 	rigEventCmd := exec.Command("rl", "create",
 		"--type=event",
 		"--title=Warband session ended",

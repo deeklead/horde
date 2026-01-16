@@ -48,7 +48,7 @@ func TestSessionLifecycle(t *testing.T) {
 	}
 
 	tm := NewTmux()
-	sessionName := "gt-test-session-" + t.Name()
+	sessionName := "hd-test-session-" + t.Name()
 
 	// Clean up any existing session
 	_ = tm.KillSession(sessionName)
@@ -105,7 +105,7 @@ func TestDuplicateSession(t *testing.T) {
 	}
 
 	tm := NewTmux()
-	sessionName := "gt-test-dup-" + t.Name()
+	sessionName := "hd-test-dup-" + t.Name()
 
 	// Clean up any existing session
 	_ = tm.KillSession(sessionName)
@@ -129,7 +129,7 @@ func TestSendKeysAndCapture(t *testing.T) {
 	}
 
 	tm := NewTmux()
-	sessionName := "gt-test-keys-" + t.Name()
+	sessionName := "hd-test-keys-" + t.Name()
 
 	// Clean up any existing session
 	_ = tm.KillSession(sessionName)
@@ -165,7 +165,7 @@ func TestGetSessionInfo(t *testing.T) {
 	}
 
 	tm := NewTmux()
-	sessionName := "gt-test-info-" + t.Name()
+	sessionName := "hd-test-info-" + t.Name()
 
 	// Clean up any existing session
 	_ = tm.KillSession(sessionName)
@@ -217,7 +217,7 @@ func TestEnsureSessionFresh_NoExistingSession(t *testing.T) {
 	}
 
 	tm := NewTmux()
-	sessionName := "gt-test-fresh-" + t.Name()
+	sessionName := "hd-test-fresh-" + t.Name()
 
 	// Clean up any existing session
 	_ = tm.KillSession(sessionName)
@@ -244,7 +244,7 @@ func TestEnsureSessionFresh_ZombieSession(t *testing.T) {
 	}
 
 	tm := NewTmux()
-	sessionName := "gt-test-zombie-" + t.Name()
+	sessionName := "hd-test-zombie-" + t.Name()
 
 	// Clean up any existing session
 	_ = tm.KillSession(sessionName)
@@ -288,7 +288,7 @@ func TestEnsureSessionFresh_IdempotentOnZombie(t *testing.T) {
 	}
 
 	tm := NewTmux()
-	sessionName := "gt-test-idem-" + t.Name()
+	sessionName := "hd-test-idem-" + t.Name()
 
 	// Clean up any existing session
 	_ = tm.KillSession(sessionName)
@@ -317,7 +317,7 @@ func TestIsAgentRunning(t *testing.T) {
 	}
 
 	tm := NewTmux()
-	sessionName := "gt-test-agent-" + t.Name()
+	sessionName := "hd-test-agent-" + t.Name()
 
 	// Clean up any existing session
 	_ = tm.KillSession(sessionName)
@@ -407,7 +407,7 @@ func TestIsClaudeRunning(t *testing.T) {
 	}
 
 	tm := NewTmux()
-	sessionName := "gt-test-claude-" + t.Name()
+	sessionName := "hd-test-claude-" + t.Name()
 
 	// Clean up any existing session
 	_ = tm.KillSession(sessionName)
@@ -467,7 +467,7 @@ func TestIsClaudeRunning_ShellWithNodeChild(t *testing.T) {
 	}
 
 	tm := NewTmux()
-	sessionName := "gt-test-shell-child-" + t.Name()
+	sessionName := "hd-test-shell-child-" + t.Name()
 
 	// Clean up any existing session
 	_ = tm.KillSession(sessionName)
@@ -559,7 +559,7 @@ func TestSessionSet(t *testing.T) {
 	}
 
 	tm := NewTmux()
-	sessionName := "gt-test-sessionset-" + t.Name()
+	sessionName := "hd-test-sessionset-" + t.Name()
 
 	// Clean up any existing session
 	_ = tm.KillSession(sessionName)

@@ -15,23 +15,23 @@ func TestBdActivityEventParsing(t *testing.T) {
 	}{
 		{
 			name:        "status change to closed",
-			line:        `{"timestamp":"2026-01-12T02:50:35.778328-08:00","type":"status","issue_id":"gt-uoc64","symbol":"✓","message":"gt-uoc64 completed","old_status":"in_progress","new_status":"closed"}`,
+			line:        `{"timestamp":"2026-01-12T02:50:35.778328-08:00","type":"status","issue_id":"hd-uoc64","symbol":"✓","message":"hd-uoc64 completed","old_status":"in_progress","new_status":"closed"}`,
 			wantType:    "status",
-			wantIssueID: "gt-uoc64",
+			wantIssueID: "hd-uoc64",
 			wantNew:     "closed",
 		},
 		{
 			name:        "status change to in_progress",
-			line:        `{"timestamp":"2026-01-12T02:43:04.467992-08:00","type":"status","issue_id":"gt-uoc64","symbol":"→","message":"gt-uoc64 started","old_status":"open","new_status":"in_progress","actor":"horde/clan/george"}`,
+			line:        `{"timestamp":"2026-01-12T02:43:04.467992-08:00","type":"status","issue_id":"hd-uoc64","symbol":"→","message":"hd-uoc64 started","old_status":"open","new_status":"in_progress","actor":"horde/clan/george"}`,
 			wantType:    "status",
-			wantIssueID: "gt-uoc64",
+			wantIssueID: "hd-uoc64",
 			wantNew:     "in_progress",
 		},
 		{
 			name:        "create event",
-			line:        `{"timestamp":"2026-01-12T01:19:01.753578-08:00","type":"create","issue_id":"gt-dgbwk","symbol":"+","message":"gt-dgbwk created"}`,
+			line:        `{"timestamp":"2026-01-12T01:19:01.753578-08:00","type":"create","issue_id":"hd-dgbwk","symbol":"+","message":"hd-dgbwk created"}`,
 			wantType:    "create",
-			wantIssueID: "gt-dgbwk",
+			wantIssueID: "hd-dgbwk",
 			wantNew:     "",
 		},
 	}
@@ -60,7 +60,7 @@ func TestBdActivityEventParsing(t *testing.T) {
 func TestIsCloseEvent(t *testing.T) {
 	closedEvent := bdActivityEvent{
 		Type:      "status",
-		IssueID:   "gt-test",
+		IssueID:   "hd-test",
 		NewStatus: "closed",
 	}
 
@@ -70,7 +70,7 @@ func TestIsCloseEvent(t *testing.T) {
 
 	inProgressEvent := bdActivityEvent{
 		Type:      "status",
-		IssueID:   "gt-test",
+		IssueID:   "hd-test",
 		NewStatus: "in_progress",
 	}
 
@@ -80,7 +80,7 @@ func TestIsCloseEvent(t *testing.T) {
 
 	createEvent := bdActivityEvent{
 		Type:    "create",
-		IssueID: "gt-test",
+		IssueID: "hd-test",
 	}
 
 	if createEvent.Type == "status" && createEvent.NewStatus == "closed" {

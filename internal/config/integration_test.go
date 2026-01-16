@@ -276,7 +276,7 @@ func pollForOutput(t *testing.T, sessionName, expected string, timeout time.Dura
 func testTmuxSessionWithStubAgent(t *testing.T, tmpDir, stubAgentPath, rigName string) {
 	t.Helper()
 
-	sessionName := fmt.Sprintf("gt-test-pid%d-%d", os.Getpid(), time.Now().UnixNano())
+	sessionName := fmt.Sprintf("hd-test-pid%d-%d", os.Getpid(), time.Now().UnixNano())
 	workDir := tmpDir
 
 	exec.Command("tmux", "kill-session", "-t", sessionName).Run()

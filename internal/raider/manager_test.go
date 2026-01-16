@@ -52,7 +52,7 @@ func TestRaiderSummary(t *testing.T) {
 	p := &Raider{
 		Name:  "Toast",
 		State: StateWorking,
-		Issue: "gt-abc",
+		Issue: "hd-abc",
 	}
 
 	summary := p.Summary()
@@ -62,7 +62,7 @@ func TestRaiderSummary(t *testing.T) {
 	if summary.State != StateWorking {
 		t.Errorf("State = %v, want StateWorking", summary.State)
 	}
-	if summary.Issue != "gt-abc" {
+	if summary.Issue != "hd-abc" {
 		t.Errorf("Issue = %q, want gt-abc", summary.Issue)
 	}
 }

@@ -162,7 +162,7 @@ func runDown(cmd *cobra.Command, args []string) error {
 
 	// Phase 2a: Stop refineries
 	for _, rigName := range warbands {
-		sessionName := fmt.Sprintf("gt-%s-forge", rigName)
+		sessionName := fmt.Sprintf("hd-%s-forge", rigName)
 		if downDryRun {
 			if sessionSet.Has(sessionName) {
 				printDownStatus(fmt.Sprintf("Forge (%s)", rigName), true, "would stop")
@@ -182,7 +182,7 @@ func runDown(cmd *cobra.Command, args []string) error {
 
 	// Phase 2b: Stop witnesses
 	for _, rigName := range warbands {
-		sessionName := fmt.Sprintf("gt-%s-witness", rigName)
+		sessionName := fmt.Sprintf("hd-%s-witness", rigName)
 		if downDryRun {
 			if sessionSet.Has(sessionName) {
 				printDownStatus(fmt.Sprintf("Witness (%s)", rigName), true, "would stop")

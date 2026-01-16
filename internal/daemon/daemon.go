@@ -736,7 +736,7 @@ func listRaiderWorktrees(raidersDir string) ([]string, error) {
 // If the raider has work-on-hook but the tmux session is dead, it's restarted.
 func (d *Daemon) checkRaiderHealth(rigName, raiderName string) {
 	// Build the expected tmux session name
-	sessionName := fmt.Sprintf("gt-%s-%s", rigName, raiderName)
+	sessionName := fmt.Sprintf("hd-%s-%s", rigName, raiderName)
 
 	// Check if tmux session exists
 	sessionAlive, err := d.tmux.HasSession(sessionName)

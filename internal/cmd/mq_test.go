@@ -59,25 +59,25 @@ func TestParseBranchName(t *testing.T) {
 		{
 			name:       "raider branch format",
 			branch:     "raider/Nux/gt-xyz",
-			wantIssue:  "gt-xyz",
+			wantIssue:  "hd-xyz",
 			wantWorker: "Nux",
 		},
 		{
 			name:       "raider branch with subtask",
 			branch:     "raider/Worker/gt-abc.1",
-			wantIssue:  "gt-abc.1",
+			wantIssue:  "hd-abc.1",
 			wantWorker: "Worker",
 		},
 		{
 			name:       "simple issue branch",
-			branch:     "gt-xyz",
-			wantIssue:  "gt-xyz",
+			branch:     "hd-xyz",
+			wantIssue:  "hd-xyz",
 			wantWorker: "",
 		},
 		{
 			name:       "feature branch with issue",
 			branch:     "feature/gt-abc-impl",
-			wantIssue:  "gt-abc",
+			wantIssue:  "hd-abc",
 			wantWorker: "",
 		},
 		{
@@ -506,7 +506,7 @@ func TestExtractEpicPrefix(t *testing.T) {
 	}{
 		{"RA-123", "RA"},
 		{"PROJ-456", "PROJ"},
-		{"gt-auth-epic", "hd"},
+		{"hd-auth-epic", "hd"},
 		{"epicname", "epicname"},
 		{"X-1", "X"},
 		{"-123", "-123"}, // No prefix before hyphen, return full string

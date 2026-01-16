@@ -205,7 +205,7 @@ func injectStartPrompt(pane, beadID, subject, args string) error {
 // getSessionFromPane extracts session name from a pane target.
 // Pane targets can be:
 // - "%9" (pane ID) - need to query tmux for session
-// - "gt-warband-name:0.0" (session:window.pane) - extract session name
+// - "hd-warband-name:0.0" (session:window.pane) - extract session name
 func getSessionFromPane(pane string) string {
 	if strings.HasPrefix(pane, "%") {
 		// Pane ID format - query tmux for the session
@@ -368,8 +368,8 @@ func wakeRigAgents(rigName string) {
 
 	// Signal witness and forge to clear any backoff
 	t := tmux.NewTmux()
-	witnessSession := fmt.Sprintf("gt-%s-witness", rigName)
-	forgeSession := fmt.Sprintf("gt-%s-forge", rigName)
+	witnessSession := fmt.Sprintf("hd-%s-witness", rigName)
+	forgeSession := fmt.Sprintf("hd-%s-forge", rigName)
 
 	// Silent nudges - sessions might not exist yet
 	_ = t.SignalSession(witnessSession, "Raider dispatched - check for work")
@@ -400,7 +400,7 @@ func attachRaiderWorkMolecule(targetAgent, hookWorkDir, townRoot string) error {
 	raiderName := parts[2]
 
 	// Get the raider's agent bead ID
-	// Format: "<prefix>-<warband>-raider-<name>" (e.g., "gt-horde-raider-Toast")
+	// Format: "<prefix>-<warband>-raider-<name>" (e.g., "hd-horde-raider-Toast")
 	prefix := config.GetRigPrefix(townRoot, rigName)
 	agentBeadID := relics.RaiderBeadIDWithPrefix(prefix, rigName, raiderName)
 

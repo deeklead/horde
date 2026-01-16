@@ -701,11 +701,11 @@ func assigneeToSessionName(assignee string) (sessionName string, isPersistent bo
 	switch len(parts) {
 	case 2:
 		// warband/raiderName -> gt-warband-raiderName
-		return fmt.Sprintf("gt-%s-%s", parts[0], parts[1]), false
+		return fmt.Sprintf("hd-%s-%s", parts[0], parts[1]), false
 	case 3:
 		// warband/clan/name -> gt-warband-clan-name
 		if parts[1] == "clan" {
-			return fmt.Sprintf("gt-%s-clan-%s", parts[0], parts[2]), true
+			return fmt.Sprintf("hd-%s-clan-%s", parts[0], parts[2]), true
 		}
 		// Other 3-part formats not recognized
 		return "", false
@@ -752,7 +752,7 @@ func runRigBoot(cmd *cobra.Command, args []string) error {
 
 	// 1. Start the witness
 	// Check actual tmux session, not state file (may be stale)
-	witnessSession := fmt.Sprintf("gt-%s-witness", rigName)
+	witnessSession := fmt.Sprintf("hd-%s-witness", rigName)
 	witnessRunning, _ := t.HasSession(witnessSession)
 	if witnessRunning {
 		skipped = append(skipped, "witness (already running)")
@@ -772,7 +772,7 @@ func runRigBoot(cmd *cobra.Command, args []string) error {
 
 	// 2. Start the forge
 	// Check actual tmux session, not state file (may be stale)
-	forgeSession := fmt.Sprintf("gt-%s-forge", rigName)
+	forgeSession := fmt.Sprintf("hd-%s-forge", rigName)
 	forgeRunning, _ := t.HasSession(forgeSession)
 	if forgeRunning {
 		skipped = append(skipped, "forge (already running)")
@@ -832,7 +832,7 @@ func runRigStart(cmd *cobra.Command, args []string) error {
 		hasError := false
 
 		// 1. Start the witness
-		witnessSession := fmt.Sprintf("gt-%s-witness", rigName)
+		witnessSession := fmt.Sprintf("hd-%s-witness", rigName)
 		witnessRunning, _ := t.HasSession(witnessSession)
 		if witnessRunning {
 			skipped = append(skipped, "witness")
@@ -852,7 +852,7 @@ func runRigStart(cmd *cobra.Command, args []string) error {
 		}
 
 		// 2. Start the forge
-		forgeSession := fmt.Sprintf("gt-%s-forge", rigName)
+		forgeSession := fmt.Sprintf("hd-%s-forge", rigName)
 		forgeRunning, _ := t.HasSession(forgeSession)
 		if forgeRunning {
 			skipped = append(skipped, "forge")
@@ -1066,7 +1066,7 @@ func runRigStatus(cmd *cobra.Command, args []string) error {
 
 	// Witness status
 	fmt.Printf("%s\n", style.Bold.Render("Witness"))
-	witnessSession := fmt.Sprintf("gt-%s-witness", rigName)
+	witnessSession := fmt.Sprintf("hd-%s-witness", rigName)
 	witnessRunning, _ := t.HasSession(witnessSession)
 	witMgr := witness.NewManager(r)
 	witStatus, _ := witMgr.Status()
@@ -1083,7 +1083,7 @@ func runRigStatus(cmd *cobra.Command, args []string) error {
 
 	// Forge status
 	fmt.Printf("%s\n", style.Bold.Render("Forge"))
-	forgeSession := fmt.Sprintf("gt-%s-forge", rigName)
+	forgeSession := fmt.Sprintf("hd-%s-forge", rigName)
 	forgeRunning, _ := t.HasSession(forgeSession)
 	refMgr := forge.NewManager(r)
 	refStatus, _ := refMgr.Status()
@@ -1113,7 +1113,7 @@ func runRigStatus(cmd *cobra.Command, args []string) error {
 	} else {
 		fmt.Printf(" (%d)\n", len(raiders))
 		for _, p := range raiders {
-			sessionName := fmt.Sprintf("gt-%s-%s", rigName, p.Name)
+			sessionName := fmt.Sprintf("hd-%s-%s", rigName, p.Name)
 			hasSession, _ := t.HasSession(sessionName)
 
 			sessionIcon := style.Dim.Render("○")
@@ -1412,7 +1412,7 @@ func runRigRestart(cmd *cobra.Command, args []string) error {
 		var skipped []string
 
 		// 1. Start the witness
-		witnessSession := fmt.Sprintf("gt-%s-witness", rigName)
+		witnessSession := fmt.Sprintf("hd-%s-witness", rigName)
 		witnessRunning, _ := t.HasSession(witnessSession)
 		if witnessRunning {
 			skipped = append(skipped, "witness")
@@ -1431,7 +1431,7 @@ func runRigRestart(cmd *cobra.Command, args []string) error {
 		}
 
 		// 2. Start the forge
-		forgeSession := fmt.Sprintf("gt-%s-forge", rigName)
+		forgeSession := fmt.Sprintf("hd-%s-forge", rigName)
 		forgeRunning, _ := t.HasSession(forgeSession)
 		if forgeRunning {
 			skipped = append(skipped, "forge")

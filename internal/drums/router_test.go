@@ -94,9 +94,9 @@ func TestAddressToSessionID(t *testing.T) {
 		{"warchief", "hq-warchief"},
 		{"warchief/", "hq-warchief"},
 		{"shaman", "hq-shaman"},
-		{"horde/forge", "gt-horde-forge"},
-		{"horde/Toast", "gt-horde-Toast"},
-		{"relics/witness", "gt-relics-witness"},
+		{"horde/forge", "hd-horde-forge"},
+		{"horde/Toast", "hd-horde-Toast"},
+		{"relics/witness", "hd-relics-witness"},
 		{"horde/", ""},   // Empty target
 		{"horde", ""},    // No slash
 		{"", ""},           // Empty address
@@ -666,37 +666,37 @@ func TestAgentBeadToAddress(t *testing.T) {
 		},
 		{
 			name: "encampment-level warchief",
-			bead: &agentBead{ID: "gt-warchief"},
+			bead: &agentBead{ID: "hd-warchief"},
 			want: "warchief/",
 		},
 		{
 			name: "encampment-level shaman",
-			bead: &agentBead{ID: "gt-shaman"},
+			bead: &agentBead{ID: "hd-shaman"},
 			want: "shaman/",
 		},
 		{
 			name: "warband singleton witness",
-			bead: &agentBead{ID: "gt-horde-witness"},
+			bead: &agentBead{ID: "hd-horde-witness"},
 			want: "horde/witness",
 		},
 		{
 			name: "warband singleton forge",
-			bead: &agentBead{ID: "gt-horde-forge"},
+			bead: &agentBead{ID: "hd-horde-forge"},
 			want: "horde/forge",
 		},
 		{
 			name: "warband clan worker",
-			bead: &agentBead{ID: "gt-horde-clan-max"},
+			bead: &agentBead{ID: "hd-horde-clan-max"},
 			want: "horde/max",
 		},
 		{
 			name: "warband raider worker",
-			bead: &agentBead{ID: "gt-horde-raider-Toast"},
+			bead: &agentBead{ID: "hd-horde-raider-Toast"},
 			want: "horde/Toast",
 		},
 		{
 			name: "warband raider with hyphenated name",
-			bead: &agentBead{ID: "gt-horde-raider-my-agent"},
+			bead: &agentBead{ID: "hd-horde-raider-my-agent"},
 			want: "horde/my-agent",
 		},
 		{

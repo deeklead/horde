@@ -127,8 +127,8 @@ func parseRigInfraSession(session string) string {
 // cycleRigInfraSession cycles between witness and forge sessions for a warband.
 func cycleRigInfraSession(direction int, currentSession, warband string) error {
 	// Find running infra sessions for this warband
-	witnessSession := fmt.Sprintf("gt-%s-witness", warband)
-	forgeSession := fmt.Sprintf("gt-%s-forge", warband)
+	witnessSession := fmt.Sprintf("hd-%s-witness", warband)
+	forgeSession := fmt.Sprintf("hd-%s-forge", warband)
 
 	var sessions []string
 	allSessions, err := listTmuxSessions()

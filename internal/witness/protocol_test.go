@@ -53,11 +53,11 @@ Branch: feature-branch`
 	if payload.Exit != "MERGED" {
 		t.Errorf("Exit = %q, want %q", payload.Exit, "MERGED")
 	}
-	if payload.IssueID != "gt-abc123" {
-		t.Errorf("IssueID = %q, want %q", payload.IssueID, "gt-abc123")
+	if payload.IssueID != "hd-abc123" {
+		t.Errorf("IssueID = %q, want %q", payload.IssueID, "hd-abc123")
 	}
-	if payload.MRID != "gt-mr-xyz" {
-		t.Errorf("MRID = %q, want %q", payload.MRID, "gt-mr-xyz")
+	if payload.MRID != "hd-mr-xyz" {
+		t.Errorf("MRID = %q, want %q", payload.MRID, "hd-mr-xyz")
 	}
 	if payload.Branch != "feature-branch" {
 		t.Errorf("Branch = %q, want %q", payload.Branch, "feature-branch")
@@ -109,8 +109,8 @@ Tried: Increased timeout, checked for deadlocks`
 	if payload.Agent != "horde/raiders/nux" {
 		t.Errorf("Agent = %q, want %q", payload.Agent, "horde/raiders/nux")
 	}
-	if payload.IssueID != "gt-abc123" {
-		t.Errorf("IssueID = %q, want %q", payload.IssueID, "gt-abc123")
+	if payload.IssueID != "hd-abc123" {
+		t.Errorf("IssueID = %q, want %q", payload.IssueID, "hd-abc123")
 	}
 	if payload.Problem != "Unit tests timeout after 30 seconds" {
 		t.Errorf("Problem = %q, want %q", payload.Problem, "Unit tests timeout after 30 seconds")
@@ -144,8 +144,8 @@ Merged-At: 2025-12-30T10:30:00Z`
 	if payload.Branch != "feature-nux" {
 		t.Errorf("Branch = %q, want %q", payload.Branch, "feature-nux")
 	}
-	if payload.IssueID != "gt-abc123" {
-		t.Errorf("IssueID = %q, want %q", payload.IssueID, "gt-abc123")
+	if payload.IssueID != "hd-abc123" {
+		t.Errorf("IssueID = %q, want %q", payload.IssueID, "hd-abc123")
 	}
 	if payload.MergedAt.IsZero() {
 		t.Error("MergedAt should not be zero")
@@ -177,8 +177,8 @@ Error: unit tests failed with 3 errors`
 	if payload.Branch != "feature-nux" {
 		t.Errorf("Branch = %q, want %q", payload.Branch, "feature-nux")
 	}
-	if payload.IssueID != "gt-abc123" {
-		t.Errorf("IssueID = %q, want %q", payload.IssueID, "gt-abc123")
+	if payload.IssueID != "hd-abc123" {
+		t.Errorf("IssueID = %q, want %q", payload.IssueID, "hd-abc123")
 	}
 	if payload.FailureType != "tests" {
 		t.Errorf("FailureType = %q, want %q", payload.FailureType, "tests")

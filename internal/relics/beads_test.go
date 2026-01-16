@@ -40,12 +40,12 @@ func TestCreateOptions(t *testing.T) {
 		Type:        "task",
 		Priority:    2,
 		Description: "A test description",
-		Parent:      "gt-abc",
+		Parent:      "hd-abc",
 	}
 	if opts.Title != "Test issue" {
 		t.Errorf("Title = %q, want 'Test issue'", opts.Title)
 	}
-	if opts.Parent != "gt-abc" {
+	if opts.Parent != "hd-abc" {
 		t.Errorf("Parent = %q, want gt-abc", opts.Parent)
 	}
 }
@@ -96,7 +96,7 @@ func TestWrapError(t *testing.T) {
 		wantNil bool
 	}{
 		{"Issue not found: gt-xyz", ErrNotFound, false},
-		{"gt-xyz not found", ErrNotFound, false},
+		{"hd-xyz not found", ErrNotFound, false},
 	}
 
 	for _, tt := range tests {
@@ -243,7 +243,7 @@ close_reason: merged`,
 			wantFields: &MRFields{
 				Branch:      "raider/Nux/gt-xyz",
 				Target:      "main",
-				SourceIssue: "gt-xyz",
+				SourceIssue: "hd-xyz",
 				Worker:      "Nux",
 				Warband:         "horde",
 				MergeCommit: "abc123def",
@@ -261,7 +261,7 @@ worker: Toast`,
 			wantFields: &MRFields{
 				Branch:      "raider/Toast/gt-abc",
 				Target:      "integration/gt-epic",
-				SourceIssue: "gt-abc",
+				SourceIssue: "hd-abc",
 				Worker:      "Toast",
 			},
 		},
@@ -281,7 +281,7 @@ warband: wasteland`,
 			wantFields: &MRFields{
 				Branch:      "raider/Capable/gt-def",
 				Target:      "main",
-				SourceIssue: "gt-def",
+				SourceIssue: "hd-def",
 				Worker:      "Capable",
 				Warband:         "wasteland",
 			},
@@ -295,7 +295,7 @@ merge-commit: 789xyz`,
 			},
 			wantFields: &MRFields{
 				Branch:      "raider/Max/gt-ghi",
-				SourceIssue: "gt-ghi",
+				SourceIssue: "hd-ghi",
 				MergeCommit: "789xyz",
 			},
 		},
@@ -336,7 +336,7 @@ source_issue: gt-pqr`,
 			},
 			wantFields: &MRFields{
 				Branch:      "raider/Nux/gt-pqr",
-				SourceIssue: "gt-pqr",
+				SourceIssue: "hd-pqr",
 			},
 		},
 	}
@@ -403,7 +403,7 @@ func TestFormatMRFields(t *testing.T) {
 			fields: &MRFields{
 				Branch:      "raider/Nux/gt-xyz",
 				Target:      "main",
-				SourceIssue: "gt-xyz",
+				SourceIssue: "hd-xyz",
 				Worker:      "Nux",
 				Warband:         "horde",
 				MergeCommit: "abc123def",
@@ -422,7 +422,7 @@ close_reason: merged`,
 			fields: &MRFields{
 				Branch:      "raider/Toast/gt-abc",
 				Target:      "main",
-				SourceIssue: "gt-abc",
+				SourceIssue: "hd-abc",
 				Worker:      "Toast",
 			},
 			want: `branch: raider/Toast/gt-abc
@@ -475,7 +475,7 @@ target: main`,
 			fields: &MRFields{
 				Branch:      "raider/Nux/gt-xyz",
 				Target:      "main",
-				SourceIssue: "gt-xyz",
+				SourceIssue: "hd-xyz",
 			},
 			want: `branch: raider/Nux/gt-xyz
 target: main
@@ -508,7 +508,7 @@ Some existing prose content.`,
 			fields: &MRFields{
 				Branch:      "raider/Nux/gt-new",
 				Target:      "main",
-				SourceIssue: "gt-new",
+				SourceIssue: "hd-new",
 				Worker:      "Nux",
 				MergeCommit: "abc123",
 			},
@@ -563,7 +563,7 @@ func TestMRFieldsRoundTrip(t *testing.T) {
 	original := &MRFields{
 		Branch:      "raider/Nux/gt-xyz",
 		Target:      "main",
-		SourceIssue: "gt-xyz",
+		SourceIssue: "hd-xyz",
 		Worker:      "Nux",
 		Warband:         "horde",
 		MergeCommit: "abc123def789",
@@ -609,7 +609,7 @@ warband: horde`
 	if fields.Target != "main" {
 		t.Errorf("Target = %q, want main", fields.Target)
 	}
-	if fields.SourceIssue != "gt-xyz" {
+	if fields.SourceIssue != "hd-xyz" {
 		t.Errorf("SourceIssue = %q, want gt-xyz", fields.SourceIssue)
 	}
 	if fields.Worker != "Nux" {
@@ -1026,19 +1026,19 @@ func TestParseAgentBeadID(t *testing.T) {
 		wantOK   bool
 	}{
 		// Encampment-level agents
-		{"gt-warchief", "", "warchief", "", true},
-		{"gt-shaman", "", "shaman", "", true},
+		{"hd-warchief", "", "warchief", "", true},
+		{"hd-shaman", "", "shaman", "", true},
 		// Warband-level singletons
-		{"gt-horde-witness", "horde", "witness", "", true},
-		{"gt-horde-forge", "horde", "forge", "", true},
+		{"hd-horde-witness", "horde", "witness", "", true},
+		{"hd-horde-forge", "horde", "forge", "", true},
 		// Warband-level named agents
-		{"gt-horde-clan-joe", "horde", "clan", "joe", true},
-		{"gt-horde-clan-max", "horde", "clan", "max", true},
-		{"gt-horde-raider-capable", "horde", "raider", "capable", true},
+		{"hd-horde-clan-joe", "horde", "clan", "joe", true},
+		{"hd-horde-clan-max", "horde", "clan", "max", true},
+		{"hd-horde-raider-capable", "horde", "raider", "capable", true},
 		// Names with hyphens
-		{"gt-horde-raider-my-agent", "horde", "raider", "my-agent", true},
+		{"hd-horde-raider-my-agent", "horde", "raider", "my-agent", true},
 		// Parseable but not valid agent roles (IsAgentSessionBead will reject)
-		{"gt-abc123", "", "abc123", "", true}, // Parses as encampment-level but not valid role
+		{"hd-abc123", "", "abc123", "", true}, // Parses as encampment-level but not valid role
 		// Other prefixes (bd-, hq-)
 		{"bd-warchief", "", "warchief", "", true},                           // rl prefix encampment-level
 		{"bd-relics-witness", "relics", "witness", "", true},            // rl prefix warband-level singleton
@@ -1076,12 +1076,12 @@ func TestIsAgentSessionBead(t *testing.T) {
 		want   bool
 	}{
 		// Agent session relics with gt- prefix (should return true)
-		{"gt-warchief", true},
-		{"gt-shaman", true},
-		{"gt-horde-witness", true},
-		{"gt-horde-forge", true},
-		{"gt-horde-clan-joe", true},
-		{"gt-horde-raider-capable", true},
+		{"hd-warchief", true},
+		{"hd-shaman", true},
+		{"hd-horde-witness", true},
+		{"hd-horde-forge", true},
+		{"hd-horde-clan-joe", true},
+		{"hd-horde-raider-capable", true},
 		// Agent session relics with bd- prefix (should return true)
 		{"bd-warchief", true},
 		{"bd-shaman", true},
@@ -1090,9 +1090,9 @@ func TestIsAgentSessionBead(t *testing.T) {
 		{"bd-relics-clan-joe", true},
 		{"bd-relics-raider-pearl", true},
 		// Regular work relics (should return false)
-		{"gt-abc123", false},
-		{"gt-sb6m4", false},
-		{"gt-u7dxq", false},
+		{"hd-abc123", false},
+		{"hd-sb6m4", false},
+		{"hd-u7dxq", false},
 		{"bd-abc123", false},
 		// Invalid relics
 		{"", false},
@@ -1135,7 +1135,7 @@ start_command: exec claude --dangerously-skip-permissions
 env_var: HD_ROLE=raider
 env_var: HD_WARBAND={warband}`,
 			wantConfig: &RoleConfig{
-				SessionPattern: "gt-{warband}-{name}",
+				SessionPattern: "hd-{warband}-{name}",
 				WorkDirPattern: "{encampment}/{warband}/raiders/{name}",
 				NeedsPreSync:   true,
 				StartCommand:   "exec claude --dangerously-skip-permissions",
@@ -1147,7 +1147,7 @@ env_var: HD_WARBAND={warband}`,
 			description: `session_pattern: gt-warchief
 work_dir_pattern: {encampment}`,
 			wantConfig: &RoleConfig{
-				SessionPattern: "gt-warchief",
+				SessionPattern: "hd-warchief",
 				WorkDirPattern: "{encampment}",
 				EnvVars:        map[string]string{},
 			},
@@ -1162,7 +1162,7 @@ needs_pre_sync: false
 
 Your job is to monitor workers.`,
 			wantConfig: &RoleConfig{
-				SessionPattern: "gt-{warband}-witness",
+				SessionPattern: "hd-{warband}-witness",
 				WorkDirPattern: "{encampment}/{warband}",
 				NeedsPreSync:   false,
 				EnvVars:        map[string]string{},
@@ -1174,7 +1174,7 @@ Your job is to monitor workers.`,
 work-dir-pattern: {encampment}/{warband}/raiders/{name}
 needs-pre-sync: true`,
 			wantConfig: &RoleConfig{
-				SessionPattern: "gt-{warband}-{name}",
+				SessionPattern: "hd-{warband}-{name}",
 				WorkDirPattern: "{encampment}/{warband}/raiders/{name}",
 				NeedsPreSync:   true,
 				EnvVars:        map[string]string{},
@@ -1185,7 +1185,7 @@ needs-pre-sync: true`,
 			description: `SESSION_PATTERN: gt-warchief
 Work_Dir_Pattern: {encampment}`,
 			wantConfig: &RoleConfig{
-				SessionPattern: "gt-warchief",
+				SessionPattern: "hd-warchief",
 				WorkDirPattern: "{encampment}",
 				EnvVars:        map[string]string{},
 			},
@@ -1196,7 +1196,7 @@ Work_Dir_Pattern: {encampment}`,
 work_dir_pattern: null
 needs_pre_sync: false`,
 			wantConfig: &RoleConfig{
-				SessionPattern: "gt-{warband}-witness",
+				SessionPattern: "hd-{warband}-witness",
 				EnvVars:        map[string]string{},
 			},
 		},
@@ -1252,23 +1252,23 @@ func TestExpandRolePattern(t *testing.T) {
 		want     string
 	}{
 		{
-			pattern:  "gt-warchief",
+			pattern:  "hd-warchief",
 			townRoot: "/Users/stevey/gt",
-			want:     "gt-warchief",
+			want:     "hd-warchief",
 		},
 		{
-			pattern:  "gt-{warband}-{role}",
+			pattern:  "hd-{warband}-{role}",
 			townRoot: "/Users/stevey/gt",
 			warband:      "horde",
 			role:     "witness",
-			want:     "gt-horde-witness",
+			want:     "hd-horde-witness",
 		},
 		{
-			pattern:  "gt-{warband}-{name}",
+			pattern:  "hd-{warband}-{name}",
 			townRoot: "/Users/stevey/gt",
 			warband:      "horde",
 			name:     "toast",
-			want:     "gt-horde-toast",
+			want:     "hd-horde-toast",
 		},
 		{
 			pattern:  "{encampment}/{warband}/raiders/{name}",
@@ -1323,7 +1323,7 @@ func TestFormatRoleConfig(t *testing.T) {
 		{
 			name: "all fields",
 			config: &RoleConfig{
-				SessionPattern: "gt-{warband}-{name}",
+				SessionPattern: "hd-{warband}-{name}",
 				WorkDirPattern: "{encampment}/{warband}/raiders/{name}",
 				NeedsPreSync:   true,
 				StartCommand:   "exec claude",
@@ -1337,7 +1337,7 @@ start_command: exec claude`,
 		{
 			name: "only session pattern",
 			config: &RoleConfig{
-				SessionPattern: "gt-warchief",
+				SessionPattern: "hd-warchief",
 				EnvVars:        map[string]string{},
 			},
 			want: "session_pattern: gt-warchief",
@@ -1357,7 +1357,7 @@ start_command: exec claude`,
 // TestRoleConfigRoundTrip tests that parse/format round-trips correctly.
 func TestRoleConfigRoundTrip(t *testing.T) {
 	original := &RoleConfig{
-		SessionPattern: "gt-{warband}-{name}",
+		SessionPattern: "hd-{warband}-{name}",
 		WorkDirPattern: "{encampment}/{warband}/raiders/{name}",
 		NeedsPreSync:   true,
 		StartCommand:   "exec claude --dangerously-skip-permissions",
@@ -1394,12 +1394,12 @@ func TestRoleBeadID(t *testing.T) {
 		roleType string
 		want     string
 	}{
-		{"warchief", "gt-warchief-role"},
-		{"shaman", "gt-shaman-role"},
-		{"witness", "gt-witness-role"},
-		{"forge", "gt-forge-role"},
-		{"clan", "gt-clan-role"},
-		{"raider", "gt-raider-role"},
+		{"warchief", "hd-warchief-role"},
+		{"shaman", "hd-shaman-role"},
+		{"witness", "hd-witness-role"},
+		{"forge", "hd-forge-role"},
+		{"clan", "hd-clan-role"},
+		{"raider", "hd-raider-role"},
 	}
 
 	for _, tt := range tests {
@@ -1438,12 +1438,12 @@ func TestDelegationStruct(t *testing.T) {
 		{
 			name: "minimal delegation",
 			delegation: Delegation{
-				Parent:      "gt-abc",
-				Child:       "gt-xyz",
+				Parent:      "hd-abc",
+				Child:       "hd-xyz",
 				DelegatedBy: "steve",
 				DelegatedTo: "alice",
 			},
-			wantJSON: `{"parent":"gt-abc","child":"gt-xyz","delegated_by":"steve","delegated_to":"alice"}`,
+			wantJSON: `{"parent":"hd-abc","child":"hd-xyz","delegated_by":"steve","delegated_to":"alice"}`,
 		},
 	}
 

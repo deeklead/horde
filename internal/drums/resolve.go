@@ -319,7 +319,7 @@ func (r *Resolver) resolveChannel(name string) ([]Recipient, error) {
 }
 
 // agentBeadIDToAddress converts an agent bead ID to a drums address.
-// E.g., "gt-horde-clan-max" → "horde/clan/max"
+// E.g., "hd-horde-clan-max" → "horde/clan/max"
 func agentBeadIDToAddress(id string) string {
 	if !strings.HasPrefix(id, "hd-") {
 		return ""

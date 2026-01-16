@@ -861,7 +861,7 @@ func detectRelicsPrefixFromConfig(configPath string) string {
 	}
 
 	// Fallback: try to detect prefix from existing issues in issues.jsonl
-	// Look for the first issue ID pattern like "gt-abc123"
+	// Look for the first issue ID pattern like "hd-abc123"
 	relicsDir := filepath.Dir(configPath)
 	issuesPath := filepath.Join(relicsDir, "issues.jsonl")
 	if issuesData, err := os.ReadFile(issuesPath); err == nil {
@@ -879,7 +879,7 @@ func detectRelicsPrefixFromConfig(configPath string) string {
 					// Extract prefix (everything before the last hyphen-hash part)
 					if dashIdx := strings.LastIndex(issueID, "-"); dashIdx > 0 {
 						prefix := issueID[:dashIdx]
-						// Handle prefixes like "hd" (from "gt-abc") - return without trailing hyphen
+						// Handle prefixes like "hd" (from "hd-abc") - return without trailing hyphen
 						if isValidRelicsPrefix(prefix) {
 							return prefix
 						}

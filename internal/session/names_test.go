@@ -30,9 +30,9 @@ func TestWitnessSessionName(t *testing.T) {
 		warband  string
 		want string
 	}{
-		{"horde", "gt-horde-witness"},
-		{"relics", "gt-relics-witness"},
-		{"foo", "gt-foo-witness"},
+		{"horde", "hd-horde-witness"},
+		{"relics", "hd-relics-witness"},
+		{"foo", "hd-foo-witness"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.warband, func(t *testing.T) {
@@ -49,9 +49,9 @@ func TestForgeSessionName(t *testing.T) {
 		warband  string
 		want string
 	}{
-		{"horde", "gt-horde-forge"},
-		{"relics", "gt-relics-forge"},
-		{"foo", "gt-foo-forge"},
+		{"horde", "hd-horde-forge"},
+		{"relics", "hd-relics-forge"},
+		{"foo", "hd-foo-forge"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.warband, func(t *testing.T) {
@@ -69,9 +69,9 @@ func TestCrewSessionName(t *testing.T) {
 		name string
 		want string
 	}{
-		{"horde", "max", "gt-horde-clan-max"},
-		{"relics", "alice", "gt-relics-clan-alice"},
-		{"foo", "bar", "gt-foo-clan-bar"},
+		{"horde", "max", "hd-horde-clan-max"},
+		{"relics", "alice", "hd-relics-clan-alice"},
+		{"foo", "bar", "hd-foo-clan-bar"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.warband+"/"+tt.name, func(t *testing.T) {
@@ -89,9 +89,9 @@ func TestRaiderSessionName(t *testing.T) {
 		name string
 		want string
 	}{
-		{"horde", "Toast", "gt-horde-Toast"},
-		{"horde", "Furiosa", "gt-horde-Furiosa"},
-		{"relics", "worker1", "gt-relics-worker1"},
+		{"horde", "Toast", "hd-horde-Toast"},
+		{"horde", "Furiosa", "hd-horde-Furiosa"},
+		{"relics", "worker1", "hd-relics-worker1"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.warband+"/"+tt.name, func(t *testing.T) {

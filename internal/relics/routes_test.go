@@ -59,7 +59,7 @@ func TestExtractPrefix(t *testing.T) {
 	}{
 		{"ap-qtsup.16", "ap-"},
 		{"hq-cv-abc", "hq-"},
-		{"gt-totem-xyz", "hd-"},
+		{"hd-totem-xyz", "hd-"},
 		{"bd-123", "bd-"},
 		{"", ""},
 		{"nohyphen", ""},
@@ -200,7 +200,7 @@ func TestAgentBeadIDsWithPrefix(t *testing.T) {
 			"bd-relics-raider-obsidian"},
 		{"RaiderBeadIDWithPrefix hd horde Toast",
 			func() string { return RaiderBeadIDWithPrefix("hd", "horde", "Toast") },
-			"gt-horde-raider-Toast"},
+			"hd-horde-raider-Toast"},
 		{"WitnessBeadIDWithPrefix rl relics",
 			func() string { return WitnessBeadIDWithPrefix("rl", "relics") },
 			"bd-relics-witness"},

@@ -93,7 +93,7 @@ type SessionInfo struct {
 
 // SessionName generates the tmux session name for a raider.
 func (m *SessionManager) SessionName(raider string) string {
-	return fmt.Sprintf("gt-%s-%s", m.warband.Name, raider)
+	return fmt.Sprintf("hd-%s-%s", m.warband.Name, raider)
 }
 
 // raiderDir returns the parent directory for a raider.
@@ -349,7 +349,7 @@ func (m *SessionManager) List() ([]SessionInfo, error) {
 		return nil, err
 	}
 
-	prefix := fmt.Sprintf("gt-%s-", m.warband.Name)
+	prefix := fmt.Sprintf("hd-%s-", m.warband.Name)
 	var infos []SessionInfo
 
 	for _, sessionID := range sessions {

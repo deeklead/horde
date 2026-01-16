@@ -204,7 +204,7 @@ func (c *ClaudeSettingsCheck) findSettingsFiles(townRoot string) []staleSettings
 				path:        witnessSettings,
 				agentType:   "witness",
 				rigName:     rigName,
-				sessionName: fmt.Sprintf("gt-%s-witness", rigName),
+				sessionName: fmt.Sprintf("hd-%s-witness", rigName),
 			})
 		}
 		witnessWrongSettings := filepath.Join(rigPath, "witness", "warband", ".claude", "settings.json")
@@ -213,7 +213,7 @@ func (c *ClaudeSettingsCheck) findSettingsFiles(townRoot string) []staleSettings
 				path:          witnessWrongSettings,
 				agentType:     "witness",
 				rigName:       rigName,
-				sessionName:   fmt.Sprintf("gt-%s-witness", rigName),
+				sessionName:   fmt.Sprintf("hd-%s-witness", rigName),
 				wrongLocation: true,
 			})
 		}
@@ -226,7 +226,7 @@ func (c *ClaudeSettingsCheck) findSettingsFiles(townRoot string) []staleSettings
 				path:        forgeSettings,
 				agentType:   "forge",
 				rigName:     rigName,
-				sessionName: fmt.Sprintf("gt-%s-forge", rigName),
+				sessionName: fmt.Sprintf("hd-%s-forge", rigName),
 			})
 		}
 		forgeWrongSettings := filepath.Join(rigPath, "forge", "warband", ".claude", "settings.json")
@@ -235,7 +235,7 @@ func (c *ClaudeSettingsCheck) findSettingsFiles(townRoot string) []staleSettings
 				path:          forgeWrongSettings,
 				agentType:     "forge",
 				rigName:       rigName,
-				sessionName:   fmt.Sprintf("gt-%s-forge", rigName),
+				sessionName:   fmt.Sprintf("hd-%s-forge", rigName),
 				wrongLocation: true,
 			})
 		}
@@ -264,7 +264,7 @@ func (c *ClaudeSettingsCheck) findSettingsFiles(townRoot string) []staleSettings
 						path:          crewWrongSettings,
 						agentType:     "clan",
 						rigName:       rigName,
-						sessionName:   fmt.Sprintf("gt-%s-clan-%s", rigName, crewEntry.Name()),
+						sessionName:   fmt.Sprintf("hd-%s-clan-%s", rigName, crewEntry.Name()),
 						wrongLocation: true,
 					})
 				}
@@ -302,7 +302,7 @@ func (c *ClaudeSettingsCheck) findSettingsFiles(townRoot string) []staleSettings
 							path:          pcWrongSettings,
 							agentType:     "raider",
 							rigName:       rigName,
-							sessionName:   fmt.Sprintf("gt-%s-%s", rigName, pcEntry.Name()),
+							sessionName:   fmt.Sprintf("hd-%s-%s", rigName, pcEntry.Name()),
 							wrongLocation: true,
 						})
 					}

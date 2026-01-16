@@ -19,7 +19,7 @@ func TestGenerateMRIDWithTime(t *testing.T) {
 			prefix:    "hd",
 			branch:    "raider/Nux/gt-xyz",
 			timestamp: time.Date(2025, 12, 17, 10, 0, 0, 0, time.UTC),
-			want:      "gt-mr-", // Will verify prefix, actual hash varies
+			want:      "hd-mr-", // Will verify prefix, actual hash varies
 		},
 		{
 			name:      "different prefix",
@@ -117,7 +117,7 @@ func TestGenerateMRID(t *testing.T) {
 	// GenerateMRID uses current time, so we just verify format
 	id := GenerateMRID("hd", "raider/Nux/gt-xyz")
 
-	if !strings.HasPrefix(id, "gt-mr-") {
+	if !strings.HasPrefix(id, "hd-mr-") {
 		t.Errorf("GenerateMRID() = %q, want prefix gt-mr-", id)
 	}
 

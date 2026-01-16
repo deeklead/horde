@@ -28,7 +28,7 @@ func TestCurator_FiltersByVisibility(t *testing.T) {
 		Source:     "hd",
 		Type:       events.TypeSling,
 		Actor:      "warchief",
-		Payload:    map[string]interface{}{"bead": "gt-123", "target": "horde/slit"},
+		Payload:    map[string]interface{}{"bead": "hd-123", "target": "horde/slit"},
 		Visibility: events.VisibilityFeed,
 	}
 	feedData, _ := json.Marshal(feedEvent)
@@ -166,7 +166,7 @@ func TestCurator_GeneratesSummary(t *testing.T) {
 			event: &events.Event{
 				Type:    events.TypeSling,
 				Actor:   "warchief",
-				Payload: map[string]interface{}{"bead": "gt-123", "target": "horde/slit"},
+				Payload: map[string]interface{}{"bead": "hd-123", "target": "horde/slit"},
 			},
 			expected: "warchief assigned gt-123 to horde/slit",
 		},
