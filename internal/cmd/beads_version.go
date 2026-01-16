@@ -149,7 +149,7 @@ func checkRelicsVersionInternal() error {
 	}
 
 	if installed.compare(required) < 0 {
-		return fmt.Errorf("relics version %s is required, but %s is installed\n\nPlease upgrade relics: go install github.com/OWNER/relics/cmd/rl@latest", MinRelicsVersion, installedStr)
+		return fmt.Errorf("relics version %s is required, but %s is installed\n\nPlease upgrade relics: go install github.com/deeklead/relics/cmd/rl@latest", MinRelicsVersion, installedStr)
 	}
 
 	return nil

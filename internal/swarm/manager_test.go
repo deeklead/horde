@@ -3,7 +3,7 @@ package swarm
 import (
 	"testing"
 
-	"github.com/OWNER/horde/internal/warband"
+	"github.com/deeklead/horde/internal/warband"
 )
 
 // TestLoadSwarmNotFound tests that LoadSwarm returns error for missing epic.

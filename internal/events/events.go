@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // Event represents an activity event in Horde.

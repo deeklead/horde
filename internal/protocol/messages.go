@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/OWNER/horde/internal/drums"
+	"github.com/deeklead/horde/internal/drums"
 )
 
 // NewMergeReadyMessage creates a MERGE_READY protocol message.

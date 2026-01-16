@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/OWNER/horde/internal/git"
+	"github.com/deeklead/horde/internal/git"
 )
 
 func TestNewSparseCheckoutCheck(t *testing.T) {

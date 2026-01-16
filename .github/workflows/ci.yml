@@ -132,8 +132,8 @@ jobs:
           echo "|---------|----------|" >> coverage-report.md
 
           # Extract package coverage from all test output lines
-          grep -E "github.com/OWNER/horde.*coverage:" test-output.txt | \
-            sed 's/.*github.com\/OWNER\/horde\///' | \
+          grep -E "github.com/deeklead/horde.*coverage:" test-output.txt | \
+            sed 's/.*github.com\/deeklead\/horde\///' | \
             awk '{
               pkg = $1
               for (i=2; i<=NF; i++) {
@@ -235,7 +235,7 @@ jobs:
           git config --global user.email "ci@horde.test"
 
       - name: Install relics (bd)
-        run: go install github.com/OWNER/relics/cmd/rl@latest
+        run: go install github.com/deeklead/relics/cmd/rl@latest
 
       - name: Build gt
         run: go build -v -o hd ./cmd/hd

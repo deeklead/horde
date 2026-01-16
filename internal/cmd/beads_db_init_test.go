@@ -119,7 +119,7 @@ func TestRelicsDbInitAfterClone(t *testing.T) {
 
 	t.Run("TrackedRepoWithExistingPrefix", func(t *testing.T) {
 		// GitHub Issue #72: hd warband add should detect existing prefix from tracked relics
-		// https://github.com/OWNER/horde/issues/72
+		// https://github.com/deeklead/horde/issues/72
 		//
 		// This tests that when a tracked relics repo has existing issues in issues.jsonl,
 		// hd warband add can detect the prefix from those issues WITHOUT --prefix flag.

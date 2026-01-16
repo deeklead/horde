@@ -8,7 +8,7 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/OWNER/horde/internal/util"
+	"github.com/deeklead/horde/internal/util"
 )
 
 const (

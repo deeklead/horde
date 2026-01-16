@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/OWNER/horde/internal/relics"
+	"github.com/deeklead/horde/internal/relics"
 )
 
 // RelicsDatabaseCheck verifies that the relics database is properly initialized.

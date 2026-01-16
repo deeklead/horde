@@ -8,15 +8,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/OWNER/horde/internal/agent"
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/claude"
-	"github.com/OWNER/horde/internal/config"
-	"github.com/OWNER/horde/internal/constants"
-	"github.com/OWNER/horde/internal/warband"
-	"github.com/OWNER/horde/internal/session"
-	"github.com/OWNER/horde/internal/tmux"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/agent"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/claude"
+	"github.com/deeklead/horde/internal/config"
+	"github.com/deeklead/horde/internal/constants"
+	"github.com/deeklead/horde/internal/warband"
+	"github.com/deeklead/horde/internal/session"
+	"github.com/deeklead/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // Common errors

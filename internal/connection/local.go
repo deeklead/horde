@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/OWNER/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/tmux"
 )
 
 // LocalConnection implements Connection for local file and command operations.

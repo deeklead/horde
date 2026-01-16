@@ -16,9 +16,9 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/tui/raid"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/tui/raid"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // generateShortID generates a short random ID (5 lowercase chars).

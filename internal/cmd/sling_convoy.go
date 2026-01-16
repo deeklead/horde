@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // slingGenerateShortID generates a short random ID (5 lowercase chars).

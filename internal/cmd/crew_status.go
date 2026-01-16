@@ -8,11 +8,11 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/clan"
-	"github.com/OWNER/horde/internal/git"
-	"github.com/OWNER/horde/internal/drums"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/clan"
+	"github.com/deeklead/horde/internal/git"
+	"github.com/deeklead/horde/internal/drums"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/tmux"
 )
 
 // CrewStatusItem represents detailed status for a clan worker.

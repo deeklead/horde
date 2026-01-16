@@ -10,11 +10,11 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/config"
-	"github.com/OWNER/horde/internal/git"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/config"
+	"github.com/deeklead/horde/internal/git"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // Integration branch template constants

@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/OWNER/horde/internal/activity"
+	"github.com/deeklead/horde/internal/activity"
 )
 
 func TestRaidTemplate_RendersRaidList(t *testing.T) {

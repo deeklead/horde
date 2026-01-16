@@ -3,8 +3,8 @@ package feed
 
 import (
 	"github.com/charmbracelet/lipgloss"
-	"github.com/OWNER/horde/internal/constants"
-	"github.com/OWNER/horde/internal/ui"
+	"github.com/deeklead/horde/internal/constants"
+	"github.com/deeklead/horde/internal/ui"
 )
 
 // Color palette using Ayu theme colors from ui package

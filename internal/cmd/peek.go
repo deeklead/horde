@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/OWNER/horde/internal/session"
+	"github.com/deeklead/horde/internal/session"
 	"github.com/spf13/cobra"
 )
 

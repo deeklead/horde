@@ -3,7 +3,7 @@ package cmd
 import (
 	"testing"
 
-	"github.com/OWNER/horde/internal/relics"
+	"github.com/deeklead/horde/internal/relics"
 )
 
 func TestMigrationResultStatus(t *testing.T) {

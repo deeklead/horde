@@ -30,7 +30,7 @@ jobs:
           git config --global user.email "ci@horde.test"
 
       - name: Install relics (bd)
-        run: go install github.com/OWNER/relics/cmd/rl@latest
+        run: go install github.com/deeklead/relics/cmd/rl@latest
 
       - name: Add to PATH
         run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH

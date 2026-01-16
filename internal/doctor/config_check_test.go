@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/OWNER/horde/internal/constants"
+	"github.com/deeklead/horde/internal/constants"
 )
 
 func TestSessionHookCheck_UsesSessionStartScript(t *testing.T) {

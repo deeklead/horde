@@ -7,9 +7,9 @@ import (
 	"os/exec"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/drums"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/drums"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // Gate command provides hd wrappers for gate operations.

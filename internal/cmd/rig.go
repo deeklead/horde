@@ -9,19 +9,19 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/config"
-	"github.com/OWNER/horde/internal/clan"
-	"github.com/OWNER/horde/internal/deps"
-	"github.com/OWNER/horde/internal/git"
-	"github.com/OWNER/horde/internal/raider"
-	"github.com/OWNER/horde/internal/forge"
-	"github.com/OWNER/horde/internal/warband"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/tmux"
-	"github.com/OWNER/horde/internal/wisp"
-	"github.com/OWNER/horde/internal/witness"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/config"
+	"github.com/deeklead/horde/internal/clan"
+	"github.com/deeklead/horde/internal/deps"
+	"github.com/deeklead/horde/internal/git"
+	"github.com/deeklead/horde/internal/raider"
+	"github.com/deeklead/horde/internal/forge"
+	"github.com/deeklead/horde/internal/warband"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/wisp"
+	"github.com/deeklead/horde/internal/witness"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 var rigCmd = &cobra.Command{
@@ -61,7 +61,7 @@ The command also:
   - Creates <warband>/plugins/ (warband-level)
 
 Example:
-  hd warband add horde https://github.com/OWNER/horde
+  hd warband add horde https://github.com/deeklead/horde
   hd warband add my-project git@github.com:user/repo.git --prefix mp`,
 	Args: cobra.ExactArgs(2),
 	RunE: runRigAdd,

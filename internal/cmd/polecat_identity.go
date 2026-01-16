@@ -13,11 +13,11 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/git"
-	"github.com/OWNER/horde/internal/raider"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/git"
+	"github.com/deeklead/horde/internal/raider"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/tmux"
 )
 
 // Raider identity command flags

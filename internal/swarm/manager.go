@@ -8,7 +8,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/OWNER/horde/internal/warband"
+	"github.com/deeklead/horde/internal/warband"
 )
 
 // Common errors

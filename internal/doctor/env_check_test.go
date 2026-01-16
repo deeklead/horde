@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/OWNER/horde/internal/config"
+	"github.com/deeklead/horde/internal/config"
 )
 
 // mockEnvReader implements SessionEnvReader for testing.

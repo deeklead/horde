@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/OWNER/horde/internal/drums"
-	"github.com/OWNER/horde/internal/raider"
-	"github.com/OWNER/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/drums"
+	"github.com/deeklead/horde/internal/raider"
+	"github.com/deeklead/horde/internal/tmux"
 )
 
 // LandingConfig configures the landing protocol.

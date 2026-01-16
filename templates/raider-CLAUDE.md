@@ -179,7 +179,7 @@ you (you don't exist anymore).
 
 ### No PRs in Maintainer Repos
 
-If the remote origin is `OWNER/relics` or `OWNER/horde`:
+If the remote origin is `deeklead/relics` or `deeklead/horde`:
 - **NEVER create GitHub PRs** - you have direct push access
 - Raiders: use `hd done` → Forge merges to main
 - Clan workers: push directly to main

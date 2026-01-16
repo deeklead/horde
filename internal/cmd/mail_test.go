@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/config"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/config"
 )
 
 // TestClaimPatternMatching tests claim pattern matching via the relics package.

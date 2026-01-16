@@ -2,7 +2,7 @@
 package warband
 
 import (
-	"github.com/OWNER/horde/internal/config"
+	"github.com/deeklead/horde/internal/config"
 )
 
 // Warband represents a managed repository in the workspace.

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/OWNER/horde/internal/ritual"
+	"github.com/deeklead/horde/internal/ritual"
 )
 
 // FormulaCheck verifies that embedded rituals are up-to-date.

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/OWNER/horde/internal/boot"
-	"github.com/OWNER/horde/internal/events"
-	"github.com/OWNER/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/boot"
+	"github.com/deeklead/horde/internal/events"
+	"github.com/deeklead/horde/internal/tmux"
 )
 
 // TownSession represents a encampment-level tmux session.

@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/OWNER/horde/internal/relics"
+	"github.com/deeklead/horde/internal/relics"
 )
 
 // EventSource represents a source of events

@@ -10,11 +10,11 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/constants"
-	"github.com/OWNER/horde/internal/lock"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/tmux"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/constants"
+	"github.com/deeklead/horde/internal/lock"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // AgentType represents the type of Horde agent.

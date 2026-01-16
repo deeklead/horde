@@ -6,14 +6,14 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/checkpoint"
-	"github.com/OWNER/horde/internal/shaman"
-	"github.com/OWNER/horde/internal/warband"
-	"github.com/OWNER/horde/internal/session"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/templates"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/checkpoint"
+	"github.com/deeklead/horde/internal/shaman"
+	"github.com/deeklead/horde/internal/warband"
+	"github.com/deeklead/horde/internal/session"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/templates"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // outputPrimeContext outputs the role-specific context using templates or fallback.

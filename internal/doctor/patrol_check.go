@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/config"
-	"github.com/OWNER/horde/internal/templates"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/config"
+	"github.com/deeklead/horde/internal/templates"
 )
 
 // PatrolMoleculesExistCheck verifies that scout totems exist for each warband.

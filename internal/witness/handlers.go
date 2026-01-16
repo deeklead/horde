@@ -8,13 +8,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/git"
-	"github.com/OWNER/horde/internal/drums"
-	"github.com/OWNER/horde/internal/warband"
-	"github.com/OWNER/horde/internal/tmux"
-	"github.com/OWNER/horde/internal/util"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/git"
+	"github.com/deeklead/horde/internal/drums"
+	"github.com/deeklead/horde/internal/warband"
+	"github.com/deeklead/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/util"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // HandlerResult tracks the result of handling a protocol message.

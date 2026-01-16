@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/warband"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/warband"
 )
 
 // RigRelicsCheck verifies that warband identity relics exist for all warbands.

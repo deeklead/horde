@@ -6,7 +6,7 @@ Welcome to Relics! This repository uses **Relics** for issue tracking - a modern
 
 Relics is issue tracking that lives in your repo, making it perfect for AI coding agents and developers who want their issues close to their code. No web UI required - everything works through the CLI and integrates seamlessly with git.
 
-**Learn more:** [github.com/OWNER/relics](https://github.com/OWNER/relics)
+**Learn more:** [github.com/deeklead/relics](https://github.com/deeklead/relics)
 
 ## Quick Start
 
@@ -61,7 +61,7 @@ Try Relics in your own projects:
 
 ```bash
 # Install Relics
-curl -sSL https://raw.githubusercontent.com/OWNER/relics/main/scripts/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/deeklead/relics/main/scripts/install.sh | bash
 
 # Initialize in your repo
 bd init
@@ -72,9 +72,9 @@ bd create "Try out Relics"
 
 ## Learn More
 
-- **Documentation**: [github.com/OWNER/relics/docs](https://github.com/OWNER/relics/tree/main/docs)
+- **Documentation**: [github.com/deeklead/relics/docs](https://github.com/deeklead/relics/tree/main/docs)
 - **Quick Start Guide**: Run `rl quickstart`
-- **Examples**: [github.com/OWNER/relics/examples](https://github.com/OWNER/relics/tree/main/examples)
+- **Examples**: [github.com/deeklead/relics/examples](https://github.com/deeklead/relics/tree/main/examples)
 
 ---
 

@@ -3,7 +3,7 @@ package protocol
 import (
 	"fmt"
 
-	"github.com/OWNER/horde/internal/drums"
+	"github.com/deeklead/horde/internal/drums"
 )
 
 // Handler processes a protocol message and returns an error if processing failed.

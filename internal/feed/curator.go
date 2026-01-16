@@ -20,7 +20,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/OWNER/horde/internal/events"
+	"github.com/deeklead/horde/internal/events"
 )
 
 // FeedFile is the name of the curated feed file.

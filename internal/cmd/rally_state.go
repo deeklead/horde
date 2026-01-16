@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/checkpoint"
-	"github.com/OWNER/horde/internal/constants"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/checkpoint"
+	"github.com/deeklead/horde/internal/constants"
 )
 
 // SessionState represents the detected session state for observability.

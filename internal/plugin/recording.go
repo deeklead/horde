@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/OWNER/horde/internal/relics"
+	"github.com/deeklead/horde/internal/relics"
 )
 
 // RunResult represents the outcome of a plugin execution.

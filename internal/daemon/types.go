@@ -14,7 +14,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/OWNER/horde/internal/util"
+	"github.com/deeklead/horde/internal/util"
 )
 
 // Config holds daemon configuration.

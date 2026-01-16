@@ -7,10 +7,10 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/constants"
-	"github.com/OWNER/horde/internal/shaman"
-	"github.com/OWNER/horde/internal/style"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/constants"
+	"github.com/deeklead/horde/internal/shaman"
+	"github.com/deeklead/horde/internal/style"
 )
 
 // MoleculeCurrentOutput represents the JSON output of rl mol current.

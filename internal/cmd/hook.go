@@ -8,10 +8,10 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/events"
-	"github.com/OWNER/horde/internal/runtime"
-	"github.com/OWNER/horde/internal/style"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/events"
+	"github.com/deeklead/horde/internal/runtime"
+	"github.com/deeklead/horde/internal/style"
 )
 
 var hookCmd = &cobra.Command{

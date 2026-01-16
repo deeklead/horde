@@ -7,10 +7,10 @@ import (
 	"os/exec"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/tmux"
-	"github.com/OWNER/horde/internal/witness"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/witness"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // Witness command flags

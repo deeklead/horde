@@ -51,7 +51,7 @@ Work tracking units. Bundle multiple issues/tasks that get assigned to agents.
 
 ```bash
 # Install Horde
-go install github.com/OWNER/horde/cmd/hd@latest
+go install github.com/deeklead/horde/cmd/hd@latest
 
 # Add to PATH
 export PATH="$PATH:$HOME/go/bin"

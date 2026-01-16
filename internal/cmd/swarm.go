@@ -11,15 +11,15 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/config"
-	"github.com/OWNER/horde/internal/git"
-	"github.com/OWNER/horde/internal/raider"
-	"github.com/OWNER/horde/internal/warband"
-	"github.com/OWNER/horde/internal/runtime"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/swarm"
-	"github.com/OWNER/horde/internal/tmux"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/config"
+	"github.com/deeklead/horde/internal/git"
+	"github.com/deeklead/horde/internal/raider"
+	"github.com/deeklead/horde/internal/warband"
+	"github.com/deeklead/horde/internal/runtime"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/swarm"
+	"github.com/deeklead/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // Swarm command flags

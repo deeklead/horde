@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/OWNER/horde/internal/relics"
+	"github.com/deeklead/horde/internal/relics"
 )
 
 // TestDoneUsesResolveRelicsDir verifies that the done command correctly uses

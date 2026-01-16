@@ -3,7 +3,7 @@ package swarm
 import (
 	"testing"
 
-	"github.com/OWNER/horde/internal/warband"
+	"github.com/deeklead/horde/internal/warband"
 )
 
 func TestGetWorkerBranch(t *testing.T) {

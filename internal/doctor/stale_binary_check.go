@@ -3,7 +3,7 @@ package doctor
 import (
 	"fmt"
 
-	"github.com/OWNER/horde/internal/version"
+	"github.com/deeklead/horde/internal/version"
 )
 
 // StaleBinaryCheck verifies the installed hd binary is up to date with the repo.

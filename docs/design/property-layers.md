@@ -98,7 +98,7 @@ Each warband has an identity bead for operational state:
 id: gt-warband-horde
 type: warband
 name: horde
-repo: git@github.com:OWNER/horde.git
+repo: git@github.com:deeklead/horde.git
 prefix: gt
 
 labels:

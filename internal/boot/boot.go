@@ -11,8 +11,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/OWNER/horde/internal/config"
-	"github.com/OWNER/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/config"
+	"github.com/deeklead/horde/internal/tmux"
 )
 
 // SessionName is the tmux session name for Boot.

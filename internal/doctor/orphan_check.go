@@ -8,9 +8,9 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/OWNER/horde/internal/events"
-	"github.com/OWNER/horde/internal/session"
-	"github.com/OWNER/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/events"
+	"github.com/deeklead/horde/internal/session"
+	"github.com/deeklead/horde/internal/tmux"
 )
 
 // OrphanSessionCheck detects orphaned tmux sessions that don't match

@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/OWNER/horde/internal/warband"
-	"github.com/OWNER/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/warband"
+	"github.com/deeklead/horde/internal/tmux"
 )
 
 func TestSessionName(t *testing.T) {

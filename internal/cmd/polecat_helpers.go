@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/raider"
-	"github.com/OWNER/horde/internal/warband"
-	"github.com/OWNER/horde/internal/style"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/raider"
+	"github.com/deeklead/horde/internal/warband"
+	"github.com/deeklead/horde/internal/style"
 )
 
 // raiderTarget represents a raider to operate on.

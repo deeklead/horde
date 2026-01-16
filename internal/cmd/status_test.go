@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/warband"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/warband"
 )
 
 func captureStdout(t *testing.T, fn func()) string {

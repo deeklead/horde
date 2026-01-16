@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/tmux"
 )
 
 var issueCmd = &cobra.Command{

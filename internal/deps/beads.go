@@ -14,7 +14,7 @@ import (
 const MinRelicsVersion = "0.43.0"
 
 // RelicsInstallPath is the go install path for relics.
-const RelicsInstallPath = "github.com/OWNER/relics/cmd/rl@latest"
+const RelicsInstallPath = "github.com/deeklead/relics/cmd/rl@latest"
 
 // RelicsStatus represents the state of the relics installation.
 type RelicsStatus int

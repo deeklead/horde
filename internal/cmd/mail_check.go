@@ -6,8 +6,8 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/drums"
-	"github.com/OWNER/horde/internal/style"
+	"github.com/deeklead/horde/internal/drums"
+	"github.com/deeklead/horde/internal/style"
 )
 
 func runMailCheck(cmd *cobra.Command, args []string) error {

@@ -35,7 +35,7 @@ hd warband list
 ## Manual Installation
 
 If npm installation fails, you can download binaries directly from:
-https://github.com/OWNER/horde/releases
+https://github.com/deeklead/horde/releases
 
 ## License
 

@@ -7,11 +7,11 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/drums"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/encampmentlog"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/drums"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/encampmentlog"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // Callback message subject patterns for routing.

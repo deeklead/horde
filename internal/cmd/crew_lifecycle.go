@@ -11,16 +11,16 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/config"
-	"github.com/OWNER/horde/internal/constants"
-	"github.com/OWNER/horde/internal/clan"
-	"github.com/OWNER/horde/internal/drums"
-	"github.com/OWNER/horde/internal/runtime"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/tmux"
-	"github.com/OWNER/horde/internal/encampmentlog"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/config"
+	"github.com/deeklead/horde/internal/constants"
+	"github.com/deeklead/horde/internal/clan"
+	"github.com/deeklead/horde/internal/drums"
+	"github.com/deeklead/horde/internal/runtime"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/encampmentlog"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 func runCrewRemove(cmd *cobra.Command, args []string) error {

@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/OWNER/horde/internal/runtime"
+	"github.com/deeklead/horde/internal/runtime"
 )
 
 // Filename is the checkpoint file name within the raider directory.

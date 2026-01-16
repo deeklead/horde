@@ -239,7 +239,7 @@ func LoadOrDetectOverseer(townRoot string) (*OverseerConfig, error) {
 }
 
 // FormatOverseerIdentity returns a formatted string for display.
-// Example: "OWNER <stevey@example.com>"
+// Example: "deeklead <stevey@example.com>"
 func (c *OverseerConfig) FormatOverseerIdentity() string {
 	if c.Email != "" {
 		return fmt.Sprintf("%s <%s>", c.Name, c.Email)

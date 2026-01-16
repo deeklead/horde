@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/style"
+	"github.com/deeklead/horde/internal/style"
 )
 
 // Resume command checks for cleared gates and resumes parked work.

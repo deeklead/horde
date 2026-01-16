@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/OWNER/horde/internal/config"
-	"github.com/OWNER/horde/internal/constants"
+	"github.com/deeklead/horde/internal/config"
+	"github.com/deeklead/horde/internal/constants"
 )
 
 // versionPattern matches Claude Code version numbers like "2.0.76"
@@ -1159,7 +1159,7 @@ func (t *Tmux) SetTownCycleBindings(session string) error {
 // IMPORTANT: These bindings are conditional - they only run hd cycle for
 // Horde sessions (those starting with "hd-" or "hq-"). For non-GT sessions,
 // the default tmux behavior (next-window/previous-window) is preserved.
-// See: https://github.com/OWNER/horde/issues/13
+// See: https://github.com/deeklead/horde/issues/13
 //
 // IMPORTANT: We pass #{session_name} to the command because run-shell doesn't
 // reliably preserve the session context. tmux expands #{session_name} at binding
@@ -1189,7 +1189,7 @@ func (t *Tmux) SetCycleBindings(session string) error {
 //
 // IMPORTANT: This binding is conditional - it only runs for Horde sessions
 // (those starting with "hd-" or "hq-"). For non-HD sessions, a help message is shown.
-// See: https://github.com/OWNER/horde/issues/13
+// See: https://github.com/deeklead/horde/issues/13
 func (t *Tmux) SetFeedBinding(session string) error {
 	// C-b a → hd feed --window for HD sessions, help message otherwise
 	_, err := t.run("bind-key", "-T", "prefix", "a",

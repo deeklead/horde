@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/OWNER/horde/internal/session"
-	"github.com/OWNER/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/session"
+	"github.com/deeklead/horde/internal/tmux"
 )
 
 // resolveTargetAgent converts a target spec to agent ID, pane, and hook root.

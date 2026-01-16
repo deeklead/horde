@@ -5,9 +5,9 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/events"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/events"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // Activity emit command flags

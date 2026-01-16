@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/OWNER/horde/internal/agent"
+	"github.com/deeklead/horde/internal/agent"
 )
 
 // State is an alias for agent.State for backwards compatibility.

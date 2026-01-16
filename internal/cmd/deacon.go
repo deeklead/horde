@@ -12,17 +12,17 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/claude"
-	"github.com/OWNER/horde/internal/config"
-	"github.com/OWNER/horde/internal/constants"
-	"github.com/OWNER/horde/internal/shaman"
-	"github.com/OWNER/horde/internal/raider"
-	"github.com/OWNER/horde/internal/runtime"
-	"github.com/OWNER/horde/internal/session"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/tmux"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/claude"
+	"github.com/deeklead/horde/internal/config"
+	"github.com/deeklead/horde/internal/constants"
+	"github.com/deeklead/horde/internal/shaman"
+	"github.com/deeklead/horde/internal/raider"
+	"github.com/deeklead/horde/internal/runtime"
+	"github.com/deeklead/horde/internal/session"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // getShamanSessionName returns the Shaman session name.

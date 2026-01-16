@@ -6,7 +6,7 @@ import (
 	"html/template"
 	"io/fs"
 
-	"github.com/OWNER/horde/internal/activity"
+	"github.com/deeklead/horde/internal/activity"
 )
 
 //go:embed templates/*.html

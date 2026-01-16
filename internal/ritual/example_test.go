@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/OWNER/horde/internal/ritual"
+	"github.com/deeklead/horde/internal/ritual"
 )
 
 func ExampleParse_workflow() {

@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/config"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/config"
 )
 
 // RigRoutesJSONLCheck detects and fixes routes.jsonl files in warband .relics directories.

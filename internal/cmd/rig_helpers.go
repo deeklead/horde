@@ -3,11 +3,11 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/OWNER/horde/internal/config"
-	"github.com/OWNER/horde/internal/constants"
-	"github.com/OWNER/horde/internal/git"
-	"github.com/OWNER/horde/internal/warband"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/config"
+	"github.com/deeklead/horde/internal/constants"
+	"github.com/deeklead/horde/internal/git"
+	"github.com/deeklead/horde/internal/warband"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // getRig finds the encampment root and retrieves the specified warband.

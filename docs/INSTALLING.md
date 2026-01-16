@@ -10,7 +10,7 @@ Complete setup guide for Horde multi-agent orchestrator.
 |------|---------|-------|---------|
 | **Go** | 1.24+ | `go version` | See [golang.org](https://go.dev/doc/install) |
 | **Git** | 2.20+ | `git --version` | See below |
-| **Relics** | latest | `rl version` | `go install github.com/OWNER/relics/cmd/rl@latest` |
+| **Relics** | latest | `rl version` | `go install github.com/deeklead/relics/cmd/rl@latest` |
 
 ### Optional (for Full Stack Mode)
 
@@ -78,10 +78,10 @@ tmux -V           # (Optional) Should show 3.0 or higher
 
 ```bash
 # Install Horde CLI
-go install github.com/OWNER/horde/cmd/hd@latest
+go install github.com/deeklead/horde/cmd/hd@latest
 
 # Install Relics (issue tracker)
-go install github.com/OWNER/relics/cmd/rl@latest
+go install github.com/deeklead/relics/cmd/rl@latest
 
 # Verify installation
 hd version
@@ -230,7 +230,7 @@ source ~/.bashrc  # or restart terminal
 Relics CLI not installed:
 
 ```bash
-go install github.com/OWNER/relics/cmd/rl@latest
+go install github.com/deeklead/relics/cmd/rl@latest
 ```
 
 ### `hd doctor` shows errors
@@ -283,8 +283,8 @@ bd doctor                  # Run relics health check
 To update Horde and Relics:
 
 ```bash
-go install github.com/OWNER/horde/cmd/hd@latest
-go install github.com/OWNER/relics/cmd/rl@latest
+go install github.com/deeklead/horde/cmd/hd@latest
+go install github.com/deeklead/relics/cmd/rl@latest
 hd doctor --fix            # Fix any post-update issues
 ```
 

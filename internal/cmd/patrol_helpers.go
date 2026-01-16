@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/OWNER/horde/internal/style"
+	"github.com/deeklead/horde/internal/style"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 )

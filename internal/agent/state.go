@@ -7,7 +7,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/OWNER/horde/internal/util"
+	"github.com/deeklead/horde/internal/util"
 )
 
 // State represents an agent's running state.

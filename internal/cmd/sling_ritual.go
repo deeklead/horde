@@ -8,11 +8,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/events"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/tmux"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/events"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 type wispCreateJSON struct {
@@ -211,7 +211,7 @@ func runSlingFormula(args []string) error {
 	fmt.Printf("%s Wisp created: %s\n", style.Bold.Render("✓"), wispRootID)
 
 	// Step 3: Hook the wisp bead using rl update.
-	// See: https://github.com/OWNER/horde/issues/148
+	// See: https://github.com/deeklead/horde/issues/148
 	hookCmd := exec.Command("rl", "--no-daemon", "update", wispRootID, "--status=bannered", "--assignee="+targetAgent)
 	hookCmd.Dir = relics.ResolveHookDir(townRoot, wispRootID, "")
 	hookCmd.Stderr = os.Stderr

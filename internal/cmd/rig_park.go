@@ -4,11 +4,11 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/forge"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/tmux"
-	"github.com/OWNER/horde/internal/wisp"
-	"github.com/OWNER/horde/internal/witness"
+	"github.com/deeklead/horde/internal/forge"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/wisp"
+	"github.com/deeklead/horde/internal/witness"
 )
 
 // RigStatusKey is the wisp config key for warband operational status.

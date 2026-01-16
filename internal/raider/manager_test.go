@@ -7,8 +7,8 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/OWNER/horde/internal/git"
-	"github.com/OWNER/horde/internal/warband"
+	"github.com/deeklead/horde/internal/git"
+	"github.com/deeklead/horde/internal/warband"
 )
 
 func TestStateIsActive(t *testing.T) {

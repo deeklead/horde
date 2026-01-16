@@ -39,7 +39,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // State represents the keepalive file contents.

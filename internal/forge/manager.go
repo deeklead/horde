@@ -11,16 +11,16 @@ import (
 	"strings"
 	"time"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/config"
-	"github.com/OWNER/horde/internal/constants"
-	"github.com/OWNER/horde/internal/events"
-	"github.com/OWNER/horde/internal/drums"
-	"github.com/OWNER/horde/internal/warband"
-	"github.com/OWNER/horde/internal/runtime"
-	"github.com/OWNER/horde/internal/session"
-	"github.com/OWNER/horde/internal/tmux"
-	"github.com/OWNER/horde/internal/util"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/config"
+	"github.com/deeklead/horde/internal/constants"
+	"github.com/deeklead/horde/internal/events"
+	"github.com/deeklead/horde/internal/drums"
+	"github.com/deeklead/horde/internal/warband"
+	"github.com/deeklead/horde/internal/runtime"
+	"github.com/deeklead/horde/internal/session"
+	"github.com/deeklead/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/util"
 )
 
 // Common errors

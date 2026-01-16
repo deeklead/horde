@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/OWNER/horde/internal/activity"
+	"github.com/deeklead/horde/internal/activity"
 )
 
 // Test error for simulating fetch failures

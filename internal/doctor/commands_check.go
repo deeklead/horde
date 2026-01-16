@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/OWNER/horde/internal/templates"
+	"github.com/deeklead/horde/internal/templates"
 )
 
 // CommandsCheck validates that encampment-level .claude/commands/ is provisioned.

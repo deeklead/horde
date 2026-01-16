@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // findMailWorkDir returns the encampment root for all drums operations.

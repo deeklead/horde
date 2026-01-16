@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/OWNER/horde/internal/state"
+	"github.com/deeklead/horde/internal/state"
 )
 
 const (

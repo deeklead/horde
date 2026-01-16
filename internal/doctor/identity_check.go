@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/OWNER/horde/internal/lock"
-	"github.com/OWNER/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/lock"
+	"github.com/deeklead/horde/internal/tmux"
 )
 
 // IdentityCollisionCheck checks for agent identity collisions and stale locks.

@@ -5,7 +5,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/OWNER/horde/internal/boot"
+	"github.com/deeklead/horde/internal/boot"
 )
 
 // BootHealthCheck verifies Boot watchdog health.

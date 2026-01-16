@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/OWNER/horde/internal/activity"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/activity"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // LiveRaidFetcher fetches raid data from relics.

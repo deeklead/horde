@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/OWNER/horde/internal/drums"
+	"github.com/deeklead/horde/internal/drums"
 )
 
 func TestParseMessageType(t *testing.T) {

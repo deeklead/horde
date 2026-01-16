@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/OWNER/horde/internal/constants"
+	"github.com/deeklead/horde/internal/constants"
 )
 
 // SettingsCheck verifies each warband has a settings/ directory.

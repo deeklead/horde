@@ -10,8 +10,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/config"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/config"
 )
 
 // RecipientType indicates the type of resolved recipient.

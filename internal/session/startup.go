@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/OWNER/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/tmux"
 )
 
 // StartupNudgeConfig configures a startup signal message.

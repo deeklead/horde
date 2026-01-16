@@ -8,9 +8,9 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/encampmentlog"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/encampmentlog"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // Log command flags

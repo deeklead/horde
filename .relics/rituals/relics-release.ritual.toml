@@ -221,7 +221,7 @@ needs = ["push-tag"]
 description = """
 Monitor GitHub Actions for release completion.
 
-https://github.com/OWNER/relics/actions
+https://github.com/deeklead/relics/actions
 
 Expected time: 5-10 minutes
 
@@ -239,7 +239,7 @@ needs = ["wait-ci"]
 description = """
 Check the GitHub releases page.
 
-https://github.com/OWNER/relics/releases/tag/v{{version}}
+https://github.com/deeklead/relics/releases/tag/v{{version}}
 
 Verify:
 - Release created
@@ -293,7 +293,7 @@ brew upgrade bd
 
 Option 2 - Install script:
 ```bash
-curl -fsSL https://raw.githubusercontent.com/OWNER/relics/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/deeklead/relics/main/scripts/install.sh | bash
 ```
 
 Verify:

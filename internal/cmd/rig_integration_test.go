@@ -13,10 +13,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/config"
-	"github.com/OWNER/horde/internal/git"
-	"github.com/OWNER/horde/internal/warband"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/config"
+	"github.com/deeklead/horde/internal/git"
+	"github.com/deeklead/horde/internal/warband"
 )
 
 // createTestGitRepo creates a minimal git repository for testing.

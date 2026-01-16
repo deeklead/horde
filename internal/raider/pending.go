@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/OWNER/horde/internal/config"
-	"github.com/OWNER/horde/internal/drums"
-	"github.com/OWNER/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/config"
+	"github.com/deeklead/horde/internal/drums"
+	"github.com/deeklead/horde/internal/tmux"
 )
 
 // PendingSpawn represents a raider that has been spawned but not yet triggered.

@@ -15,7 +15,7 @@ The ritual package parses and validates structured workflow definitions, enablin
 ## Installation
 
 ```go
-import "github.com/OWNER/horde/internal/ritual"
+import "github.com/deeklead/horde/internal/ritual"
 ```
 
 ## Quick Start

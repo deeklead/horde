@@ -10,10 +10,10 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/ritual"
-	"github.com/OWNER/horde/internal/runtime"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/ritual"
+	"github.com/deeklead/horde/internal/runtime"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // Synthesis command flags

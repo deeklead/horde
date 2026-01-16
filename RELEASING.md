@@ -24,7 +24,7 @@ A Horde release involves multiple distribution channels:
 
 ### Required Tools
 
-- `git` with push access to OWNER/horde
+- `git` with push access to deeklead/horde
 - `goreleaser` for building binaries
 - `npm` with authentication (for npm releases)
 - `gh` CLI (GitHub CLI, recommended)
@@ -38,7 +38,7 @@ A Horde release involves multiple distribution channels:
 
 ```bash
 # Check git
-git remote -v  # Should show OWNER/horde
+git remote -v  # Should show deeklead/horde
 
 # Check goreleaser
 goreleaser --version
@@ -136,7 +136,7 @@ This will:
 
 ### Verify GitHub Release
 
-1. Visit https://github.com/OWNER/horde/releases
+1. Visit https://github.com/deeklead/horde/releases
 2. Verify the new version is marked as "Latest"
 3. Check all platform binaries are present
 
@@ -185,7 +185,7 @@ After all channels are updated:
 
 ```bash
 # Download and test binary
-curl -LO https://github.com/OWNER/horde/releases/download/v0.2.0/horde_0.2.0_darwin_arm64.tar.gz
+curl -LO https://github.com/deeklead/horde/releases/download/v0.2.0/horde_0.2.0_darwin_arm64.tar.gz
 tar -xzf horde_0.2.0_darwin_arm64.tar.gz
 ./gt version
 ```
@@ -234,5 +234,5 @@ Horde follows [Semantic Versioning](https://semver.org/):
 
 ## Questions?
 
-- Open an issue: https://github.com/OWNER/horde/issues
-- Check existing releases: https://github.com/OWNER/horde/releases
+- Open an issue: https://github.com/deeklead/horde/issues
+- Check existing releases: https://github.com/deeklead/horde/releases

@@ -3,7 +3,7 @@
 #
 # Usage:
 #   # Create a fresh Debian/Ubuntu VM on GCE, then:
-#   curl -fsSL https://raw.githubusercontent.com/OWNER/horde/main/scripts/test-gce-install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/deeklead/horde/main/scripts/test-gce-install.sh | bash
 #
 #   # Or clone and run locally:
 #   ./scripts/test-gce-install.sh
@@ -90,7 +90,7 @@ if command -v rl &> /dev/null; then
     check "relics already installed: $(rl --version)"
 else
     # Install via go install
-    go install github.com/OWNER/relics/cmd/rl@latest
+    go install github.com/deeklead/relics/cmd/rl@latest
     if command -v rl &> /dev/null; then
         check "relics installed: $(rl --version)"
     else
@@ -103,7 +103,7 @@ fi
 # ============================================
 log "Installing Horde (hd)..."
 
-go install github.com/OWNER/horde/cmd/hd@latest
+go install github.com/deeklead/horde/cmd/hd@latest
 
 if command -v hd &> /dev/null; then
     check "hd installed: $(hd --version 2>/dev/null || echo 'version unknown')"
@@ -175,7 +175,7 @@ fi
 log "Testing warband add with sample repo..."
 
 # Use a small public repo for testing
-if hd warband add test-warband --remote=https://github.com/OWNER/relics.git 2>&1; then
+if hd warband add test-warband --remote=https://github.com/deeklead/relics.git 2>&1; then
     check "hd warband add works"
 
     # Verify warband structure

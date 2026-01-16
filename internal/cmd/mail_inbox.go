@@ -8,8 +8,8 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/drums"
-	"github.com/OWNER/horde/internal/style"
+	"github.com/deeklead/horde/internal/drums"
+	"github.com/deeklead/horde/internal/style"
 )
 
 // getMailbox returns the wardrums for the given address.

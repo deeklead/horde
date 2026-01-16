@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/OWNER/horde/internal/warband"
+	"github.com/deeklead/horde/internal/warband"
 )
 
 func setupTestManager(t *testing.T) (*Manager, string) {

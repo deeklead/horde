@@ -91,4 +91,4 @@ Ephemeral loop maintaining system heartbeat. Scout agents (Shaman, Witness) cont
 
 ---
 
-*This glossary was contributed by [Clay Shirky](https://github.com/cshirky) in [Issue #80](https://github.com/OWNER/horde/issues/80).*
+*This glossary was contributed by [Clay Shirky](https://github.com/cshirky) in [Issue #80](https://github.com/deeklead/horde/issues/80).*

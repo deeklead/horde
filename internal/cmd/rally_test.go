@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/checkpoint"
-	"github.com/OWNER/horde/internal/constants"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/checkpoint"
+	"github.com/deeklead/horde/internal/constants"
 )
 
 func writeTestRoutes(t *testing.T, townRoot string, routes []relics.Route) {

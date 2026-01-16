@@ -13,11 +13,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/git"
-	"github.com/OWNER/horde/internal/drums"
-	"github.com/OWNER/horde/internal/protocol"
-	"github.com/OWNER/horde/internal/warband"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/git"
+	"github.com/deeklead/horde/internal/drums"
+	"github.com/deeklead/horde/internal/protocol"
+	"github.com/deeklead/horde/internal/warband"
 )
 
 // MergeQueueConfig holds configuration for the merge queue processor.

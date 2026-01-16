@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/charmbracelet/lipgloss"
-	"github.com/OWNER/horde/internal/ui"
+	"github.com/deeklead/horde/internal/ui"
 )
 
 var (

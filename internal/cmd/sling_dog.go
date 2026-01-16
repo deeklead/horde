@@ -5,10 +5,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/OWNER/horde/internal/config"
-	"github.com/OWNER/horde/internal/dog"
-	"github.com/OWNER/horde/internal/tmux"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/config"
+	"github.com/deeklead/horde/internal/dog"
+	"github.com/deeklead/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // IsDogTarget checks if target is a dog target pattern.

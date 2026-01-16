@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/OWNER/horde/internal/events"
+	"github.com/deeklead/horde/internal/events"
 )
 
 func TestCurator_FiltersByVisibility(t *testing.T) {

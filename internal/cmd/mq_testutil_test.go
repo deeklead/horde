@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/OWNER/horde/internal/relics"
+	"github.com/deeklead/horde/internal/relics"
 )
 
 // mockRelics is a test double for relics.Relics

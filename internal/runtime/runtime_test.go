@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/OWNER/horde/internal/config"
+	"github.com/deeklead/horde/internal/config"
 )
 
 func TestSessionIDFromEnv_Default(t *testing.T) {

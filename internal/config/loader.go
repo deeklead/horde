@@ -11,7 +11,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/OWNER/horde/internal/constants"
+	"github.com/deeklead/horde/internal/constants"
 )
 
 var (

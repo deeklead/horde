@@ -20,17 +20,17 @@
     "orchestration",
     "horde"
   ],
-  "author": "OWNER",
+  "author": "deeklead",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/OWNER/horde.git",
+    "url": "https://github.com/deeklead/horde.git",
     "directory": "npm-package"
   },
   "bugs": {
-    "url": "https://github.com/OWNER/horde/issues"
+    "url": "https://github.com/deeklead/horde/issues"
   },
-  "homepage": "https://github.com/OWNER/horde#readme",
+  "homepage": "https://github.com/deeklead/horde#readme",
   "engines": {
     "node": ">=14.0.0"
   },

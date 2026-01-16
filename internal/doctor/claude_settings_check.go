@@ -8,12 +8,12 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/OWNER/horde/internal/claude"
-	"github.com/OWNER/horde/internal/session"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/templates"
-	"github.com/OWNER/horde/internal/tmux"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/claude"
+	"github.com/deeklead/horde/internal/session"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/templates"
+	"github.com/deeklead/horde/internal/tmux"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // gitFileStatus represents the git status of a file.

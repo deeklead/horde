@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/OWNER/horde/internal/config"
+	"github.com/deeklead/horde/internal/config"
 )
 
 func TestNewPatrolRolesHavePromptsCheck(t *testing.T) {

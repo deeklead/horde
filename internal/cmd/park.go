@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/style"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/style"
 )
 
 // Park command parks work on a gate, allowing agent to exit safely.

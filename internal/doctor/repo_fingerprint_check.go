@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/daemon"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/daemon"
 )
 
 // bdDoctorResult represents the JSON output from rl doctor --json.

@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/OWNER/horde/internal/agent"
+	"github.com/deeklead/horde/internal/agent"
 )
 
 func TestStateTypeAlias(t *testing.T) {

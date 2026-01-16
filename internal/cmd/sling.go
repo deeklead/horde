@@ -9,10 +9,10 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/events"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/events"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 var slingCmd = &cobra.Command{
@@ -439,7 +439,7 @@ func runSling(cmd *cobra.Command, args []string) error {
 	}
 
 	// Hook the bead using rl update.
-	// See: https://github.com/OWNER/horde/issues/148
+	// See: https://github.com/deeklead/horde/issues/148
 	hookCmd := exec.Command("rl", "--no-daemon", "update", beadID, "--status=bannered", "--assignee="+targetAgent)
 	hookCmd.Dir = relics.ResolveHookDir(townRoot, beadID, hookWorkDir)
 	hookCmd.Stderr = os.Stderr

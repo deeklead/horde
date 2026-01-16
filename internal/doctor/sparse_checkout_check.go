@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/OWNER/horde/internal/git"
+	"github.com/deeklead/horde/internal/git"
 )
 
 // SparseCheckoutCheck verifies that git clones/worktrees have sparse checkout configured

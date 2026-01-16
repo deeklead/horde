@@ -3,7 +3,7 @@ package cmd
 import (
 	"testing"
 
-	"github.com/OWNER/horde/internal/relics"
+	"github.com/deeklead/horde/internal/relics"
 )
 
 func TestExtractMoleculeIDFromStep(t *testing.T) {

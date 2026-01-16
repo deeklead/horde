@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/OWNER/horde/internal/wisp"
+	"github.com/deeklead/horde/internal/wisp"
 )
 
 func TestGetConfig_SystemDefaults(t *testing.T) {

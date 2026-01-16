@@ -11,10 +11,10 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/shell"
-	"github.com/OWNER/horde/internal/state"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/wrappers"
+	"github.com/deeklead/horde/internal/shell"
+	"github.com/deeklead/horde/internal/state"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/wrappers"
 )
 
 var (
@@ -143,7 +143,7 @@ func runUninstall(cmd *cobra.Command, args []string) error {
 	fmt.Printf("%s Horde has been uninstalled\n", style.Success.Render("✓"))
 	fmt.Println()
 	fmt.Println("To reinstall, run:")
-	fmt.Printf("  %s\n", style.Dim.Render("go install github.com/OWNER/horde/cmd/hd@latest"))
+	fmt.Printf("  %s\n", style.Dim.Render("go install github.com/deeklead/horde/cmd/hd@latest"))
 	fmt.Printf("  %s\n", style.Dim.Render("hd install ~/horde --shell"))
 
 	return nil

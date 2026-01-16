@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/config"
+	"github.com/deeklead/horde/internal/config"
 )
 
 // setupTestTownForAccount creates a minimal Horde workspace with accounts.

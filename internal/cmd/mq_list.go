@@ -9,9 +9,9 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/forge"
-	"github.com/OWNER/horde/internal/style"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/forge"
+	"github.com/deeklead/horde/internal/style"
 )
 
 func runMQList(cmd *cobra.Command, args []string) error {

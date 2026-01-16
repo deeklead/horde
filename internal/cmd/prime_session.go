@@ -10,9 +10,9 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/OWNER/horde/internal/events"
-	"github.com/OWNER/horde/internal/runtime"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/events"
+	"github.com/deeklead/horde/internal/runtime"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 // hookInput represents the JSON input from LLM runtime hooks.

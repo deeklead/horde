@@ -9,8 +9,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/constants"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/constants"
 )
 
 // PrimingCheck verifies the priming subsystem is correctly configured.

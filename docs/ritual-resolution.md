@@ -109,7 +109,7 @@ name = "totem-raider-work"
 version = "4.0.0"                          # Semver
 author = "steve@horde.io"                # Author identity
 license = "MIT"
-repository = "https://github.com/OWNER/horde"
+repository = "https://github.com/deeklead/horde"
 
 [ritual.registry]
 uri = "hop://molmall.horde.io/rituals/totem-raider-work@4.0.0"

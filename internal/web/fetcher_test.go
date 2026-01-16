@@ -3,7 +3,7 @@ package web
 import (
 	"testing"
 
-	"github.com/OWNER/horde/internal/activity"
+	"github.com/deeklead/horde/internal/activity"
 )
 
 func TestCalculateWorkStatus(t *testing.T) {

@@ -153,11 +153,11 @@ async function install() {
     console.log(`Installing hd v${VERSION} for ${platformName}-${archName}...`);
 
     // Construct download URL
-    // Format: https://github.com/OWNER/horde/releases/download/v0.1.0/horde_0.1.0_darwin_amd64.tar.gz
+    // Format: https://github.com/deeklead/horde/releases/download/v0.1.0/horde_0.1.0_darwin_amd64.tar.gz
     const releaseVersion = VERSION;
     const archiveExt = platformName === 'windows' ? 'zip' : 'tar.gz';
     const archiveName = `horde_${releaseVersion}_${platformName}_${archName}.${archiveExt}`;
-    const downloadUrl = `https://github.com/OWNER/horde/releases/download/v${releaseVersion}/${archiveName}`;
+    const downloadUrl = `https://github.com/deeklead/horde/releases/download/v${releaseVersion}/${archiveName}`;
 
     // Determine destination paths
     const binDir = path.join(__dirname, '..', 'bin');
@@ -195,8 +195,8 @@ async function install() {
     console.error(`Error installing hd: ${err.message}`);
     console.error('');
     console.error('Installation failed. You can try:');
-    console.error('1. Installing manually from: https://github.com/OWNER/horde/releases');
-    console.error('2. Opening an issue: https://github.com/OWNER/horde/issues');
+    console.error('1. Installing manually from: https://github.com/deeklead/horde/releases');
+    console.error('2. Opening an issue: https://github.com/deeklead/horde/issues');
     process.exit(1);
   }
 }

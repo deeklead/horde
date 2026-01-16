@@ -8,9 +8,9 @@ VERSION := $(shell git describe --tags --always --dirty 2>/dev/null || echo "dev
 COMMIT := $(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
 BUILD_TIME := $(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-LDFLAGS := -X github.com/OWNER/horde/internal/cmd.Version=$(VERSION) \
-           -X github.com/OWNER/horde/internal/cmd.Commit=$(COMMIT) \
-           -X github.com/OWNER/horde/internal/cmd.BuildTime=$(BUILD_TIME)
+LDFLAGS := -X github.com/deeklead/horde/internal/cmd.Version=$(VERSION) \
+           -X github.com/deeklead/horde/internal/cmd.Commit=$(COMMIT) \
+           -X github.com/deeklead/horde/internal/cmd.BuildTime=$(BUILD_TIME)
 
 generate:
 	go generate ./...

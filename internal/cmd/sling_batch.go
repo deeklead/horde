@@ -6,9 +6,9 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/events"
-	"github.com/OWNER/horde/internal/style"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/events"
+	"github.com/deeklead/horde/internal/style"
 )
 
 // runBatchSling handles charging multiple relics to a warband.
@@ -91,7 +91,7 @@ func runBatchSling(beadIDs []string, rigName string, townRelicsDir string) error
 			}
 		}
 
-		// Hook the bead. See: https://github.com/OWNER/horde/issues/148
+		// Hook the bead. See: https://github.com/deeklead/horde/issues/148
 		townRoot := filepath.Dir(townRelicsDir)
 		hookCmd := exec.Command("rl", "--no-daemon", "update", beadID, "--status=bannered", "--assignee="+targetAgent)
 		hookCmd.Dir = relics.ResolveHookDir(townRoot, beadID, hookWorkDir)

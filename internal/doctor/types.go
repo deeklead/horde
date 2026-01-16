@@ -7,7 +7,7 @@ import (
 	"slices"
 	"time"
 
-	"github.com/OWNER/horde/internal/ui"
+	"github.com/deeklead/horde/internal/ui"
 )
 
 // Category constants for grouping checks

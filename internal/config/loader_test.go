@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/OWNER/horde/internal/constants"
+	"github.com/deeklead/horde/internal/constants"
 )
 
 // skipIfAgentBinaryMissing skips the test if any of the specified agent binaries
@@ -61,7 +61,7 @@ func TestRigsConfigRoundTrip(t *testing.T) {
 		Version: 1,
 		Warbands: map[string]RigEntry{
 			"horde": {
-				GitURL:    "git@github.com:OWNER/horde.git",
+				GitURL:    "git@github.com:deeklead/horde.git",
 				LocalRepo: "/tmp/local-repo",
 				AddedAt:   time.Now().Truncate(time.Second),
 				RelicsConfig: &RelicsConfig{

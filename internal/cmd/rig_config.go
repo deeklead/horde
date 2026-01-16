@@ -9,10 +9,10 @@ import (
 	"strconv"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/warband"
-	"github.com/OWNER/horde/internal/style"
-	"github.com/OWNER/horde/internal/wisp"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/warband"
+	"github.com/deeklead/horde/internal/style"
+	"github.com/deeklead/horde/internal/wisp"
 )
 
 var rigConfigCmd = &cobra.Command{

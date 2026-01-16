@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"strconv"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/wisp"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/wisp"
 )
 
 // ConfigSource identifies which layer a config value came from.

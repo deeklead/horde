@@ -4,7 +4,7 @@ package main
 import (
 	"os"
 
-	"github.com/OWNER/horde/internal/cmd"
+	"github.com/deeklead/horde/internal/cmd"
 )
 
 func main() {

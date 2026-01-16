@@ -5,8 +5,8 @@ import (
 	"io"
 	"os"
 
-	"github.com/OWNER/horde/internal/drums"
-	"github.com/OWNER/horde/internal/witness"
+	"github.com/deeklead/horde/internal/drums"
+	"github.com/deeklead/horde/internal/witness"
 )
 
 // DefaultWitnessHandler provides the default implementation for Witness protocol handlers.

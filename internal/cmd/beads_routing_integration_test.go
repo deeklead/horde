@@ -12,7 +12,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/OWNER/horde/internal/relics"
+	"github.com/deeklead/horde/internal/relics"
 )
 
 // setupRoutingTestTown creates a minimal Horde with multiple warbands for testing routing.
@@ -491,7 +491,7 @@ func TestRelicsRemoveRoute(t *testing.T) {
 
 // TestSlingCrossRigRoutingResolution verifies that charge can resolve warband paths
 // for cross-warband bead hooking using ExtractPrefix and GetRigPathForPrefix.
-// This is the fix for https://github.com/OWNER/horde/issues/148
+// This is the fix for https://github.com/deeklead/horde/issues/148
 func TestSlingCrossRigRoutingResolution(t *testing.T) {
 	townRoot := setupRoutingTestTown(t)
 

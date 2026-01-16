@@ -7,7 +7,7 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/ui"
+	"github.com/deeklead/horde/internal/ui"
 )
 
 // Style definitions for thanks output using ui package colors
@@ -44,7 +44,7 @@ func thanksBoxStyle(width int) lipgloss.Style {
 // Agent names (horde/*, relics/*, lowercase single-word names) are excluded.
 // Generated from: git shortlog -sn --all (then filtered for humans only)
 var hordeContributors = map[string]int{
-	"OWNER":               2056,
+	"deeklead":               2056,
 	"Mike Lady":                 19,
 	"Olivier Debeuf De Rijcker": 13,
 	"Danno Mayer":               11,

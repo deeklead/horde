@@ -11,8 +11,8 @@ import (
 	"sort"
 	"time"
 
-	"github.com/OWNER/horde/internal/relics"
-	"github.com/OWNER/horde/internal/runtime"
+	"github.com/deeklead/horde/internal/relics"
+	"github.com/deeklead/horde/internal/runtime"
 )
 
 // timeNow is a function that returns the current time. It can be overridden in tests.

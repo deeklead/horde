@@ -10,8 +10,8 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/OWNER/horde/internal/state"
-	"github.com/OWNER/horde/internal/workspace"
+	"github.com/deeklead/horde/internal/state"
+	"github.com/deeklead/horde/internal/workspace"
 )
 
 var rigDetectCache string

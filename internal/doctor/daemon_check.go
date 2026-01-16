@@ -5,7 +5,7 @@ import (
 	"os/exec"
 	"time"
 
-	"github.com/OWNER/horde/internal/daemon"
+	"github.com/deeklead/horde/internal/daemon"
 )
 
 // DaemonCheck verifies the daemon is running.
