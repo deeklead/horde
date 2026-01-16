@@ -17,10 +17,12 @@ var rootCmd = &cobra.Command{
 	Use:     "hd",
 	Short:   "Horde - Multi-agent workspace manager",
 	Version: Version,
-	Long: `Horde (gt) manages multi-agent workspaces called warbands.
+	Long: `Horde manages multi-agent workspaces called warbands.
 
 It coordinates agent spawning, work distribution, and communication
-across distributed teams of AI agents working on shared codebases.`,
+across distributed teams of AI agents working on shared codebases.
+
+Use "hd help <command>" for more information about a command.`,
 	PersistentPreRunE: persistentPreRun,
 }
 
